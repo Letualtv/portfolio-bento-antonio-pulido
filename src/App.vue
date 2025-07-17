@@ -151,7 +151,7 @@ function dismissGithubStar() {
     <div v-if="showGithubStar" class="github-star-toast">
       <div class="toast-content" style="justify-content: center; align-items: center; gap: 12px;">
         <a
-          href="https://github.com/antoniopulidom/portfolio-bento"
+          href="https://github.com/Letualtv/portfolio-bento-antonio-pulido"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub Star"
@@ -178,82 +178,82 @@ function dismissGithubStar() {
     <!-- Navegación Dynamic Island -->
     <DynamicNavigation 
       :activeSection="activeSection" 
-  position: fixed !important;
-  right: 24px !important;
-  bottom: 32px !important;
-  z-index: 1200 !important;
-  background: var(--background-primary, #fff) !important;
-  color: var(--primary-color, #222) !important;
-  border-radius: 18px !important;
-  box-shadow: 0 8px 32px rgba(69,123,157,0.18) !important;
-  padding: 14px 20px !important;
-  max-width: 340px !important;
-  backdrop-filter: blur(10px) !important;
-  display: flex !important;
-  align-items: center !important;
-  animation: fadeInUp 0.6s ease-out !important;
+      @scroll-to-section="scrollToSection" 
+    />
+
+    <!-- Secciones del portfolio -->
+    <HeroSection @scroll-to-section="scrollToSection" />
+    <AboutSection @scroll-to-section="scrollToSection" />
+    <ExperienceSection @scroll-to-section="scrollToSection" />
+    <ContactSection />
+    
+    <!-- Footer -->
+    <AppFooter />
+  </div>
+</template>
+
 <style scoped>
 /* Contenedor principal */
-  width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 12px !important;
+.portfolio-container {
+  min-height: 100vh;
+  background: var(--background-primary);
+  position: relative;
+  transition: background-color var(--transition-normal);
 }
 
+/* Botón flotante GitHub Star abajo derecha y cerrable */
+.github-star-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 32px;
+  z-index: 1200;
+  background: var(--background-primary, #fff);
+  color: var(--primary-color, #222);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(69,123,157,0.18);
+  padding: 14px 20px;
+  max-width: 340px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  animation: fadeInUp 0.6s ease-out;
+}
+.toast-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+.star-btn-link {
   color: var(--honeydew, #f1faeeff) !important;
   border: 2px solid var(--persian-green, #2a9d8fff) !important;
   background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%) !important;
   /* Degradado igual que el botón Hero, texto y borde claros */
-  text-decoration: none !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  border-radius: 30px !important;
-  padding: 6px 16px !important;
-  font-size: 1em !important;
-  font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(69,123,157,0.08) !important;
-  transition: background 0.2s, color 0.2s, border-color 0.2s !important;
-  animation: fadeInUp 0.6s ease-out;
-}
-  background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%) !important;
-  color: var(--honeydew, #f1faeeff) !important;
-  border: 2px solid var(--persian-green, #2a9d8fff) !important;
-  justify-content: center;
-  align-items: center;
-  fill: #fff !important;
-}
-.star-btn-link {
-  transition: fill 0.2s !important;
-  vertical-align: middle !important;
-  filter: drop-shadow(0 1px 2px rgba(69,123,157,0.12)) !important;
-  fill: var(--honeydew, #f1faeeff) !important;
   text-decoration: none;
   display: inline-flex;
-  fill: var(--honeydew, #f1faeeff) !important;
+  align-items: center;
   justify-content: center;
   gap: 8px;
-  color: inherit !important;
-  transition: color 0.2s !important;
-  display: inline-block !important;
-  vertical-align: middle !important;
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-size: 1em;
+  font-weight: 600;
   box-shadow: 0 2px 8px rgba(69,123,157,0.08);
   transition: background 0.2s, color 0.2s, border-color 0.2s;
-  background: transparent !important;
-  border: none !important;
-  color: var(--primary-color, #222) !important;
-  font-size: 1.7rem !important;
-  margin-left: 6px !important;
-  cursor: pointer !important;
-  padding: 0 4px !important;
-  border-radius: 50% !important;
-  transition: background 0.2s, color 0.2s !important;
+}
+[data-theme="dark"] .star-btn-link {
+  background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%);
+  color: var(--honeydew, #f1faeeff);
+  border: 2px solid var(--persian-green, #2a9d8fff);
+}
+
+.star-btn-link:hover .star-icon svg {
+  fill: #fff;
 }
 .star-icon svg {
-  background: rgba(255, 215, 0, 0.13) !important;
-  color: var(--accent-color, #FFD700) !important;
+  transition: fill 0.2s;
+  vertical-align: middle;
   filter: drop-shadow(0 1px 2px rgba(69,123,157,0.12));
   fill: var(--honeydew, #f1faeeff);
 }

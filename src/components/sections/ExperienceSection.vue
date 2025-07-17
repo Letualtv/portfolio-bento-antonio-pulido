@@ -4,42 +4,9 @@
       <h2 class="section-title">{{ t('experience.title') }}</h2>
       
       <div class="experience-content">
-        <!-- Proyectos destacados internacionalizados -->
-        <div class="projects-grid">
-          <div 
-            v-for="project in t('experience.projects')"
-            :key="project.id"
-            class="project-card"
-          >
-            <div class="project-image">
-              <img :src="project.image" :alt="project.title" />
-              <div class="project-overlay">
-                <div class="project-links">
-                  <a :href="project.demo" class="project-link" target="_blank" rel="noopener noreferrer">
-                    <i class="bi bi-eye" aria-hidden="true"></i>
-                    {{ t('experience.demo') }}
-                  </a>
-                  <a :href="project.code" class="project-link" target="_blank" rel="noopener noreferrer">
-                    <i class="bi bi-github" aria-hidden="true"></i>
-                    {{ t('experience.code') }}
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="project-content">
-              <h3 class="project-title">{{ project.title }}</h3>
-              <p class="project-description">{{ project.description }}</p>
-              <div class="project-tech">
-                <span 
-                  v-for="tech in project.technologies"
-                  :key="tech"
-                  class="tech-tag"
-                >
-                  {{ tech }}
-                </span>
-              </div>
-            </div>
-          </div>
+        <!-- Proyectos destacados próximamente -->
+        <div class="projects-grid" style="display: flex; justify-content: center; align-items: center; min-height: 180px;">
+          <span style="font-size: 1.3rem; color: var(--text-muted); font-weight: 600;">Próximamente...</span>
         </div>
         
         <!-- Timeline de experiencia -->
