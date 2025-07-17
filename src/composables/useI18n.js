@@ -4,11 +4,75 @@ const currentLanguage = ref('es')
 
 const translations = {
   es: {
+    githubStar: {
+      label: '¿Te gusta este porfolio?',
+      button: 'Dale una estrella'
+    },
+    experienceList: [
+      {
+        period: '2024 - Actualidad',
+        position: 'Desarrollador Full Stack',
+        company: 'IESA-CSIC',
+        description: 'Desarrollo de sistemas avanzados de encuestas sociales con Vue.js y Laravel. Creación de herramientas de análisis de datos y gestión de investigación para el Instituto de Estudios Sociales Avanzados.'
+      },
+      {
+        period: '2024 (3 meses)',
+        position: 'Prácticas profesionales',
+        company: 'Medac',
+        description: 'Desarrollo web full stack enfocado en el metaverso. Diseño y programación de la web de entrada al metaverso, panel de control para alumnos en aula virtual y plataforma para nuevo proyecto de prácticas con realidad virtual.'
+      },
+      {
+        period: '2022 - 2024',
+        position: 'Grado Superior en Desarrollo de Aplicaciones Web',
+        company: 'Formación Profesional',
+        description: 'Técnico Superior en Desarrollo de Aplicaciones Web especializado en PHP, JavaScript y bases de datos. Proyectos freelance con WordPress, PrestaShop y aplicaciones a medida.'
+      },
+      {
+        period: '2017 - 2024',
+        position: 'Otros puestos de trabajo',
+        company: '',
+        description: 'Diversos puestos de atención al cliente: expendedor de gasolinera, gestor de reservas online de casas rurales, asesor inmobiliario, etc.'
+      }
+    ],
+    experience: {
+      title: 'Proyectos destacados',
+      subtitle: 'Algunos de mis trabajos más relevantes',
+      timelineTitle: 'Trayectoria profesional',
+      showMore: 'Ver más experiencia',
+      code: 'Código',
+      demo: 'Demo',
+      projects: [
+        {
+          id: 1,
+          title: 'Sistema de Encuestas IESA-CSIC',
+          description: 'Sistema completo para la creación, distribución y análisis de encuestas sociales desarrollado para investigadores del IESA-CSIC.',
+          technologies: ['Vue.js', 'Laravel', 'MySQL', 'Chart.js', 'Bootstrap'],
+          demo: '#',
+          code: '#'
+        },
+        {
+          id: 2,
+          title: 'Plataforma E-commerce PrestaShop',
+          description: 'Tienda online completa con gestión de productos, pagos integrados y panel de administración personalizado.',
+          technologies: ['PrestaShop', 'PHP', 'MySQL', 'JavaScript', 'CSS3'],
+          demo: '#',
+          code: '#'
+        },
+        {
+          id: 3,
+          title: 'Aplicación 3D Odontológica',
+          description: 'Aplicación web 3D para visualización dental con WebGL, formularios interactivos y integración con Firebase.',
+          technologies: ['WebGL', 'Three.js', 'Firebase', 'AWS', 'JavaScript'],
+          demo: '#',
+          code: '#'
+        }
+      ]
+    },
     // Navegación
     nav: {
       home: 'Inicio',
       about: 'Acerca de',
-      experience: 'Proyectos destacados',
+      experience: 'Experiencia',
       contact: 'Contacto',
       goTo: 'Ir a'
     },
@@ -33,6 +97,20 @@ const translations = {
       contactTitle: 'Contacto'
     },
 
+// Sección Contact mejorada
+    contact: {
+      contactDescription: 'Estoy siempre abierto a nuevas oportunidades y proyectos.',
+name: 'Nombre',
+      subject: 'Asunto',
+      message: 'Mensaje',
+      sending: 'Enviando...',
+      send: 'Enviar mensaje',
+
+      phone: 'Teléfono',
+      email: 'Correo electrónico',
+      location: 'Ubicación',
+      locationValue: 'Desde Córdoba con amor ❤️',
+    },
     // Sección About mejorada
     about: {
       title: 'Acerca de mí',
@@ -118,16 +196,81 @@ const translations = {
       contact: 'Contacto',
       followMe: 'Sígueme',
       rights: 'Todos los derechos reservados.',
-      madeWith: 'Desarrollado con'
+      madeWith: 'Desarrollado con',
+      licence: 'Uso permitido con atribución. No se permite uso comercial. <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:2px;text-decoration:none;color:inherit;font-size:0.95em;"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" style="height:0.9em;vertical-align:middle;opacity:0.6;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" style="height:0.9em;vertical-align:middle;opacity:0.6;"> <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" style="height:0.9em;vertical-align:middle;opacity:0.6;"> CC BY-NC 4.0</a>'
     }
   },
   
   en: {
+    githubStar: {
+      label: 'Do you like this portfolio?',
+      button: 'Star it'
+    },
+    experienceList: [
+      {
+        period: '2024 - Present',
+        position: 'Full Stack Developer',
+        company: 'IESA-CSIC',
+        description: 'Development of advanced social survey systems with Vue.js and Laravel. Creation of data analysis tools and research management for the Institute of Advanced Social Studies.'
+      },
+      {
+        period: '2024 (3 months)',
+        position: 'Professional Internship',
+        company: 'Medac',
+        description: 'Full stack web development focused on the metaverse. Design and programming of the entry website to the metaverse, a control panel for students in the virtual classroom, and a platform for a new internship project with virtual reality.'
+      },
+      {
+        period: '2022 - 2024',
+        position: 'Higher Degree in Web Application Development',
+        company: 'Vocational Training',
+        description: 'Senior Technician in Web Application Development specializing in PHP, JavaScript, and databases. Freelance projects with WordPress, PrestaShop, and custom applications.'
+      },
+      {
+        period: '2017 - 2024',
+        position: 'Other jobs',
+        company: '',
+        description: 'Various customer service positions: gas station attendant, online booking manager for rural homes, real estate advisor, etc.'
+      }
+    ],
+    experience: {
+      title: 'Featured Projects',
+      subtitle: 'Some of my most relevant work',
+      timelineTitle: 'Professional Trajectory',
+      showMore: 'Show more experience',
+      code: 'Code',
+      demo: 'Demo',
+      projects: [
+        {
+          id: 1,
+          title: 'IESA-CSIC Survey System',
+          description: 'Complete system for the creation, distribution and analysis of social surveys developed for IESA-CSIC researchers.',
+          technologies: ['Vue.js', 'Laravel', 'MySQL', 'Chart.js', 'Bootstrap'],
+          demo: '#',
+          code: '#'
+        },
+        {
+          id: 2,
+          title: 'PrestaShop E-commerce Platform',
+          description: 'Full online store with product management, integrated payments and custom admin panel.',
+          technologies: ['PrestaShop', 'PHP', 'MySQL', 'JavaScript', 'CSS3'],
+          demo: '#',
+          code: '#'
+        },
+        {
+          id: 3,
+          title: '3D Dental Application',
+          description: '3D web application for dental visualization with WebGL, interactive forms and Firebase integration.',
+          technologies: ['WebGL', 'Three.js', 'Firebase', 'AWS', 'JavaScript'],
+          demo: '#',
+          code: '#'
+        }
+      ]
+    },
     // Navigation
     nav: {
       home: 'Home',
       about: 'About',
-      experience: 'Featured Projects',
+      experience: 'Experience',
       contact: 'Contact',
       goTo: 'Go to'
     },
@@ -148,7 +291,7 @@ const translations = {
     // Sections
     sections: {
       aboutTitle: 'About Me',
-      experienceTitle: 'Featured Projects',
+      experienceTitle: 'Experiencie',
       contactTitle: 'Contact'
     },
 
@@ -230,6 +373,22 @@ const translations = {
       socialLink: 'Link to {platform}'
     },
     
+// Contact Section
+    contact: {
+      contactDescription: 'I am always open to new opportunities and projects.',
+      name: 'Name',
+      subject: 'Subject',
+      message: 'Message',
+      sending: 'Sending...',
+      send: 'Send message',
+
+      phone: 'Phone',
+      email: 'Email',
+      location: 'Location',
+      locationValue: 'From Córdoba with love ❤️',
+    },
+
+
     // Footer
     footer: {
       description: 'Creating innovative web solutions with modern technologies and agile methodologies. Specialized in frontend and backend development.',
@@ -237,7 +396,8 @@ const translations = {
       contact: 'Contact',
       followMe: 'Follow Me',
       rights: 'All rights reserved.',
-      madeWith: 'Built with'
+      madeWith: 'Built with',
+      licence: 'Allowed with attribution. No commercial use allowed. <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:2px;text-decoration:none;color:inherit;font-size:0.95em;"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" style="height:0.9em;vertical-align:middle;opacity:0.6;"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" style="height:0.9em;vertical-align:middle;opacity:0.6;"> <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" style="height:0.9em;vertical-align:middle;opacity:0.6;"> CC BY-NC 4.0</a>'
     }
   }
 }

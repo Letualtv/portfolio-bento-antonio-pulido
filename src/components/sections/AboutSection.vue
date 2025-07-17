@@ -291,11 +291,19 @@ const toggleCard = (cardName) => {
 <style scoped>
 /* About Section */
 .about-section {
-  padding: 120px 0 80px;
+  padding: 4rem 0;
   background: var(--background-primary);
   position: relative;
-  overflow: hidden;
+  display: flex;
+  align-items: stretch;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 
 .about-section::before {
   content: '';
@@ -309,13 +317,7 @@ const toggleCard = (cardName) => {
   pointer-events: none;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  position: relative;
-  z-index: 2;
-}
+
 
 /* Header */
 .about-header {
@@ -876,7 +878,7 @@ const toggleCard = (cardName) => {
 
 @media (max-width: 768px) {
   .about-section {
-    padding: 80px 0 60px;
+    padding: 4rem 0 3rem;
   }
   
   .stats-grid {
@@ -915,10 +917,10 @@ const toggleCard = (cardName) => {
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 0 0.75rem;
+
+    .about-section {
+    padding: 4rem 0 ;
   }
-  
   .about-header {
     margin-bottom: 2rem;
   }

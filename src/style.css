@@ -164,11 +164,7 @@ p {
   text-align: center;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
+
 
 /* Accesibilidad - Reducir movimiento para usuarios que lo prefieran */
 @media (prefers-reduced-motion: reduce) {

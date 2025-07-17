@@ -38,7 +38,17 @@ const navigationItems = computed(() => [
 ])
 
 const scrollToSection = (sectionId) => {
-  emit('scrollToSection', sectionId)
+  const el = document.getElementById(sectionId)
+  if (el) {
+    // Offset adaptativo: más alto en móvil
+    const isMobile = window.innerWidth <= 768
+    const offset = isMobile ? 80 : 40
+    const top = el.getBoundingClientRect().top + window.scrollY - offset
+    window.scrollTo({ top, behavior: 'smooth' })
+    emit('scrollToSection', sectionId)
+  } else {
+    emit('scrollToSection', sectionId)
+  }
 }
 </script>
 

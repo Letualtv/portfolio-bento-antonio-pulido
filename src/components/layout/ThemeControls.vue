@@ -93,7 +93,7 @@ const { currentLang, toggleLanguage, t } = useI18n()
 
 @media (max-width: 480px) {
   .fixed-controls {
-    top: 8px;
+    top: 90px;
     right: 8px;
     gap: 4px;
   }

@@ -1,64 +1,86 @@
 <template>
-  <footer class="footer">
+  <footer id="contact" class="footer">
     <div class="container">
-      
       <!-- Main Footer Content -->
-      <div class="footer-main">
-        <div class="footer-links">
-
-          <div class="footer-section">
-            <h4 class="footer-title">{{ t('footer.contact') }}</h4>
-            <div class="footer-contact">
-              <a href="mailto:antonio.pulido.1996@gmail.com" class="footer-contact-item">
-                <i class="bi bi-envelope" aria-hidden="true"></i>
-                <span>antonio.pulido.1996@gmail.com</span>
-              </a>
-              <a href="tel:+34615961827" class="footer-contact-item">
-                <i class="bi bi-telephone" aria-hidden="true"></i>
-                <span>+34 615 961 827</span>
-              </a>
-              <div class="footer-contact-item">
-                <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                <span>Córdoba, España</span>
+      <div class="footer-main pt-4">
+        <div class="row justify-content-center gx-5 gy-3">
+          <div class="col-md-6 col-12 ">
+            <div class="footer-section text-center text-md-start d-flex flex-column gap-3">
+              <h4 class="footer-title d-none d-lg-block">{{ t('footer.contact') }}</h4>
+              <div class="footer-contact d-flex flex-column gap-2 align-items-md-start align-items-center">
+                <a href="mailto:antonio.pulido.1996@gmail.com" class="footer-contact-item d-flex align-items-center gap-2">
+                  <i class="bi bi-envelope" aria-hidden="true"></i>
+                  <span>antonio.pulido.1996@gmail.com</span>
+                </a>
+                <a href="tel:+34615961827" class="footer-contact-item d-flex align-items-center gap-2">
+                  <i class="bi bi-telephone" aria-hidden="true"></i>
+                  <span>+34 615 961 827</span>
+                </a>
+                <div class="footer-contact-item d-flex align-items-center gap-2">
+                  <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                  <span>Córdoba, España</span>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="footer-section">
-            <h4 class="footer-title">{{ t('footer.followMe') }}</h4>
-            <div class="footer-social">
-              <a 
-                v-for="social in socialLinks"
-                :key="social.platform"
-                :href="social.url"
-                class="footer-social-link"
-                :title="social.platform"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i :class="`bi bi-${social.icon}`" aria-hidden="true"></i>
-                <span>{{ social.platform }}</span>
-              </a>
+          <div class="col-md-6 col-12">
+            <div class="footer-section text-center text-md-start d-flex flex-column gap-3">
+              <h4 class="footer-title d-none d-lg-block">{{ t('footer.followMe') }}</h4>
+<div class="footer-social w-100">
+  <!-- Solo iconos en móvil y tablet -->
+  <div class="d-flex flex-row justify-content-center align-items-center gap-3 d-md-flex d-lg-none ">
+    <a 
+      v-for="social in socialLinks"
+      :key="social.platform"
+      :href="social.url"
+      class="footer-social-link"
+      :title="social.platform"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <i :class="`bi bi-${social.icon} fs-1`" aria-hidden="true"></i>
+    </a>
+  </div>
+  <!-- Iconos + texto solo en desktop -->
+  <div class="d-none d-lg-flex flex-column gap-2 align-items-lg-start align-items-center">
+    <a 
+      v-for="social in socialLinks"
+      :key="social.platform"
+      :href="social.url"
+      class="footer-social-link d-flex align-items-center gap-2"
+      :title="social.platform"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <i :class="`bi bi-${social.icon}`" aria-hidden="true"></i>
+      <span>{{ social.platform }}</span>
+    </a>
+  </div>
+</div>
             </div>
           </div>
         </div>
       </div>
-
       <!-- Footer Bottom -->
-      <div class="footer-bottom">
-        <div class="footer-bottom-content">
-          <div class="footer-copyright">
-            <p>© {{ currentYear }} Antonio Pulido. {{ t('footer.rights') }}</p>
+      <div class="footer-bottom border-top py-3">
+        <div class="row align-items-center justify-content-between gx-3 gy-2">
+          <div class="col-12 col-md-auto text-center text-md-start mb-2 mb-md-0">
+            <div class="footer-copyright">
+              <p class="mb-0">
+                © {{ currentYear }} Antonio Pulido. <span v-html="t('footer.licence')"></span>
+              </p>
+            </div>
           </div>
-          
-          <div class="footer-tech">
-            <span>{{ t('footer.madeWith') }}</span>
-            <div class="tech-stack">
-              <span class="tech-item">Vue.js</span>
-              <span class="tech-divider">•</span>
-              <span class="tech-item">Vite</span>
-              <span class="tech-divider">•</span>
-              <span class="tech-item">EmailJS</span>
+          <div class="col-12 col-md-auto text-center text-md-end">
+            <div class="footer-tech d-flex align-items-center justify-content-center justify-content-md-end gap-2">
+              <span>{{ t('footer.madeWith') }}</span>
+              <div class="tech-stack d-flex align-items-center gap-2">
+                <span class="tech-item">Vue.js</span>
+                <span class="tech-divider">•</span>
+                <span class="tech-item">Vite</span>
+                <span class="tech-divider">•</span>
+                <span class="tech-item">EmailJS</span>
+              </div>
             </div>
           </div>
         </div>
@@ -89,11 +111,7 @@ const socialLinks = socialLinksData.filter(social =>
   transition: background-color var(--transition-normal);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
+
 
 /* Main Footer Content */
 .footer-main {
@@ -184,30 +202,22 @@ const socialLinks = socialLinksData.filter(social =>
   padding: 0.25rem 0;
 }
 
+/* Iconos sociales: solo iconos en móvil/tablet, icono grande */
+.footer-social-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: var(--transition-normal);
+  padding: 0.25rem;
+}
 .footer-social-link:hover {
   color: var(--persian-green);
-  transform: translateX(4px);
+  transform: scale(1.2);
 }
-
 .footer-social-link i {
-  font-size: 1rem;
-  width: 16px;
+  width: 32px;
   flex-shrink: 0;
 }
 
-/* Footer Bottom */
-.footer-bottom {
-  border-top: 1px solid var(--border-color);
-  padding: 1.5rem 0;
-}
-
-.footer-bottom-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
 
 .footer-copyright {
   color: var(--text-muted);
@@ -287,11 +297,7 @@ const socialLinks = socialLinksData.filter(social =>
   .footer-main {
     padding: 2rem 0 1rem;
   }
-  
-  .container {
-    padding: 0 0.75rem;
-  }
-  
+
   .brand-logo {
     flex-direction: column;
     gap: 0.5rem;

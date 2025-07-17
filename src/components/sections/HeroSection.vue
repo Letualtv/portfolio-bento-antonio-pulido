@@ -1,17 +1,17 @@
 <template>
   <section id="inicio" class="hero-section">
     <div class="container">
-      <div class="hero-grid">
-        <div class="hero-content">
-          <h1 class="hero-title">
-            <span class="greeting-line">{{ t('hero.greeting') }}</span>
-            <span class="name-line text-gradient">{{ t('hero.name') }}</span>
+      <div class="row hero-grid align-items-center justify-content-between flex-lg-row flex-column-reverse ">
+        <div class="col-lg-auto col-12 hero-content order-lg-1 order-2  mb-5 mb-lg-0">
+          <h1 class="hero-title ">
+            <span class="greeting-line text-start">{{ t('hero.greeting') }}</span>
+            <span class="name-line text-gradient my-2 my-lg-0">{{ t('hero.name') }}</span>
           </h1>
-          <h2 class="hero-subtitle-role">{{ t('hero.title') }}</h2>
-          <p class="hero-subtitle">
+          <h2 class="hero-subtitle-role ">{{ t('hero.title') }}</h2>
+          <p class="hero-subtitle text-start mx-1 mx-lg-0">
             {{ t('hero.description') }}
           </p>
-          <div class="hero-actions">
+          <div class=" gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start">
             <button class="btn btn-primary-custom" @click="handleDownloadCV">
               <i class="bi bi-download" aria-hidden="true"></i>
               {{ t('hero.downloadCV') }}
@@ -22,45 +22,38 @@
             </button>
           </div>
         </div>
-        
-        <div class="hero-image-section">
-          <div class="hero-image-container">              <!-- Foto de perfil -->
-              <div class="profile-card">
-                <div class="profile-image-wrapper">
-                  <div class="profile-image">
-                    <img 
-                      :src="profilePhoto" 
-                      :alt="t('accessibility.profileImage')"
-                      class="profile-photo"
-                    >
-                    <div class="profile-overlay">
-                      <div class="profile-decoration"></div>
-                    </div>
-                  </div>
-                  <div class="status-indicator">
-                    <span class="status-dot" aria-hidden="true"></span>
-                    <span class="status-text">{{ t('hero.availableForWork') }}</span>
+
+        <div class="col-lg-auto col-12 order-lg-2 order-1">
+          <div
+            class="d-flex flex-lg-row mx-auto flex-column align-items-center justify-content-center gap-4 col-11 col-lg-auto">
+            <!-- Foto de perfil -->
+            <div class="profile-card ">
+              <div class="profile-image-wrapper">
+                <div class="profile-image">
+                  <img :src="profilePhoto" :alt="t('accessibility.profileImage')" class="profile-photo">
+                  <div class="profile-overlay">
+                    <div class="profile-decoration"></div>
                   </div>
                 </div>
-                <div class="profile-info">
-                  <h3 class="profile-name">{{ t('hero.name') }}</h3>
-                  <p class="profile-position">{{ t('hero.currentPosition') }}</p>
-                  <p class="profile-institution">{{ t('hero.institution') }}</p>
+                <div class="status-indicator">
+                  <span class="status-dot" aria-hidden="true"></span>
+                  <span class="status-text">{{ t('hero.availableForWork') }}</span>
                 </div>
               </div>
-            
+              <div class="profile-info">
+                <h3 class="profile-name">{{ t('hero.name') }}</h3>
+                <p class="profile-position">{{ t('hero.currentPosition') }}</p>
+                <p class="profile-institution">{{ t('hero.institution') }}</p>
+              </div>
+            </div>
+
             <!-- Redes sociales -->
-            <div class="social-links">
-              <a 
-                v-for="social in socialLinks"
-                :key="social.platform"
-                :href="social.url" 
-                :class="['social-link', social.class]"
-                :title="social.platform"
-                :aria-label="t('accessibility.socialLink').replace('{platform}', social.platform)"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+            <div
+              class="social-links d-flex flex-lg-column flex-row align-items-center justify-content-center gap-3 mt-lg-0 mt-2">
+              <a v-for="social in socialLinks" :key="social.platform" :href="social.url"
+                :class="['social-link', social.class]" :title="social.platform"
+                :aria-label="t('accessibility.socialLink').replace('{platform}', social.platform)" target="_blank"
+                rel="noopener noreferrer">
                 <i :class="`bi bi-${social.icon}`" aria-hidden="true"></i>
               </a>
             </div>
@@ -87,7 +80,7 @@ const handleDownloadCV = () => {
   link.href = '/src/assets/cv-antonio-pulido.pdf'
   link.download = 'CV-Antonio-Pulido-FullStack-Developer.pdf'
   link.target = '_blank'
-  
+
   // Verificar si el archivo existe antes de intentar descargarlo
   fetch(link.href, { method: 'HEAD' })
     .then(response => {
@@ -125,13 +118,17 @@ const handleDownloadCV = () => {
 <style scoped>
 /* Sección Hero */
 .hero-section {
-  padding: 120px 0 80px;
+  padding: 7rem 0 3rem;
   background: linear-gradient(135deg, var(--background-primary) 0%, var(--background-secondary) 100%);
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
+}
+
+.container {
+  max-width: 1200px;
 }
 
 .hero-section::before {
@@ -142,30 +139,14 @@ const handleDownloadCV = () => {
   right: 0;
   bottom: 0;
   background: radial-gradient(circle at 30% 20%, rgba(69, 123, 157, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 70% 80%, rgba(148, 210, 189, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(233, 196, 106, 0.05) 0%, transparent 70%);
+    radial-gradient(circle at 70% 80%, rgba(148, 210, 189, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(233, 196, 106, 0.05) 0%, transparent 70%);
   pointer-events: none;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  width: 100%;
-}
 
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  min-height: 70vh;
-}
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-}
+
 
 .hero-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
@@ -206,8 +187,15 @@ const handleDownloadCV = () => {
 }
 
 @keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .hero-subtitle {
@@ -216,12 +204,6 @@ const handleDownloadCV = () => {
   color: var(--text-muted);
   margin-bottom: 2.5rem;
   max-width: 600px;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .btn {
@@ -236,7 +218,8 @@ const handleDownloadCV = () => {
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  min-height: 44px; /* Accessibility */
+  min-height: 44px;
+  /* Accessibility */
 }
 
 .btn-primary-custom {
@@ -266,23 +249,9 @@ const handleDownloadCV = () => {
 }
 
 /* Imagen de perfil y redes sociales */
-.hero-image-section {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.hero-image-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-}
 
 .profile-card {
-  position: relative;
   background: var(--background-secondary);
   border-radius: 35px;
   padding: 30px;
@@ -291,7 +260,6 @@ const handleDownloadCV = () => {
   border: 3px solid var(--tiffany-blue);
   transition: var(--transition-normal);
   max-width: 450px;
-  margin: 0 auto;
 }
 
 .profile-card:hover {
@@ -336,17 +304,24 @@ const handleDownloadCV = () => {
   right: -10px;
   bottom: -10px;
   border-radius: 30px;
-  background: linear-gradient(135deg, 
-    rgba(69, 123, 157, 0.1) 0%, 
-    rgba(148, 210, 189, 0.15) 50%, 
-    rgba(233, 196, 106, 0.1) 100%);
+  background: linear-gradient(135deg,
+      rgba(69, 123, 157, 0.1) 0%,
+      rgba(148, 210, 189, 0.15) 50%,
+      rgba(233, 196, 106, 0.1) 100%);
   z-index: 1;
   animation: gradientRotate 6s ease-in-out infinite;
 }
 
 @keyframes gradientRotate {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(2deg) scale(1.02); }
+
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(2deg) scale(1.02);
+  }
 }
 
 .profile-decoration {
@@ -363,8 +338,13 @@ const handleDownloadCV = () => {
 }
 
 @keyframes spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .profile-info {
@@ -420,12 +400,19 @@ const handleDownloadCV = () => {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .status-text {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: #22c55e;
 }
@@ -457,123 +444,50 @@ const handleDownloadCV = () => {
   box-shadow: var(--shadow-lg);
 }
 
-.social-link.linkedin { background: linear-gradient(135deg, #0077b5, #00a0dc); }
-.social-link.github { background: linear-gradient(135deg, #333, #24292e); }
-.social-link.instagram { background: linear-gradient(135deg, #E4405F, #C13584); }
-.social-link.iesa { background: linear-gradient(135deg, #2c5282, #3182ce); }
-.social-link.email { background: linear-gradient(135deg, var(--cerulean), var(--persian-green)); }
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .hero-grid {
-    gap: 3rem;
-  }
-  
-  .profile-photo {
-    width: 280px;
-    height: 280px;
-  }
-  
-  .profile-decoration {
-    width: 300px;
-    height: 300px;
-  }
+.social-link.linkedin {
+  background: linear-gradient(135deg, #0077b5, #00a0dc);
 }
 
-@media (max-width: 768px) {
-  .hero-section {
-    padding: 100px 0 60px;
-    text-align: center;
-  }
-  
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  
-  .hero-image-container {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .social-links {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .profile-photo {
-    width: 250px;
-    height: 250px;
-  }
-  
-  .profile-decoration {
-    width: 270px;
-    height: 270px;
-  }
-  
-  .profile-card {
-    max-width: 350px;
-    padding: 25px;
-  }
-  
-  .hero-actions {
-    justify-content: center;
-  }
-  
-  .hero-content {
-    order: 2;
-  }
-  
-  .hero-image-section {
-    order: 1;
-  }
+.social-link.github {
+  background: linear-gradient(135deg, #333, #24292e);
 }
 
-@media (max-width: 480px) {
-  .hero-section {
-    padding: 80px 0 40px;
-  }
-  
-  .container {
-    padding: 0 0.75rem;
-  }
-  
-  .hero-grid {
-    gap: 2rem;
-  }
-  
-  .profile-photo {
-    width: 220px;
-    height: 220px;
-  }
-  
-  .profile-decoration {
-    width: 240px;
-    height: 240px;
-  }
-  
-  .profile-card {
-    padding: 20px;
-    max-width: 300px;
-  }
-  
-  .social-link {
-    width: 44px;
-    height: 44px;
-    font-size: 18px;
-  }
-  
-  .hero-actions {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  
-  .btn {
-    width: 100%;
-    max-width: 280px;
-    justify-content: center;
-  }
+.social-link.instagram {
+  background: linear-gradient(135deg, #E4405F, #C13584);
 }
+
+.social-link.iesa {
+  background: linear-gradient(135deg, #2c5282, #3182ce);
+}
+
+.social-link.email {
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
+}
+
+
+
+.profile-card:hover .status-dot {
+  background: linear-gradient(135deg, #22c55e 80%, #a7f3d0 100%);
+  box-shadow: 0 0 24px 6px #22c55e, 0 0 8px 2px #a7f3d0;
+  animation: dot-glow 1.2s ease-in-out infinite;
+}
+
+@keyframes dot-glow {
+  0% { box-shadow: 0 0 24px 3px #22c55e, 0 0 8px 1px #a7f3d0; }
+  50% { box-shadow: 0 0 32px 6px #22c55e, 0 0 16px 2px #a7f3d0; }
+  100% { box-shadow: 0 0 24px 3px #22c55e, 0 0 8px 1px #a7f3d0; }
+}
+
+.profile-card:hover .status-text {
+  color: #16a34a;
+  text-shadow: 0 0 6px rgba(34,197,94,0.18);
+  transition: color 0.0s cubic-bezier(.4,0,.2,1), text-shadow 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+.profile-card:hover .status-indicator {
+  border-color: var(--persian-green);
+  box-shadow: 0 15px 30px rgba(148, 210, 189, 0.4);
+  transition: box-shadow 0.3s cubic-bezier(.4,0,.2,1), border-color 0.3s cubic-bezier(.4,0,.2,1);
+}
+
 </style>

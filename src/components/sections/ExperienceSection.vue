@@ -1,13 +1,13 @@
 <template>
-  <section id="experiencia" class="section experience-section">
+  <section id="experiencia" class="experience-section">
     <div class="container">
-      <h2 class="section-title">{{ t('sections.experienceTitle') }}</h2>
+      <h2 class="section-title">{{ t('experience.title') }}</h2>
       
       <div class="experience-content">
-        <!-- Proyectos destacados -->
+        <!-- Proyectos destacados internacionalizados -->
         <div class="projects-grid">
           <div 
-            v-for="project in projects"
+            v-for="project in t('experience.projects')"
             :key="project.id"
             class="project-card"
           >
@@ -17,11 +17,11 @@
                 <div class="project-links">
                   <a :href="project.demo" class="project-link" target="_blank" rel="noopener noreferrer">
                     <i class="bi bi-eye" aria-hidden="true"></i>
-                    Ver demo
+                    {{ t('experience.demo') }}
                   </a>
                   <a :href="project.code" class="project-link" target="_blank" rel="noopener noreferrer">
                     <i class="bi bi-github" aria-hidden="true"></i>
-                    Código
+                    {{ t('experience.code') }}
                   </a>
                 </div>
               </div>
@@ -44,7 +44,7 @@
         
         <!-- Timeline de experiencia -->
         <div class="timeline-section">
-          <h3 class="timeline-title">Experiencia profesional</h3>
+          <h3 class="timeline-title">{{ t('experience.timelineTitle') }}</h3>
           <div class="timeline">
             <transition-group name="timeline-fade" tag="div">
               <div 
@@ -66,7 +66,7 @@
               class="show-more-btn"
               @click="handleShowMore"
             >
-              Ver más experiencia
+              {{ t('experience.showMore') }}
             </button>
           </div>
         </div>
@@ -79,58 +79,14 @@
 import { useI18n } from '../../composables/useI18n.js'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
-const { t } = useI18n()
+const { t, currentLang } = useI18n()
 
-const projects = [
-  {
-    id: 1,
-    title: 'Sistema de Encuestas IESA-CSIC',
-    description: 'Sistema completo para la creación, distribución y análisis de encuestas sociales desarrollado para investigadores del IESA-CSIC.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop',
-    technologies: ['Vue.js', 'Laravel', 'MySQL', 'Chart.js', 'Bootstrap'],
-    demo: '#',
-    code: '#'
-  },
-  {
-    id: 2,
-    title: 'Plataforma E-commerce PrestaShop',
-    description: 'Tienda online completa con gestión de productos, pagos integrados y panel de administración personalizado.',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=250&fit=crop',
-    technologies: ['PrestaShop', 'PHP', 'MySQL', 'JavaScript', 'CSS3'],
-    demo: '#',
-    code: '#'
-  },
-  {
-    id: 3,
-    title: 'Aplicación 3D Odontológica',
-    description: 'Aplicación web 3D para visualización dental con WebGL, formularios interactivos y integración con Firebase.',
-    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=250&fit=crop',
-    technologies: ['WebGL', 'Three.js', 'Firebase', 'AWS', 'JavaScript'],
-    demo: '#',
-    code: '#'
-  }
-]
+// Los proyectos ahora se obtienen de t('experience.projects')
 
-const experience = [
-  {
-    period: '2024 - Presente',
-    position: 'Full Stack Developer',
-    company: 'IESA-CSIC',
-    description: 'Desarrollo de sistemas avanzados de encuestas sociales con Vue.js y Laravel. Creación de herramientas de análisis de datos y gestión de investigaciones para el Instituto de Estudios Sociales Avanzados.'
-  },
-  {
-    period: '2024 (3 meses)',
-    position: 'Prácticas profesionales',
-    company: 'Medac',
-    description: 'Desarrollo web full stack orientado al metaverso. Diseño y programación de la web de entrada al metaverso, un panel de control para estudiantes en el aula virtual y una plataforma para un nuevo proyecto de prácticas con realidad virtual.'
-  },
-  {
-    period: '2022 - 2024',
-    position: 'Grado Superior en Desarrollo de Aplicaciones Web',
-    company: 'Formación Profesional',
-    description: 'Técnico Superior en Desarrollo de Aplicaciones Web con especialización en PHP, JavaScript y bases de datos. Desarrollo de proyectos freelance paralelos con WordPress, PrestaShop y aplicaciones personalizadas.'
-  }
-]
+// Experiencia profesional internacionalizada
+const experience = computed(() => {
+  return t('experienceList')
+})
 
 const showAllExperience = ref(false)
 const windowWidth = ref(window.innerWidth)
@@ -147,10 +103,10 @@ onUnmounted(() => {
 })
 
 const visibleExperience = computed(() => {
-  if (showAllExperience.value) return experience
+  if (showAllExperience.value) return experience.value
   // En móvil/tablet, solo mostrar la primera experiencia
-  if (windowWidth.value <= 1024) return [experience[0]]
-  return experience
+  if (windowWidth.value <= 1024) return [experience.value[0]]
+  return experience.value
 })
 
 function handleShowMore() {
@@ -160,7 +116,7 @@ function handleShowMore() {
 
 <style scoped>
 .experience-section {
-  padding: 100px 0;
+  padding: 4rem 0;
   background: var(--background-primary);
   transition: background-color var(--transition-normal);
 }
@@ -170,6 +126,8 @@ function handleShowMore() {
   margin: 0 auto;
   padding: 0 1rem;
 }
+
+
 
 .section-title {
   font-size: clamp(2rem, 4vw, 3rem);
@@ -324,7 +282,6 @@ function handleShowMore() {
 
 .timeline {
   position: relative;
-  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -332,11 +289,12 @@ function handleShowMore() {
   content: '';
   position: absolute;
   left: 50%;
-  top: 0;
-  bottom: 0;
   width: 2px;
   background: var(--border-color);
   transform: translateX(-50%);
+  /* Ajusta la línea para que empiece y termine en el centro de los dots */
+  top: calc(16px / 2); /* 16px es el tamaño del dot, la línea empieza en el centro del primero */
+  bottom: calc(16px / 2); /* la línea termina en el centro del último dot */
 }
 
 .timeline-item {
@@ -380,7 +338,7 @@ function handleShowMore() {
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-color);
-  width: calc(50% - 2rem);
+  width: calc(50% - 4rem);
 }
 
 .timeline-date {
@@ -436,9 +394,9 @@ function handleShowMore() {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .experience-section {
-    padding: 80px 0;
+    padding: 4rem 0;
   }
   
   .projects-grid {
@@ -480,12 +438,10 @@ function handleShowMore() {
 
 @media (max-width: 480px) {
   .experience-section {
-    padding: 60px 0;
+    padding: 4rem 0;
   }
   
-  .container {
-    padding: 0 0.75rem;
-  }
+
   
   .projects-grid {
     grid-template-columns: 1fr;

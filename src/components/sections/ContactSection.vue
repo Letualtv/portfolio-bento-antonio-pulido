@@ -3,43 +3,36 @@
     <div class="container">
       <h2 class="section-title">{{ t('sections.contactTitle') }}</h2>
       <p class="contact-description">
-        Estoy siempre abierto a nuevas oportunidades y proyectos interesantes.
+        {{ t('contact.contactDescription') }}
       </p>
       
       <div class="contact-content">
         <div class="contact-info">
           
           <div class="contact-methods">
-            <a 
-              v-for="method in contactMethods.slice(0, 2)"
-              :key="method.type"
-              :href="method.url"
-              class="contact-method"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div class="contact-icon">
-                <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
-              </div>
-              <div class="contact-details">
-                <div class="contact-label">{{ method.label }}</div>
-                <div class="contact-value">{{ method.value }}</div>
-              </div>
-            </a>
-            
-            <!-- Ubicación con mapa integrado -->
-            <div class="contact-method location-method">
-              <div class="contact-icon">
-                <i class="bi bi-geo-alt" aria-hidden="true"></i>
-              </div>
-              <div class="contact-details">
-                <div class="location-header">
-                  <div class="contact-label">{{ contactMethods[2].label }}</div>
-                  <div class="contact-value">{{ contactMethods[2].value }}</div>
+            <div v-for="(method, idx) in contactMethods" :key="method.type" class="contact-method" :class="{'location-method d-block': method.type === 'location'}">
+              <template v-if="method.type !== 'location'">
+                <a :href="method.url" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center gap-3 w-100 text-decoration-none">
+                  <div class="contact-icon flex-shrink-0">
+                    <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
+                  </div>
+                  <div class="contact-details d-flex flex-column text-start w-100">
+                    <div class="contact-label mb-1">{{ method.label }}</div>
+                    <div class="contact-value mb-1">{{ method.value }}</div>
+                  </div>
+                </a>
+              </template>
+              <template v-else>
+                <div class="d-flex align-items-center gap-3 mb-2 w-100">
+                  <div class="contact-icon flex-shrink-0">
+                    <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
+                  </div>
+                  <div class="contact-details d-flex flex-column text-start w-100">
+                    <div class="contact-label mb-1">{{ method.label }}</div>
+                    <div class="contact-value mb-1">{{ method.value }}</div>
+                  </div>
                 </div>
-                
-                <!-- Mapa elegante con OpenStreetMap - Provincia de Córdoba -->
-                <div class="map-container">
+                <div class="map-container mt-3">
                   <iframe
                     src="https://www.openstreetmap.org/export/embed.html?bbox=-5.6000%2C37.3000%2C-3.8000%2C38.7000&layer=mapnik&marker=37.8882%2C-4.7916"
                     width="100%"
@@ -51,7 +44,7 @@
                     title="Provincia de Córdoba, España"
                   ></iframe>
                 </div>
-              </div>
+              </template>
             </div>
           </div>
         </div>
@@ -59,7 +52,7 @@
         <div class="contact-form-container">
           <form @submit.prevent="handleSubmit" class="contact-form">
             <div class="form-group">
-              <label for="name" class="form-label">Nombre</label>
+              <label for="name" class="form-label">{{ t('contact.name') }}</label>
               <input 
                 type="text" 
                 id="name" 
@@ -81,7 +74,7 @@
             </div>
             
             <div class="form-group">
-              <label for="subject" class="form-label">Asunto</label>
+              <label for="subject" class="form-label">{{ t('contact.subject') }}</label>
               <input 
                 type="text" 
                 id="subject" 
@@ -92,7 +85,7 @@
             </div>
             
             <div class="form-group">
-              <label for="message" class="form-label">Mensaje</label>
+              <label for="message" class="form-label">{{ t('contact.message') }}</label>
               <textarea 
                 id="message" 
                 v-model="form.message"
@@ -104,7 +97,7 @@
             
             <button type="submit" class="btn btn-primary-custom" :disabled="isSubmitting">
               <i class="bi bi-send" aria-hidden="true"></i>
-              {{ isSubmitting ? 'Enviando...' : 'Enviar mensaje' }}
+              {{ isSubmitting ? t('contact.sending') : t('contact.send') }}
             </button>
             
             <!-- Mensaje de estado -->
@@ -138,7 +131,9 @@ const isSubmitting = ref(false)
 const submitMessage = ref('')
 const submitStatus = ref('') // 'success' | 'error' | ''
 
-const contactMethods = [
+import { computed } from 'vue'
+
+const contactMethods = computed(() => [
   {
     type: 'email',
     icon: 'envelope',
@@ -149,18 +144,18 @@ const contactMethods = [
   {
     type: 'phone',
     icon: 'telephone',
-    label: 'Teléfono',
+    label: t('contact.phone'),
     value: '+34 615 961 827',
     url: 'tel:+34615961827'
   },
   {
     type: 'location',
     icon: 'geo-alt',
-    label: 'Ubicación',
-    value: 'Desde Córdoba con amor ❤️',
+    label: t('contact.location'),
+    value: t('contact.locationValue'),
     url: '#'
   }
-]
+])
 
 const handleSubmit = async () => {
   isSubmitting.value = true
@@ -228,9 +223,10 @@ const handleSubmit = async () => {
 
 <style scoped>
 .contact-section {
-  padding: 100px 0;
+  padding: 4rem 0;
   background: var(--background-secondary);
   transition: background-color var(--transition-normal);
+
 }
 
 .container {
@@ -378,7 +374,6 @@ const handleSubmit = async () => {
 
 .location-method {
   align-items: flex-start;
-  padding: 1.5rem;
 }
 
 .location-method .contact-details {
@@ -523,9 +518,9 @@ const handleSubmit = async () => {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .contact-section {
-    padding: 80px 0;
+    padding: 4rem 0;
   }
   
   .contact-content {
@@ -550,7 +545,7 @@ const handleSubmit = async () => {
 
 @media (max-width: 480px) {
   .contact-section {
-    padding: 60px 0;
+    padding: 4rem 0;
   }
   
   .container {
