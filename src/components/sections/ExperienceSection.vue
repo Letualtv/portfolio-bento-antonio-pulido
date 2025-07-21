@@ -4,11 +4,78 @@
       <h2 class="section-title">{{ t('experience.title') }}</h2>
       
       <div class="experience-content">
-        <!-- Proyectos destacados próximamente -->
-        <div class="projects-grid" style="display: flex; justify-content: center; align-items: center; min-height: 180px;">
-          <span style="font-size: 1.3rem; color: var(--text-muted); font-weight: 600;">Próximamente...</span>
+        <!-- Proyectos destacados -->
+        <transition-group name="project-fade" tag="div" class="row g-4 justify-content-center">
+          <div v-for="project in visibleProjects" :key="project.title" class="col-12 col-sm-10 col-md-6 col-lg-4 d-flex align-items-stretch">
+            <div class="project-card-theme w-100 h-100">
+              <div class="project-img-container">
+                <img v-if="project.image" :src="project.image" :alt="project.title" class="project-img-theme" />
+                <!-- Botones sobre la imagen en desktop, abajo en móvil/tablet -->
+                <div 
+                  class="project-img-actions"
+                  :class="{ 'show-always': windowWidth <= 1024 }"
+                >
+                  <template v-for="type in ['Demo','GitHub']">
+                    <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
+                      <a
+                        :href="project.links.find(l => l.label === type).url"
+                        class="btn btn-theme d-flex align-items-center gap-2 px-3"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        :aria-label="type + ' ' + project.title"
+                      >
+                        <i v-if="project.links.find(l => l.label === type).icon" :class="`bi bi-${project.links.find(l => l.label === type).icon}`" aria-hidden="true"></i>
+                        <span>{{ type }}</span>
+                      </a>
+                    </template>
+                    <template v-else>
+                      <span class="btn btn-theme-disabled d-flex align-items-center gap-2 px-3 opacity-75" :aria-label="type + ' no disponible'">
+                        <i :class="`bi bi-x-circle`" aria-hidden="true"></i>
+                        <span>No disponible</span>
+                      </span>
+                    </template>
+                  </template>
+                </div>
+              </div>
+              <div class="project-content-theme d-flex flex-column">
+                <h4 class="project-title-theme mb-2">{{ project.title }}</h4>
+                <p class="project-description-theme flex-grow-1">{{ project.description }}</p>
+                <div v-if="project.tech && project.tech.length" class="mb-2 d-flex flex-wrap gap-2">
+                  <span v-for="tech in project.tech" :key="tech" class="badge badge-theme">{{ tech }}</span>
+                </div>
+                <!-- En móvil/tablet los botones van abajo -->
+                <div v-if="windowWidth <= 1024" class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
+                  <template v-for="type in ['Demo','GitHub']">
+                    <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
+                      <a
+                        :href="project.links.find(l => l.label === type).url"
+                        class="btn btn-theme d-flex align-items-center gap-2 px-3"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        :aria-label="(currentLang === 'en' ? (type === 'Demo' ? 'Live demo' : 'GitHub') : (type === 'Demo' ? 'Demo' : 'GitHub')) + ' ' + project.title"
+                      >
+                        <i v-if="project.links.find(l => l.label === type).icon" :class="`bi bi-${project.links.find(l => l.label === type).icon}`" aria-hidden="true"></i>
+                        <span>{{ currentLang === 'en' ? (type === 'Demo' ? 'Live demo' : 'GitHub') : (type === 'Demo' ? 'Demo' : 'GitHub') }}</span>
+                      </a>
+                    </template>
+                    <template v-else>
+                      <span class="btn btn-theme-disabled d-flex align-items-center gap-2 px-3 opacity-75" :aria-label="currentLang === 'en' ? (type === 'Demo' ? 'Live demo not available' : 'GitHub not available') : (type === 'Demo' ? 'Demo no disponible' : 'GitHub no disponible')">
+                        <i :class="`bi bi-x-circle`" aria-hidden="true"></i>
+                        <span>{{ currentLang === 'en' ? (type === 'Demo' ? 'Not available' : 'Not available') : 'No disponible' }}</span>
+                      </span>
+                    </template>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition-group>
+        <div class="d-flex justify-content-center mt-3" v-if="showMoreProjectsBtn">
+          <button class="show-more-btn" @click="showAllProjects = true">
+            {{ currentLang === 'en' ? 'See more projects' : 'Ver más proyectos' }}
+          </button>
         </div>
-        
+
         <!-- Timeline de experiencia -->
         <div class="timeline-section">
           <h3 class="timeline-title">{{ t('experience.timelineTitle') }}</h3>
@@ -43,18 +110,75 @@
 </template>
 
 <script setup>
-import { useI18n } from '../../composables/useI18n.js'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useI18n } from '../../composables/useI18n.js'
+import imgProyecto1 from '../../assets/proyectos/proyecto1.jpg'
 
 const { t, currentLang } = useI18n()
 
-// Los proyectos ahora se obtienen de t('experience.projects')
+// Proyectos destacados
+const showAllProjects = ref(false)
+const proyectosDestacados = computed(() => ([
+  {
+    title: currentLang.value === 'en' ? 'IBN Cifras' : 'IBN Cifras',
+    description: currentLang.value === 'en'
+      ? 'Survey system for IESA - CSIC for social research and data analysis.'
+      : 'Sistema de encuestas de IESA - CSIC para investigación social y análisis de datos.',
+    image: imgProyecto1,
+    tech: ['PHP', 'JavaScript', 'Chart.js', 'Bootstrap'],
+    links: [
+      { label: 'Demo', url: 'https://estudiosocial.es/IBN25001', icon: 'box-arrow-up-right' },
+      { label: 'GitHub', url: '', icon: 'github' }
+    ]
+  },
+  {
+    title: currentLang.value === 'en' ? 'Project Alpha' : 'Proyecto Alfa',
+    description: currentLang.value === 'en'
+      ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.'
+      : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.',
+    image: '',
+    tech: ['Vue', 'Vite', 'CSS'],
+    links: [
+      { label: 'Demo', url: '', icon: 'box-arrow-up-right' },
+      { label: 'GitHub', url: '', icon: 'github' }
+    ]
+  },
+  {
+    title: currentLang.value === 'en' ? 'Project Beta' : 'Proyecto Beta',
+    description: currentLang.value === 'en'
+      ? 'Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.'
+      : 'Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.',
+    image: '',
+    tech: ['JavaScript', 'Bootstrap'],
+    links: [
+      { label: 'Demo', url: '', icon: 'box-arrow-up-right' },
+      { label: 'GitHub', url: '', icon: 'github' }
+    ]
+  },
+  {
+    title: currentLang.value === 'en' ? 'Project Gamma' : 'Proyecto Gamma',
+    description: currentLang.value === 'en'
+      ? 'Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.'
+      : 'Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.',
+    image: '',
+    tech: ['PHP', 'MySQL'],
+    links: [
+      { label: 'Demo', url: '', icon: 'box-arrow-up-right' },
+      { label: 'GitHub', url: '', icon: 'github' }
+    ]
+  }
+]))
 
-// Experiencia profesional internacionalizada
-const experience = computed(() => {
-  return t('experienceList')
+const visibleProjects = computed(() => {
+  return showAllProjects.value ? proyectosDestacados.value : proyectosDestacados.value.slice(0, 3)
+})
+const showMoreProjectsBtn = computed(() => {
+  // Asegura reactividad y correcto refresco
+  return proyectosDestacados.value.length > 3 && !showAllProjects.value
 })
 
+// Experiencia profesional internacionalizada
+const experience = computed(() => t('experienceList'))
 const showAllExperience = ref(false)
 const windowWidth = ref(window.innerWidth)
 
@@ -95,7 +219,188 @@ function handleShowMore() {
 }
 
 
+/* Proyectos destacados con consonancia visual */
+.project-card-theme {
+  background: var(--background-secondary);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid var(--border-color);
+  overflow: hidden; /* Volver a poner para que la línea y overlay respeten el border-radius */
+  display: flex;
+  flex-direction: column;
+  min-height: 370px;
+  max-width: 400px;
+  margin: 0 auto;
+  transition: box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), border-color 0.2s, transform 0.25s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  backface-visibility: hidden;
+  perspective: 1px;
+}
+.project-card-theme::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cerulean), var(--persian-green), var(--saffron));
+  border-top-left-radius: var(--border-radius-xl);
+  border-top-right-radius: var(--border-radius-xl);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  z-index: 3;
+}
+.project-card-theme:hover::before {
+  transform: scaleX(1);
+}
+.project-card-theme:hover {
+  box-shadow: 0 8px 32px 0 rgba(148,210,189,0.18), 0 1.5px 6px 0 rgba(69,123,157,0.08);
+  border-color: var(--persian-green);
+  transform: translateY(-8px) scale(1.025);
+  z-index: 2;
+}
+.project-img-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-top-left-radius: var(--border-radius-xl);
+  border-top-right-radius: var(--border-radius-xl);
+  overflow: hidden;
+}
+.project-img-theme {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--background-primary);
+  display: block;
+  transition: filter 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.project-card-theme:hover .project-img-theme {
+  filter: brightness(0.65) saturate(0.9);
+}
+/* Acciones sobre la imagen: centradas y con transición de opacidad */
+.project-img-actions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1);
+  z-index: 4;
+}
+.project-card-theme:hover .project-img-actions {
+  opacity: 1;
+  pointer-events: all;
+}
 
+/* Siempre mostrar los botones en móvil/tablet */
+.project-img-actions.show-always {
+  opacity: 1 !important;
+  pointer-events: all !important;
+  position: static;
+  background: none;
+  padding: 0.5rem 0 0 0;
+  margin-top: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.project-content-theme {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.project-title-theme {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
+}
+.project-description-theme {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.badge-theme {
+  background: var(--tiffany-blue);
+  color: var(--charcoal);
+  padding: 0.18em 0.7em;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.78em;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(69,123,157,0.08);
+}
+.btn-theme {
+  background: linear-gradient(135deg, var(--persian-green), var(--saffron));
+  color: var(--charcoal) !important;
+  border: none;
+  font-weight: 600;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(69,123,157,0.08);
+  transition: background 0.2s, color 0.2s;
+  padding: 0.5em 1.2em;
+}
+.btn-theme:hover {
+  background: linear-gradient(135deg, var(--saffron), var(--persian-green));
+  color: var(--honeydew) !important;
+}
+.btn-theme-disabled {
+  background: var(--background-secondary);
+  color: var(--text-muted) !important;
+  border: 1.5px dashed var(--border-color);
+  border-radius: 30px;
+  font-weight: 600;
+  padding: 0.5em 1.2em;
+  cursor: not-allowed;
+}
+@media (max-width: 850px) {
+  .project-card-theme {
+    max-width: 95vw;
+    min-height: 340px;
+  }
+  .project-img-container {
+    height: 160px;
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+  }
+  .project-img-theme {
+    height: 100%;
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+  }
+}
+@media (max-width: 480px) {
+  .project-card-theme {
+    max-width: 99vw;
+    min-height: 300px;
+    border-radius: var(--border-radius-lg);
+  }
+  .project-img-container {
+    height: 120px;
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+  }
+  .project-img-theme {
+    height: 100%;
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+  }
+  .project-content-theme {
+    padding: 1rem;
+  }
+}
 .section-title {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
@@ -114,117 +419,12 @@ function handleShowMore() {
 }
 
 .experience-content {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 4rem;
 }
 
 /* Proyectos */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-}
-
-.project-card {
-  background: var(--background-secondary);
-  border-radius: var(--border-radius-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-normal);
-  border: 1px solid var(--border-color);
-}
-
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
-}
-
-.project-image {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-}
-
-.project-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition-normal);
-}
-
-.project-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(38, 70, 83, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: var(--transition-normal);
-}
-
-.project-card:hover .project-overlay {
-  opacity: 1;
-}
-
-.project-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.project-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: var(--persian-green);
-  color: white;
-  text-decoration: none;
-  border-radius: var(--border-radius-md);
-  font-weight: 500;
-  transition: var(--transition-normal);
-}
-
-.project-link:hover {
-  background: var(--saffron);
-  color: var(--charcoal);
-  transform: translateY(-2px);
-}
-
-.project-content {
-  padding: 1.5rem;
-}
-
-.project-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.75rem;
-}
-
-.project-description {
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.project-tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tech-tag {
-  background: var(--tiffany-blue);
-  color: var(--charcoal);
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--border-radius-sm);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
 
 /* Timeline */
 .timeline-section {
@@ -337,28 +537,26 @@ function handleShowMore() {
 /* Botón "Ver más experiencia" */
 .show-more-btn {
   display: block;
-  margin: 1.5rem auto 0 auto;
-  padding: 0.75rem 2rem;
-  background: var(--persian-green);
-  color: white;
-  border: none;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 1rem;
+  margin: 0.5rem auto 0 auto;
+  padding: 0.45rem 1.2rem;
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-color);
+  border-radius: 24px;
+  font-weight: 500;
+  font-size: 0.98rem;
   cursor: pointer;
-  transition: background var(--transition-normal);
+  box-shadow: 0 1px 4px rgba(69,123,157,0.06);
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 
 .show-more-btn:hover {
-  background: var(--saffron);
-  color: var(--charcoal);
+  background: var(--background-primary);
+  color: var(--persian-green);
+  border-color: var(--persian-green);
 }
 
-@media (min-width: 1025px) {
-  .show-more-btn {
-    display: none;
-  }
-}
+
 
 /* Responsive Design */
 @media (max-width: 850px) {
@@ -453,3 +651,24 @@ function handleShowMore() {
   transform: translateY(30px);
 }
 </style>
+
+/* Animación de entrada para proyectos */
+.project-fade-enter-active, .project-fade-leave-active {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.project-fade-enter-from {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+}
+.project-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.project-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.project-fade-leave-to {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+}

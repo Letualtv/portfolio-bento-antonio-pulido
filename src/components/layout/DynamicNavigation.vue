@@ -1,5 +1,5 @@
-<template class="container">
-  <nav class="dynamic-island mt-3 " role="navigation" aria-label="Main navigation" style="left: 50%; transform: translateX(-50%);">
+<template>
+  <nav class="dynamic-island mt-3" role="navigation" aria-label="Main navigation">
     <div class="nav-items" style="justify-content: center;">
       <button 
         v-for="item in navigationItems"
@@ -56,6 +56,8 @@ const scrollToSection = (sectionId) => {
 /* Dynamic Island Navigation */
 .dynamic-island {
   position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
   backdrop-filter: blur(20px);
   background: rgba(38, 70, 83, 0.9);
@@ -112,10 +114,13 @@ const scrollToSection = (sectionId) => {
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .dynamic-island {
-
-    transform: none;
-    border-radius: 25px;
-    width: calc(100% - 20px);
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+    transform: none !important;
+    border-radius: 25px !important;
   }
   
   .nav-items {
@@ -136,7 +141,9 @@ const scrollToSection = (sectionId) => {
 
 @media (max-width: 480px) {
   .dynamic-island {
-    width: calc(100% - 16px);
+    border-radius: 18px !important;
+    margin-left: 4px !important;
+    margin-right: 4px !important;
   }
   
   .nav-item {

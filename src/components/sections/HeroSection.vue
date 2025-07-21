@@ -1,17 +1,17 @@
 <template>
   <section id="inicio" class="hero-section">
     <div class="container">
-      <div class="row hero-grid align-items-center justify-content-between flex-lg-row flex-column-reverse ">
-        <div class="col-lg-auto col-12 hero-content order-lg-1 order-2  mb-5 mb-lg-0">
-          <h1 class="hero-title ">
+      <div class="row hero-grid align-items-center justify-content-between flex-lg-row flex-column-reverse">
+        <div class="col-auto hero-content order-lg-1 order-2 mb-5 mb-lg-0">
+          <h1 class="hero-title">
             <span class="greeting-line text-start">{{ t('hero.greeting') }}</span>
             <span class="name-line text-gradient my-2 my-lg-0">{{ t('hero.name') }}</span>
           </h1>
-          <h2 class="hero-subtitle-role ">{{ t('hero.title') }}</h2>
+          <h2 class="hero-subtitle-role">{{ t('hero.title') }}</h2>
           <p class="hero-subtitle text-start mx-1 mx-lg-0">
             {{ t('hero.description') }}
           </p>
-          <div class=" gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start">
+          <div class="gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start">
             <button class="btn btn-primary-custom" @click="handleDownloadCV">
               <i class="bi bi-download" aria-hidden="true"></i>
               {{ t('hero.downloadCV') }}
@@ -22,12 +22,10 @@
             </button>
           </div>
         </div>
-
-        <div class="col-lg-auto col-12 order-lg-2 order-1">
-          <div
-            class="d-flex flex-lg-row mx-auto flex-column align-items-center justify-content-center gap-4 col-11 col-lg-auto">
+        <div class="col-auto order-lg-2 order-1">
+          <div class="d-flex flex-lg-row flex-column align-items-center justify-content-center gap-4">
             <!-- Foto de perfil -->
-            <div class="profile-card ">
+            <div class="profile-card mx-2 mx-md-0">
               <div class="profile-image-wrapper">
                 <div class="profile-image">
                   <img :src="profilePhoto" :alt="t('accessibility.profileImage')" class="profile-photo">
@@ -46,10 +44,8 @@
                 <p class="profile-institution">{{ t('hero.institution') }}</p>
               </div>
             </div>
-
             <!-- Redes sociales -->
-            <div
-              class="social-links d-flex flex-lg-column flex-row align-items-center justify-content-center gap-3 mt-lg-0 mt-2">
+            <div class="social-links d-flex flex-lg-column flex-row align-items-center justify-content-center gap-3 mt-lg-0 mt-2">
               <a v-for="social in socialLinks" :key="social.platform" :href="social.url"
                 :class="['social-link', social.class]" :title="social.platform"
                 :aria-label="t('accessibility.socialLink').replace('{platform}', social.platform)" target="_blank"
@@ -259,7 +255,6 @@ const handleDownloadCV = () => {
   backdrop-filter: blur(20px);
   border: 3px solid var(--tiffany-blue);
   transition: var(--transition-normal);
-  max-width: 450px;
 }
 
 .profile-card:hover {

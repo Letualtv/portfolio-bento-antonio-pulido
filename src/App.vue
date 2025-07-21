@@ -225,11 +225,11 @@ function dismissGithubStar() {
   align-items: center;
   gap: 12px;
 }
+/* Botón flotante GitHub Star - base */
 .star-btn-link {
   color: var(--honeydew, #f1faeeff) !important;
   border: 2px solid var(--persian-green, #2a9d8fff) !important;
   background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%) !important;
-  /* Degradado igual que el botón Hero, texto y borde claros */
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -243,13 +243,18 @@ function dismissGithubStar() {
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 [data-theme="dark"] .star-btn-link {
-  background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%);
-  color: var(--honeydew, #f1faeeff);
-  border: 2px solid var(--persian-green, #2a9d8fff);
+  background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%) !important;
+  color: var(--honeydew, #f1faeeff) !important;
+  border: 2px solid var(--persian-green, #2a9d8fff) !important;
 }
-
+.star-btn-link:hover {
+  background: linear-gradient(135deg, var(--saffron, #e9c46aff) 0%, var(--persian-green, #2a9d8fff) 100%) !important;
+  color: var(--charcoal, #222) !important;
+  border-color: var(--persian-green, #2a9d8fff) !important;
+  box-shadow: 0 4px 18px 0 rgba(42,157,143,0.18), 0 1.5px 6px 0 rgba(233,196,106,0.12);
+}
 .star-btn-link:hover .star-icon svg {
-  fill: #fff;
+  fill: var(--charcoal, #222) !important;
 }
 .star-icon svg {
   transition: fill 0.2s;
@@ -279,7 +284,6 @@ function dismissGithubStar() {
 }
 .close-star-btn:hover {
   background: rgba(255, 215, 0, 0.13);
-  color: var(--accent-color, #FFD700);
 }
 
 @keyframes fadeInUp {

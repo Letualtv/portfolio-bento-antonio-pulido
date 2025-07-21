@@ -1,15 +1,23 @@
-# Portfolio Bento
+# Portfolio Bento de Antonio Pulido
 
-Portfolio Bento es un portfolio personal moderno desarrollado con Vite + Vue 3. Incluye animaciones, diseño responsive, soporte multilenguaje y una integración sencilla con EmailJS para el formulario de contacto.
+
+Portfolio Bento es mi portfolio desarrollado con Vite + Vue 3. Incluye animaciones, diseño responsive, soporte multilenguaje (ES/EN), UI inspirada en bento grid, y una integración sencilla con EmailJS para el formulario de contacto. El diseño y los colores están cuidadosamente adaptados para máxima consonancia visual y experiencia de usuario, incluyendo:
+
+- Botón flotante de GitHub Star con animación y gradiente pastel
+- Tarjetas de proyectos con hover animado, botones contextuales y soporte multilenguaje
+- Navegación dinámica y controles de tema/idioma
+
 
 ## Características principales
 
 - **Frontend:** Vue 3 + Vite
-- **Diseño:** Responsive, estilo "bento" y paleta pastel personalizada
-- **Animaciones:** CSS y transiciones Vue
-- **Multilenguaje:** Español/Inglés (fácil de ampliar)
+- **Diseño:** Responsive, estilo "bento" y paleta pastel personalizada (Coolors)
+- **Animaciones:** CSS y transiciones Vue, efectos de hover en tarjetas y botones
+- **Multilenguaje:** Español/Inglés (cambia todo el contenido, botones y descripciones)
+- **Accesibilidad:** Navegación por teclado y skip link
 - **Contacto:** Formulario funcional con EmailJS
 - **Despliegue:** Optimizado para Vercel
+
 
 ## Estructura del proyecto
 
@@ -19,11 +27,12 @@ Portfolio Bento es un portfolio personal moderno desarrollado con Vite + Vue 3. 
 - `src/config/emailjs.js` — Configuración de EmailJS
 - `src/App.vue` — Componente principal
 
+
 ## Variables de entorno
 
 Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
-```
+```env
 VITE_EMAILJS_SERVICE_ID=tu_service_id
 VITE_EMAILJS_TEMPLATE_ID=tu_template_id
 VITE_EMAILJS_PUBLIC_KEY=tu_public_key
@@ -33,11 +42,13 @@ VITE_EMAILJS_PUBLIC_KEY=tu_public_key
 - No subas el archivo `.env` al repositorio. Añade `.env` a tu `.gitignore`.
 - En Vercel, configura estas variables en Settings > Environment Variables.
 
+
 ## Scripts principales
 
 - `npm install` — instala las dependencias
 - `npm run dev` — inicia el servidor de desarrollo
-- `npm run build` — genera la build de producción
+- `npm run build` — genera la versión de producción
+
 
 ## Despliegue en Vercel
 
@@ -48,12 +59,14 @@ VITE_EMAILJS_PUBLIC_KEY=tu_public_key
 5. Output Directory: `dist`
 6. Despliega y ¡listo!
 
+
 ## Notas
 
-- El componente `HelloWorld.vue` ha sido eliminado porque no es necesario para el portfolio.
-- Los proyectos destacados están en construcción y se mostrarán próximamente.
-- El diseño y los colores están inspirados en la paleta pastel de Coolors.
+- El diseño y los colores están inspirados en distintas paletas de [Coolors](https://coolors.co/).
+- El botón flotante de GitHub Star y las tarjetas de proyectos usan gradientes y animaciones en consonancia con la paleta.
+- Todo el contenido es multilenguaje (ES/EN), incluyendo botones, descripciones y mensajes de UI.
+
 
 ## Licencia
 
-Uso permitido con atribución. No se permite uso comercial. Consulta el footer para más detalles.
+Este proyecto es de uso libre para fines personales o educativos, siempre que se mencione la autoría. No está permitido el uso comercial.
