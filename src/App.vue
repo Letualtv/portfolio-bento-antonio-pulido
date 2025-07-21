@@ -185,10 +185,10 @@ function dismissGithubStar() {
 <!--     <HeroSection @scroll-to-section="scrollToSection" />
     <AboutSection @scroll-to-section="scrollToSection" /> -->
     <ExperienceSection @scroll-to-section="scrollToSection" />
-    <ContactSection />
+<!--     <ContactSection /> -->
     
     <!-- Footer -->
-    <AppFooter />
+<!--     <AppFooter /> -->
   </div>
 </template>
 
