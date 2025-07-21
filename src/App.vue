@@ -146,10 +146,10 @@ function dismissGithubStar() {
 </script>
 
 <template>
-  <div class="portfolio-container">
+   <div class="portfolio-container">
     <!-- Botón flotante para dar estrella en GitHub, abajo derecha y cerrable -->
-    <div v-if="showGithubStar" class="github-star-toast">
-      <div class="toast-content" style="justify-content: center; align-items: center; gap: 12px;">
+   <!-- <div v-if="showGithubStar" class="github-star-toast">
+      <div class="toast-content" style="justify-content: center; align-items: center;">
         <a
           href="https://github.com/Letualtv/portfolio-bento-antonio-pulido"
           target="_blank"
@@ -168,9 +168,9 @@ function dismissGithubStar() {
           <i class="bi bi-x"></i>
         </button>
       </div>
-    </div>
+    </div> -->
     <!-- Skip link para accesibilidad -->
-    <a href="#inicio" class="skip-link">{{ t('accessibility.skipToMain') }}</a>
+   <!--  <a href="#inicio" class="skip-link">{{ t('accessibility.skipToMain') }}</a> -->
     
     <!-- Controles de tema e idioma -->
     <ThemeControls />
@@ -197,7 +197,6 @@ function dismissGithubStar() {
 .portfolio-container {
   min-height: 100vh;
   background: var(--background-primary);
-  position: relative;
   transition: background-color var(--transition-normal);
 }
 
