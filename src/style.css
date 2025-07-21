@@ -68,7 +68,7 @@
   --shadow-xl: 0 12px 32px var(--shadow-color);
 }
 
-* {
+/* * {
   box-sizing: border-box;
 }
  body {
@@ -84,7 +84,7 @@
  #app {
   width: 100%;
   min-height: 100vh;
-} 
+}  */
 
 /* Scroll suave */
 html {
@@ -107,7 +107,7 @@ html {
 }
 
 /* Reset de estilos para elementos */
-a {
+/* a {
   font-weight: 500;
   color: var(--primary-color);
   text-decoration: none;
@@ -151,7 +151,7 @@ h1, h2, h3, h4, h5, h6 {
 p {
   margin: 0 0 1rem 0;
   color: var(--text-primary);
-}
+} */
 
 /* Utilidades adicionales */
 .text-center {
@@ -173,14 +173,14 @@ p {
 }
 
 /* Enfoque mejorado para accesibilidad */
-:focus-visible {
+/* :focus-visible {
   outline: 2px solid var(--secondary-color);
   outline-offset: 2px;
   border-radius: var(--border-radius-sm);
-}
+} */
 
 /* Skip link para lectores de pantalla */
-.skip-link {
+/* .skip-link {
   position: absolute;
   top: -40px;
   left: 6px;
@@ -192,8 +192,9 @@ p {
   font-weight: 600;
   z-index: 9999;
   transition: top var(--transition-fast);
-}
-
+} */
+/* 
 .skip-link:focus {
   top: 6px;
 }
+ */
