@@ -188,7 +188,7 @@ function dismissGithubStar() {
  <ContactSection /> 
     
     <!-- Footer -->
-<!--     <AppFooter /> -->
+    <AppFooter />
   </div>
 </template>
 
