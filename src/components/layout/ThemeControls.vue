@@ -1,18 +1,20 @@
 <template>
-  <div class="fixed-controls">
+  <div class="fixed-controls d-flex gap-2 position-fixed align-items-center" style="z-index:1001;top:20px;right:20px;backdrop-filter:blur(10px);">
     <button 
       @click="toggleTheme" 
-      class="control-btn theme-toggle"
+      class="control-btn theme-toggle btn btn-light rounded-circle d-flex align-items-center justify-content-center shadow border"
       :title="t('accessibility.toggleTheme')"
       :aria-label="t('accessibility.toggleTheme')"
+      type="button"
     >
       <i :class="isDark ? 'bi bi-sun' : 'bi bi-moon'" aria-hidden="true"></i>
     </button>
     <button 
       @click="toggleLanguage" 
-      class="control-btn lang-toggle"
+      class="control-btn lang-toggle btn btn-light rounded-circle d-flex align-items-center justify-content-center shadow border"
       :title="t('accessibility.toggleLanguage')"
       :aria-label="t('accessibility.toggleLanguage')"
+      type="button"
     >
       {{ currentLang.toUpperCase() }}
     </button>
@@ -29,81 +31,56 @@ const { currentLang, toggleLanguage, t } = useI18n()
 
 <style scoped>
 .fixed-controls {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1001;
-  display: flex;
-  gap: 8px;
+  /* Bootstrap utilities para layout y blur, solo detalles extra aquí */
 }
-
 .control-btn {
   width: 48px;
   height: 48px;
-  border-radius: 50%;
-  border: none;
-  background: var(--background-secondary);
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: var(--transition-normal);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(10px);
+  font-size: 16px;
   font-weight: 600;
-  font-size: 14px;
-  border: 1px solid var(--border-color);
+  transition: var(--transition-normal);
 }
-
 .control-btn:hover {
   background: linear-gradient(135deg, var(--persian-green), var(--saffron));
-  color: var(--honeydew);
+  color: var(--honeydew) !important;
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
-
 .control-btn:focus {
   outline: 2px solid var(--secondary-color);
   outline-offset: 2px;
 }
-
 .theme-toggle i {
   font-size: 18px;
 }
-
-/* Mobile Responsive */
 @media (max-width: 768px) {
   .fixed-controls {
-    top: 10px;
-    right: 10px;
-    gap: 6px;
+    top: 10px !important;
+    right: 10px !important;
+    left: auto !important;
+    gap: 6px !important;
   }
-  
   .control-btn {
     width: 44px;
     height: 44px;
-    font-size: 12px;
+    font-size: 14px;
   }
-  
   .theme-toggle i {
     font-size: 16px;
   }
 }
-
 @media (max-width: 480px) {
   .fixed-controls {
-    top: 90px;
-    right: 8px;
-    gap: 4px;
+    top: 90px !important;
+    right: 8px !important;
+    left: auto !important;
+    gap: 4px !important;
   }
-  
   .control-btn {
     width: 40px;
     height: 40px;
-    font-size: 11px;
+    font-size: 12px;
   }
-  
   .theme-toggle i {
     font-size: 14px;
   }
