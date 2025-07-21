@@ -51,7 +51,7 @@ const scrollToSection = (sectionId) => {
   }
 }
 </script>
-<!-- 
+
 <style scoped>
 /* Dynamic Island Navigation */
 .dynamic-island {
@@ -153,4 +153,3 @@ const scrollToSection = (sectionId) => {
 
 }
 </style>
- -->

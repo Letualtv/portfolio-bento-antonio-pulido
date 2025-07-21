@@ -27,7 +27,7 @@ const { isDark, toggleTheme } = useTheme()
 const { currentLang, toggleLanguage, t } = useI18n()
 </script>
 
-<!-- <style scoped>
+<style scoped>
 .fixed-controls {
   position: fixed;
   top: 20px;
@@ -74,11 +74,11 @@ const { currentLang, toggleLanguage, t } = useI18n()
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .fixed-controls {
+/*   .fixed-controls {
     top: 10px;
     right: 10px;
     gap: 6px;
-  }
+  } */
   
   .control-btn {
     width: 44px;
@@ -92,11 +92,11 @@ const { currentLang, toggleLanguage, t } = useI18n()
 }
 
 @media (max-width: 480px) {
-  .fixed-controls {
+/*   .fixed-controls {
     top: 90px;
     right: 8px;
     gap: 4px;
-  }
+  } */
   
   .control-btn {
     width: 40px;
@@ -108,4 +108,4 @@ const { currentLang, toggleLanguage, t } = useI18n()
     font-size: 14px;
   }
 }
-</style> -->
+</style>
