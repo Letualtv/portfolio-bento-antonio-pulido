@@ -176,16 +176,16 @@ function dismissGithubStar() {
     <ThemeControls />
     
     <!-- Navegación Dynamic Island -->
-<!--     <DynamicNavigation 
+<DynamicNavigation 
       :activeSection="activeSection" 
       @scroll-to-section="scrollToSection" 
-    /> -->
+    /> 
 
     <!-- Secciones del portfolio -->
-<!--     <HeroSection @scroll-to-section="scrollToSection" />
-    <AboutSection @scroll-to-section="scrollToSection" /> -->
+ <HeroSection @scroll-to-section="scrollToSection" />
+    <AboutSection @scroll-to-section="scrollToSection" />
     <ExperienceSection @scroll-to-section="scrollToSection" />
-<!--     <ContactSection /> -->
+ <ContactSection /> 
     
     <!-- Footer -->
 <!--     <AppFooter /> -->
