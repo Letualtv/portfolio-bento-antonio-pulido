@@ -1,5 +1,5 @@
 <template>
-  <nav class="dynamic-island mt-3" role="navigation" aria-label="Main navigation">
+<!--   <nav class="dynamic-island mt-3" role="navigation" aria-label="Main navigation">
     <div class="nav-items" style="justify-content: center;">
       <button 
         v-for="item in navigationItems"
@@ -12,7 +12,7 @@
         <span class="nav-label">{{ item.label }}</span>
       </button>
     </div>
-  </nav>
+  </nav> -->
 </template>
 
 <script setup>
