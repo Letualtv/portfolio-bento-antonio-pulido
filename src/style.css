@@ -68,14 +68,13 @@
   --shadow-xl: 0 12px 32px var(--shadow-color);
 }
 
-* {
+/* * {
   box-sizing: border-box;
 }
-
-body {
+ */
+/* body {
   margin: 0;
   padding: 0;
-  min-width: 320px;
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
   background-color: var(--background-primary);
@@ -83,21 +82,18 @@ body {
   overflow-x: hidden;
   transition: background-color var(--transition-normal), color var(--transition-normal);
 }
-
-#app {
+ */
+/* #app {
   width: 100%;
   min-height: 100vh;
-}
+} */
 
 /* Scroll suave */
 html {
   scroll-behavior: smooth;
 }
 
-/* Scrollbar personalizada */
-::-webkit-scrollbar {
-  width: 8px;
-}
+
 
 ::-webkit-scrollbar-track {
   background: var(--background-secondary);
