@@ -113,7 +113,7 @@ const handleDownloadCV = () => {
 }
 </script>
 
-<!-- <style scoped>
+<style scoped>
 /* Sección Hero */
 .hero-section {
   padding: 7rem 0 3rem;
@@ -487,4 +487,4 @@ const handleDownloadCV = () => {
   transition: box-shadow 0.3s cubic-bezier(.4,0,.2,1), border-color 0.3s cubic-bezier(.4,0,.2,1);
 }
 
-</style> -->
+</style> 
