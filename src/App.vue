@@ -182,8 +182,8 @@ function dismissGithubStar() {
     /> -->
 
     <!-- Secciones del portfolio -->
-    <HeroSection @scroll-to-section="scrollToSection" />
-    <AboutSection @scroll-to-section="scrollToSection" />
+<!--     <HeroSection @scroll-to-section="scrollToSection" />
+    <AboutSection @scroll-to-section="scrollToSection" /> -->
     <ExperienceSection @scroll-to-section="scrollToSection" />
     <ContactSection />
     
