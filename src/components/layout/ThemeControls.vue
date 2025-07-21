@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-controls d-flex gap-2 position-fixed align-items-center" style="z-index:1001;top:20px;right:20px;backdrop-filter:blur(10px);">
+  <div class="fixed-controls d-flex gap-2 position-fixed align-items-center end-0 top-0 mt-md-3 mt-5 pt-5 pt-md-0 me-3" style="z-index:1001;">
     <button 
       @click="toggleTheme" 
       class="control-btn theme-toggle btn btn-light rounded-circle d-flex align-items-center justify-content-center shadow border"
@@ -30,12 +30,9 @@ const { currentLang, toggleLanguage, t } = useI18n()
 </script>
 
 <style scoped>
-.fixed-controls {
-  /* Bootstrap utilities para layout y blur, solo detalles extra aquí */
-}
 .control-btn {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   font-size: 16px;
   font-weight: 600;
   transition: var(--transition-normal);
@@ -54,12 +51,6 @@ const { currentLang, toggleLanguage, t } = useI18n()
   font-size: 18px;
 }
 @media (max-width: 768px) {
-  .fixed-controls {
-    top: 10px !important;
-    right: 10px !important;
-    left: auto !important;
-    gap: 6px !important;
-  }
   .control-btn {
     width: 44px;
     height: 44px;
@@ -70,12 +61,6 @@ const { currentLang, toggleLanguage, t } = useI18n()
   }
 }
 @media (max-width: 480px) {
-  .fixed-controls {
-    top: 90px !important;
-    right: 8px !important;
-    left: auto !important;
-    gap: 4px !important;
-  }
   .control-btn {
     width: 40px;
     height: 40px;
