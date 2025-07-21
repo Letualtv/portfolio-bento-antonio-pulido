@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="fixed-controls">
     <button 
       @click="toggleTheme" 
@@ -17,7 +17,7 @@
       {{ currentLang.toUpperCase() }}
     </button>
   </div>
-</template>
+</template> -->
 
 <script setup>
 import { useTheme } from '../../composables/useTheme.js'
