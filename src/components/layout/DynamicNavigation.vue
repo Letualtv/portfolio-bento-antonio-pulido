@@ -1,16 +1,15 @@
 <template>
-  <nav class="dynamic-island navbar navbar-expand bg-body-tertiary shadow-sm rounded-pill px-2 py-1 position-fixed top-0 start-50 translate-middle-x mt-3" role="navigation" aria-label="Main navigation" style="z-index:1000;backdrop-filter:blur(20px);">
-    <div class="nav-items d-flex gap-1 w-100 justify-content-center">
+  <nav class="dynamic-island" role="navigation" aria-label="Main navigation">
+    <div class="nav-items">
       <button 
         v-for="item in navigationItems"
         :key="item.id"
-        :class="['nav-item btn btn-link px-3 py-2 rounded-pill d-flex align-items-center gap-2', { active: activeSection === item.id } ]"
+        :class="['nav-item', { active: activeSection === item.id }]"
         @click="scrollToSection(item.id)"
         :aria-label="`${t('nav.goTo')} ${item.label}`"
-        style="color:var(--honeydew);min-height:44px;white-space:nowrap;"
       >
         <i :class="`bi bi-${item.icon}`" aria-hidden="true"></i>
-        <span class="nav-label d-none d-md-inline">{{ item.label }}</span>
+        <span class="nav-label">{{ item.label }}</span>
       </button>
     </div>
   </nav>
@@ -54,59 +53,106 @@ const scrollToSection = (sectionId) => {
 </script>
 
 <style scoped>
+/* Dynamic Island Navigation */
 .dynamic-island {
-  /* Bootstrap ya aplica la mayoría de estilos, solo detalles extra aquí */
-  border: 1px solid var(--tiffany-blue);
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  backdrop-filter: blur(20px);
   background: rgba(38, 70, 83, 0.9);
-  /* Blur y sombra ya en inline style */
+  border: 1px solid var(--tiffany-blue);
+  border-radius: 50px;
+  padding: 8px;
+  box-shadow: var(--shadow-xl);
+  transition: var(--transition-normal);
 }
+
 [data-theme="dark"] .dynamic-island {
   background: rgba(29, 53, 87, 0.95);
   border-color: var(--persian-green);
 }
-.nav-item.active {
-  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  color: var(--honeydew) !important;
-  box-shadow: 0 4px 12px rgba(69, 123, 157, 0.4);
+
+.nav-items {
+  display: flex;
+  gap: 4px;
 }
-.nav-item:hover:not(.active) {
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  background: transparent;
+  color: var(--honeydew);
+  border-radius: 50px;
+  transition: var(--transition-normal);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 44px; /* Accessibility: minimum touch target */
+}
+
+.nav-item:hover {
   background: rgba(148, 210, 189, 0.3);
-  color: var(--honeydew) !important;
+  color: var(--honeydew);
   transform: translateY(-1px);
 }
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
+  color: var(--honeydew);
+  box-shadow: 0 4px 12px rgba(69, 123, 157, 0.4);
+}
+
 .nav-item i {
   font-size: 16px;
+  flex-shrink: 0;
 }
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .dynamic-island {
-    left: 10px !important;
-    right: 10px !important;
-    transform: none !important;
-    border-radius: 25px !important;
-    width: calc(100% - 20px) !important;
+    left: 10px;
+    right: 10px;
+    transform: none;
+    border-radius: 25px;
+    width: calc(100% - 20px);
   }
+  
+  .nav-items {
+    justify-content: space-between;
+  }
+  
   .nav-label {
-    display: none !important;
+    display: none;
   }
+  
   .nav-item {
-    padding: 12px !important;
-    min-width: 44px !important;
-    justify-content: center !important;
-    flex: 1 1 0%;
+    padding: 12px;
+    min-width: 44px;
+    justify-content: center;
+    flex: 1;
   }
 }
+
 @media (max-width: 480px) {
   .dynamic-island {
-    left: 8px !important;
-    right: 8px !important;
-    width: calc(100% - 16px) !important;
+    left: 8px;
+    right: 8px;
+    width: calc(100% - 16px);
   }
+  
   .nav-item {
-    padding: 10px 8px !important;
-    min-width: 40px !important;
+    padding: 10px 8px;
+
   }
+  
   .nav-item i {
-    font-size: 14px !important;
+    font-size: 14px;
   }
 }
 </style>
