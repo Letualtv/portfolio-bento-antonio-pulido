@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="fixed-controls">
     <button 
       @click="toggleTheme" 
@@ -17,7 +17,7 @@
       {{ currentLang.toUpperCase() }}
     </button>
   </div>
-</template> -->
+</template>
 
 <script setup>
 import { useTheme } from '../../composables/useTheme.js'
@@ -27,7 +27,7 @@ const { isDark, toggleTheme } = useTheme()
 const { currentLang, toggleLanguage, t } = useI18n()
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .fixed-controls {
   position: fixed;
   top: 20px;
@@ -108,4 +108,4 @@ const { currentLang, toggleLanguage, t } = useI18n()
     font-size: 14px;
   }
 }
-</style>
+</style> -->
