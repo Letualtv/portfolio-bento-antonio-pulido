@@ -1,5 +1,5 @@
-<template>
-  <nav class="dynamic-island mt-3" role="navigation" aria-label="Main navigation" style="left: 50%; transform: translateX(-50%);">
+<template class="container">
+  <nav class="dynamic-island mt-3 " role="navigation" aria-label="Main navigation" style="left: 50%; transform: translateX(-50%);">
     <div class="nav-items" style="justify-content: center;">
       <button 
         v-for="item in navigationItems"
