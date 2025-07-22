@@ -1,111 +1,80 @@
 <template>
-  <section id="contacto" class="section contact-section">
+  <section id="contacto" class="contact-section">
     <div class="container">
       <h2 class="section-title">{{ t('sections.contactTitle') }}</h2>
-      <p class="contact-description">
-        {{ t('contact.contactDescription') }}
-      </p>
-      
-      <div class="contact-content">
-        <div class="contact-info">
-          
-          <div class="contact-methods">
-            <div v-for="(method, idx) in contactMethods" :key="method.type" class="contact-method" :class="{'location-method d-block': method.type === 'location'}">
-              <template v-if="method.type !== 'location'">
-                <a :href="method.url" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center gap-3 w-100 text-decoration-none">
-                  <div class="contact-icon flex-shrink-0">
-                    <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
+      <p class="contact-description">{{ t('contact.contactDescription') }}</p>
+      <div class="row contact-content gx-4 gy-4">
+        <div class="col-12 col-lg-6 d-flex order-2 order-lg-1">
+          <div class="contact-info flex-fill p-3 p-md-5">
+            <div class="contact-methods">
+              <div v-for="(method, idx) in contactMethods" :key="method.type" class="contact-method p-3" :class="{'location-method d-block': method.type === 'location'}">
+                <template v-if="method.type !== 'location'">
+                  <a :href="method.url" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center gap-3 w-100 text-decoration-none">
+                    <div class="contact-icon flex-shrink-0">
+                      <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
+                    </div>
+                    <div class="contact-details d-flex flex-column text-start w-100">
+                      <div class="contact-label mb-1">{{ method.label }}</div>
+                      <div class="contact-value mb-1">{{ method.value }}</div>
+                    </div>
+                  </a>
+                </template>
+                <template v-else>
+                  <div class="d-flex align-items-center gap-3 mb-2 w-100">
+                    <div class="contact-icon flex-shrink-0">
+                      <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
+                    </div>
+                    <div class="contact-details d-flex flex-column text-start w-100">
+                      <div class="contact-label mb-1">{{ method.label }}</div>
+                      <div class="contact-value mb-1">{{ method.value }}</div>
+                    </div>
                   </div>
-                  <div class="contact-details d-flex flex-column text-start w-100">
-                    <div class="contact-label mb-1">{{ method.label }}</div>
-                    <div class="contact-value mb-1">{{ method.value }}</div>
+                  <div class="map-container mt-3">
+                    <iframe
+                      src="https://www.openstreetmap.org/export/embed.html?bbox=-5.6000%2C37.3000%2C-3.8000%2C38.7000&layer=mapnik&marker=37.8882%2C-4.7916"
+                      width="100%"
+                      height="200"
+                      style="border:0;"
+                      allowfullscreen=""
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade"
+                      title="Provincia de Córdoba, España"
+                    ></iframe>
                   </div>
-                </a>
-              </template>
-              <template v-else>
-                <div class="d-flex align-items-center gap-3 mb-2 w-100">
-                  <div class="contact-icon flex-shrink-0">
-                    <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
-                  </div>
-                  <div class="contact-details d-flex flex-column text-start w-100">
-                    <div class="contact-label mb-1">{{ method.label }}</div>
-                    <div class="contact-value mb-1">{{ method.value }}</div>
-                  </div>
-                </div>
-                <div class="map-container mt-3">
-                  <iframe
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=-5.6000%2C37.3000%2C-3.8000%2C38.7000&layer=mapnik&marker=37.8882%2C-4.7916"
-                    width="100%"
-                    height="200"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="Provincia de Córdoba, España"
-                  ></iframe>
-                </div>
-              </template>
+                </template>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="contact-form-container">
-          <form @submit.prevent="handleSubmit" class="contact-form">
-            <div class="form-group">
-              <label for="name" class="form-label">{{ t('contact.name') }}</label>
-              <input 
-                type="text" 
-                id="name" 
-                v-model="form.name"
-                class="form-input"
-                required
-              >
-            </div>
-            
-            <div class="form-group">
-              <label for="email" class="form-label">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                v-model="form.email"
-                class="form-input"
-                required
-              >
-            </div>
-            
-            <div class="form-group">
-              <label for="subject" class="form-label">{{ t('contact.subject') }}</label>
-              <input 
-                type="text" 
-                id="subject" 
-                v-model="form.subject"
-                class="form-input"
-                required
-              >
-            </div>
-            
-            <div class="form-group">
-              <label for="message" class="form-label">{{ t('contact.message') }}</label>
-              <textarea 
-                id="message" 
-                v-model="form.message"
-                class="form-textarea"
-                rows="5"
-                required
-              ></textarea>
-            </div>
-            
-            <button type="submit" class="btn btn-primary-custom" :disabled="isSubmitting">
-              <i class="bi bi-send" aria-hidden="true"></i>
-              {{ isSubmitting ? t('contact.sending') : t('contact.send') }}
-            </button>
-            
-            <!-- Mensaje de estado -->
-            <div v-if="submitMessage" class="submit-message" :class="submitStatus">
-              <i :class="submitStatus === 'success' ? 'bi bi-check-circle' : 'bi bi-exclamation-triangle'" aria-hidden="true"></i>
-              {{ submitMessage }}
-            </div>
-          </form>
+        <div class="col-12 col-lg-6 d-flex order-1 order-lg-2">
+          <div class="contact-form-container flex-fill">
+            <form @submit.prevent="handleSubmit" class="contact-form">
+              <div class="form-group">
+                <label for="name" class="form-label">{{ t('contact.name') }}</label>
+                <input type="text" id="name" v-model="form.name" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" v-model="form.email" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label for="subject" class="form-label">{{ t('contact.subject') }}</label>
+                <input type="text" id="subject" v-model="form.subject" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label for="message" class="form-label">{{ t('contact.message') }}</label>
+                <textarea id="message" v-model="form.message" class="form-textarea" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary-custom" :disabled="isSubmitting">
+                <i class="bi bi-send" aria-hidden="true"></i>
+                {{ isSubmitting ? t('contact.sending') : t('contact.send') }}
+              </button>
+              <div v-if="submitMessage" class="submit-message" :class="submitStatus">
+                <i :class="submitStatus === 'success' ? 'bi bi-check-circle' : 'bi bi-exclamation-triangle'" aria-hidden="true"></i>
+                {{ submitMessage }}
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -261,12 +230,7 @@ const handleSubmit = async () => {
   margin: 0 auto 3rem;
 }
 
-.contact-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: stretch;
-}
+
 
 .contact-subtitle {
   font-size: 2rem;
@@ -283,21 +247,18 @@ const handleSubmit = async () => {
   border-radius: var(--border-radius-xl);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
-  padding: 2rem;
+
 }
 
 .contact-methods {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  flex: 1;
 }
 
 .contact-method {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
   background: var(--background-secondary);
   border-radius: var(--border-radius-lg);
   text-decoration: none;
@@ -376,15 +337,11 @@ const handleSubmit = async () => {
   align-items: flex-start;
 }
 
-.location-method .contact-details {
-  width: 100%;
-}
+
 
 .location-method .location-header {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
 }
 
 .location-method:hover {
@@ -409,19 +366,16 @@ const handleSubmit = async () => {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  flex: 1;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .form-label {
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 0.9rem;
 }
 
 .form-input,
@@ -517,59 +471,7 @@ const handleSubmit = async () => {
   }
 }
 
-/* Responsive Design */
-@media (max-width: 850px) {
-  .contact-section {
-    padding: 4rem 0;
-  }
-  
-  .contact-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  
-  .contact-form-container {
-    padding: 1.5rem;
-  }
-  
-  .contact-method {
-    padding: 0.75rem;
-  }
-  
-  .contact-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-  }
-}
 
-@media (max-width: 480px) {
-  .contact-section {
-    padding: 4rem 0;
-  }
-  
-  .container {
-    padding: 0 0.75rem;
-  }
-  
-  .contact-form-container {
-    padding: 1rem;
-  }
-  
-  .contact-methods {
-    gap: 0.75rem;
-  }
-  
-  .contact-method {
-    padding: 0.5rem;
-    flex-direction: column;
-    text-align: center;
-    gap: 0.75rem;
-  }
-  
-  .form-input,
-  .form-textarea {
-    padding: 0.6rem 0.8rem;
-  }
-}
+
+
 </style>

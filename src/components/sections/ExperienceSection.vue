@@ -380,6 +380,42 @@ function handleShowMore() {
     border-top-left-radius: var(--border-radius-lg);
     border-top-right-radius: var(--border-radius-lg);
   }
+  .timeline-section {
+    padding-left: 0 !important;
+  }
+  .timeline {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .timeline-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding-left: 0 !important;
+    position: relative;
+    gap: 0.5rem;
+  }
+  .timeline-dot {
+    left: 0.5rem !important;
+    top: 0.5rem;
+    transform: none !important;
+    position: absolute;
+    animation: dotFadeIn 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .timeline-content {
+    width: 100% !important;
+    margin-left: 2.5rem !important;
+    padding: 1rem !important;
+  }
+}
+@keyframes dotFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 @media (max-width: 480px) {
   .project-card-theme {
@@ -429,6 +465,7 @@ function handleShowMore() {
 /* Timeline */
 .timeline-section {
   margin-top: 2rem;
+  padding-left: 0 !important;
 }
 
 .timeline-title {
@@ -469,6 +506,7 @@ function handleShowMore() {
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .timeline-item:nth-child(odd) {
@@ -506,6 +544,7 @@ function handleShowMore() {
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-color);
   width: calc(50% - 4rem);
+  margin-left: 2rem;
 }
 
 .timeline-date {
@@ -650,7 +689,6 @@ function handleShowMore() {
   opacity: 0;
   transform: translateY(30px);
 }
-</style>
 
 /* Animación de entrada para proyectos */
 .project-fade-enter-active, .project-fade-leave-active {
@@ -672,3 +710,23 @@ function handleShowMore() {
   opacity: 0;
   transform: translateY(40px) scale(0.97);
 }
+
+.timeline-dot-boot {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--persian-green);
+  border: 3px solid var(--background-secondary);
+  box-shadow: 0 0 0 4px var(--tiffany-blue);
+  animation: dotFadeIn 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.text-theme {
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--persian-green);
+}
+
+</style>
