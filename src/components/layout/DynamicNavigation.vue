@@ -7,6 +7,7 @@
         :class="['nav-item', { active: activeSection === item.id }]"
         @click="scrollToSection(item.id)"
         :aria-label="`${t('nav.goTo')} ${item.label}`"
+        tabindex="0"
       >
         <i :class="`bi bi-${item.icon}`" aria-hidden="true"></i>
         <span class="nav-label">{{ item.label }}</span>

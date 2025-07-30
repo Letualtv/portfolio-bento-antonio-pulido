@@ -1,4 +1,3 @@
-
 <template>
   <section id="inicio" class="hero-section">
     <div class="container">
@@ -13,10 +12,20 @@
             {{ t('hero.description') }}
           </p>
           <div class="gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start">
-            <button class="btn btn-primary-custom" @click="handleDownloadCV">
+            <a
+              class="btn btn-primary-custom"
+              href="/cv-antonio-pulido.pdf"
+              download="CV-Antonio-Pulido-FullStack-Developer.pdf"
+              target="_blank"
+              rel="noopener noreferrer author"
+              :title="t('hero.downloadCV')"
+              :aria-label="t('hero.downloadCV')"
+              tabindex="0"
+              type="application/pdf"
+            >
               <i class="bi bi-download" aria-hidden="true"></i>
               {{ t('hero.downloadCV') }}
-            </button>
+            </a>
             <button class="btn btn-outline-custom" @click="$emit('scrollToSection', 'experiencia')">
               <i class="bi bi-eye" aria-hidden="true"></i>
               {{ t('hero.viewWork') }}
@@ -64,53 +73,13 @@
 
 <script setup>
 import { useI18n } from '../../composables/useI18n.js'
-import profilePhoto from '../../assets/profile-photo.jpg'
+import profilePhoto from '../../assets/profile-photo.webp'
 import { socialLinksData } from '../../data/socialLinks.js'
 
 const emit = defineEmits(['scrollToSection'])
 const { t } = useI18n()
 
 const socialLinks = socialLinksData
-
-const handleDownloadCV = () => {
-  // Crear enlace de descarga para el CV desde assets
-  const link = document.createElement('a')
-  link.href = '/src/assets/cv-antonio-pulido.pdf'
-  link.download = 'CV-Antonio-Pulido-FullStack-Developer.pdf'
-  link.target = '_blank'
-
-  // Verificar si el archivo existe antes de intentar descargarlo
-  fetch(link.href, { method: 'HEAD' })
-    .then(response => {
-      if (response.ok) {
-        // Si el archivo existe, proceder con la descarga
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-      } else {
-        // Si no existe, mostrar mensaje informativo
-        alert('CV encontrado en assets pero no accesible vía web. Copiando a carpeta public...')
-        console.log('CV disponible en: c:\\Users\\IESA\\Desktop\\otros proyectos\\Porfolio\\portfolio-bento\\src\\assets\\cv-antonio-pulido.pdf')
-        console.log('Para descarga web, copia también a: c:\\Users\\IESA\\Desktop\\otros proyectos\\Porfolio\\portfolio-bento\\public\\cv-antonio-pulido.pdf')
-      }
-    })
-    .catch(() => {
-      // Intentar ruta alternativa en public
-      link.href = '/cv-antonio-pulido.pdf'
-      fetch(link.href, { method: 'HEAD' })
-        .then(response => {
-          if (response.ok) {
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-          } else {
-            alert('Para habilitar la descarga, copia tu CV desde assets a la carpeta public/')
-            console.log('Copia desde: c:\\Users\\IESA\\Desktop\\otros proyectos\\Porfolio\\portfolio-bento\\src\\assets\\cv-antonio-pulido.pdf')
-            console.log('Hacia: c:\\Users\\IESA\\Desktop\\otros proyectos\\Porfolio\\portfolio-bento\\public\\cv-antonio-pulido.pdf')
-          }
-        })
-    })
-}
 </script>
 
 <style scoped>
@@ -487,4 +456,4 @@ const handleDownloadCV = () => {
   transition: box-shadow 0.3s cubic-bezier(.4,0,.2,1), border-color 0.3s cubic-bezier(.4,0,.2,1);
 }
 
-</style> 
+</style>

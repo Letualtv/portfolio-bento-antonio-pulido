@@ -3,9 +3,9 @@
     <div class="container">
       <h2 class="section-title">{{ t('sections.contactTitle') }}</h2>
       <p class="contact-description">{{ t('contact.contactDescription') }}</p>
-      <div class="row contact-content gx-4 gy-4">
+      <div class="row contact-content justify-content-between d-flex g-4">
         <div class="col-12 col-lg-6 d-flex order-2 order-lg-1">
-          <div class="contact-info flex-fill p-3 p-md-5">
+          <div class="contact-info col-12 p-3 p-md-5">
             <div class="contact-methods">
               <div v-for="(method, idx) in contactMethods" :key="method.type" class="contact-method p-3" :class="{'location-method d-block': method.type === 'location'}">
                 <template v-if="method.type !== 'location'">
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="col-12 col-lg-6 d-flex order-1 order-lg-2">
-          <div class="contact-form-container flex-fill">
+          <div class="contact-form-container col-12  p-4 p-md-5">
             <form @submit.prevent="handleSubmit" class="contact-form">
               <div class="form-group">
                 <label for="name" class="form-label">{{ t('contact.name') }}</label>
@@ -240,8 +240,6 @@ const handleSubmit = async () => {
 }
 
 .contact-info {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   background: var(--background-primary);
   border-radius: var(--border-radius-xl);
@@ -353,13 +351,10 @@ const handleSubmit = async () => {
 /* Formulario */
 .contact-form-container {
   background: var(--background-primary);
-  padding: 2rem;
   border-radius: var(--border-radius-xl);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 .contact-form {

@@ -1,5 +1,5 @@
 <template>
-  <footer id="contact" class="footer-portfolio border-top pt-2 pb-2">
+  <footer id="contact" class="footer-portfolio border-top pt-2 pb-2" role="contentinfo">
     <div class="container">
       <div class="row align-items-center justify-content-between gy-2">
         <div class="col-12 col-md-auto order-1 order-md-2 order-lg-2">
@@ -10,10 +10,11 @@
               :href="social.url"
               class="footer-social-link border-0 p-0 d-flex align-items-center justify-content-center bg-transparent"
               :title="social.platform"
+              :aria-label="'Enlace a ' + social.platform"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i :class="`bi bi-${social.icon}`"></i>
+              <i :class="`bi bi-${social.icon} `" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -22,10 +23,10 @@
             © {{ currentYear }} Antonio Pulido.
             <span v-if="t('footer.licence') && t('footer.licence').trim()"></span>
             <span class="footer-cc-block">
-              <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" target="_blank" rel="noopener" class="footer-cc-link">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="footer-cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="footer-cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="footer-cc-icon">
+              <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" target="_blank" rel="license noopener" class="footer-cc-link" aria-label="Licencia Creative Commons BY-NC 4.0">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" class="footer-cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Reconocimiento (BY)" class="footer-cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="No Comercial (NC)" class="footer-cc-icon">
                 CC BY-NC 4.0
               </a>
             </span>
@@ -79,6 +80,15 @@ const socialLinks = socialLinksData.filter(social =>
   font-size: clamp(1.3rem, 2vw, 1.7rem);
   transition: color 0.18s, background 0.18s, transform 0.18s;
   z-index: 2;
+}
+@media (max-width: 1024px) {
+  .footer-social-link i {
+    font-size: 2.2rem;
+  }
+  .footer-social-link {
+    min-width: 3em;
+    min-height: 3em;
+  }
 }
 .footer-social-link:hover i {
   color: linear-gradient(135deg, var(--persian-green), var(--saffron)) !important;

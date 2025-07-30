@@ -1,20 +1,21 @@
 <template>
-  <section id="experiencia" class="experience-section">
+  <section id="experiencia" class="experience-section py-5">
     <div class="container">
-      <h2 class="section-title">{{ t('experience.title') }}</h2>
+      <h2 class="section-title text-center mb-5">{{ t('experience.title') }}</h2>
       
       <div class="experience-content">
         <!-- Proyectos destacados -->
         <transition-group name="project-fade" tag="div" class="row g-4 justify-content-center">
-          <div v-for="project in visibleProjects" :key="project.title" class="col-12 col-sm-10 col-md-6 col-lg-4 d-flex align-items-stretch">
+          <div 
+            v-for="project in visibleProjects" 
+            :key="project.title" 
+            class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch"
+          >
             <div class="project-card-theme w-100 h-100">
               <div class="project-img-container">
                 <img v-if="project.image" :src="project.image" :alt="project.title" class="project-img-theme" />
-                <!-- Botones sobre la imagen en desktop, abajo en móvil/tablet -->
-                <div 
-                  class="project-img-actions"
-                  :class="{ 'show-always': windowWidth <= 1024 }"
-                >
+                <!-- Botones sobre la imagen -->
+                <div class="project-img-actions" :class="{ 'show-always': windowWidth <= 1024 }">
                   <template v-for="type in ['Demo','GitHub']">
                     <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
                       <a
@@ -24,7 +25,7 @@
                         rel="noopener noreferrer"
                         :aria-label="type + ' ' + project.title"
                       >
-                        <i v-if="project.links.find(l => l.label === type).icon" :class="`bi bi-${project.links.find(l => l.label === type).icon}`" aria-hidden="true"></i>
+                        <i :class="`bi bi-${project.links.find(l => l.label === type).icon}`" aria-hidden="true"></i>
                         <span>{{ type }}</span>
                       </a>
                     </template>
@@ -43,7 +44,7 @@
                 <div v-if="project.tech && project.tech.length" class="mb-2 d-flex flex-wrap gap-2">
                   <span v-for="tech in project.tech" :key="tech" class="badge badge-theme">{{ tech }}</span>
                 </div>
-                <!-- En móvil/tablet los botones van abajo -->
+                <!-- Botones en móvil -->
                 <div v-if="windowWidth <= 1024" class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
                   <template v-for="type in ['Demo','GitHub']">
                     <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
@@ -52,17 +53,10 @@
                         class="btn btn-theme d-flex align-items-center gap-2 px-3"
                         target="_blank"
                         rel="noopener noreferrer"
-                        :aria-label="(currentLang === 'en' ? (type === 'Demo' ? 'Live demo' : 'GitHub') : (type === 'Demo' ? 'Demo' : 'GitHub')) + ' ' + project.title"
                       >
-                        <i v-if="project.links.find(l => l.label === type).icon" :class="`bi bi-${project.links.find(l => l.label === type).icon}`" aria-hidden="true"></i>
+                        <i :class="`bi bi-${project.links.find(l => l.label === type).icon}`"></i>
                         <span>{{ currentLang === 'en' ? (type === 'Demo' ? 'Live demo' : 'GitHub') : (type === 'Demo' ? 'Demo' : 'GitHub') }}</span>
                       </a>
-                    </template>
-                    <template v-else>
-                      <span class="btn btn-theme-disabled d-flex align-items-center gap-2 px-3 opacity-75" :aria-label="currentLang === 'en' ? (type === 'Demo' ? 'Live demo not available' : 'GitHub not available') : (type === 'Demo' ? 'Demo no disponible' : 'GitHub no disponible')">
-                        <i :class="`bi bi-x-circle`" aria-hidden="true"></i>
-                        <span>{{ currentLang === 'en' ? (type === 'Demo' ? 'Not available' : 'Not available') : 'No disponible' }}</span>
-                      </span>
                     </template>
                   </template>
                 </div>
@@ -71,48 +65,51 @@
           </div>
         </transition-group>
         <div class="d-flex justify-content-center mt-3" v-if="showMoreProjectsBtn">
-          <button class="show-more-btn" @click="showAllProjects = true">
+          <button class="show-more-btn" @click="showAllProjects = true" tabindex="0">
             {{ currentLang === 'en' ? 'See more projects' : 'Ver más proyectos' }}
           </button>
         </div>
-
-        <!-- Timeline de experiencia -->
-        <div class="timeline-section">
-          <h3 class="timeline-title">{{ t('experience.timelineTitle') }}</h3>
-          <div class="timeline">
-            <transition-group name="timeline-fade" tag="div">
-              <div 
-                v-for="(exp, index) in visibleExperience"
-                :key="index"
-                class="timeline-item"
-              >
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <div class="timeline-date">{{ exp.period }}</div>
-                  <h4 class="timeline-job">{{ exp.position }}</h4>
-                  <div class="timeline-company">{{ exp.company }}</div>
-                  <p class="timeline-description">{{ exp.description }}</p>
+        <!-- Timeline simplificado -->
+        <section class="timeline-section py-5">
+          <h3 class="timeline-title text-center mb-5">
+            {{ t('experience.timelineTitle') }}
+          </h3>
+          <Timeline :value="visibleExperience" :align="timelineAlign" layout="vertical" :animate="true">
+            <template #marker>
+              <span class="timeline-marker-custom"></span>
+            </template>
+            <template #content="slotProps">
+              <div class="card timeline-card-theme mb-4 timeline-fade-in position-relative">
+                <div class="card-body p-4">
+                  <span class="timeline-badge-period animated-pill">{{ slotProps.item.period }}</span>
+                  <h5 class="timeline-job-theme mb-1">{{ slotProps.item.position }}</h5>
+                  <h6 class="timeline-company-theme mb-2">{{ slotProps.item.company }}</h6>
+                  <p class="timeline-description-theme mb-0">{{ slotProps.item.description }}</p>
                 </div>
               </div>
-            </transition-group>
-            <button 
-              v-if="!showAllExperience && experience.length > 1 && windowWidth <= 1024"
+            </template>
+          </Timeline>
+          <div class="d-flex justify-content-center mt-4">
+            <button
+              v-if="!showAllExperience && experience.length > visibleExperience.length"
               class="show-more-btn"
               @click="handleShowMore"
+              tabindex="0"
             >
               {{ t('experience.showMore') }}
             </button>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useI18n } from '../../composables/useI18n.js'
 import imgProyecto1 from '../../assets/proyectos/proyecto1.jpg'
+import Timeline from 'primevue/timeline'
 
 const { t, currentLang } = useI18n()
 
@@ -146,22 +143,10 @@ const proyectosDestacados = computed(() => ([
   {
     title: currentLang.value === 'en' ? 'Project Beta' : 'Proyecto Beta',
     description: currentLang.value === 'en'
-      ? 'Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.'
-      : 'Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.',
+      ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.'
+      : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.',
     image: '',
-    tech: ['JavaScript', 'Bootstrap'],
-    links: [
-      { label: 'Demo', url: '', icon: 'box-arrow-up-right' },
-      { label: 'GitHub', url: '', icon: 'github' }
-    ]
-  },
-  {
-    title: currentLang.value === 'en' ? 'Project Gamma' : 'Proyecto Gamma',
-    description: currentLang.value === 'en'
-      ? 'Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.'
-      : 'Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.',
-    image: '',
-    tech: ['PHP', 'MySQL'],
+    tech: ['Vue', 'Vite', 'CSS'],
     links: [
       { label: 'Demo', url: '', icon: 'box-arrow-up-right' },
       { label: 'GitHub', url: '', icon: 'github' }
@@ -169,47 +154,145 @@ const proyectosDestacados = computed(() => ([
   }
 ]))
 
+// Lógica responsive para proyectos
+const windowWidth = ref(window.innerWidth)
 const visibleProjects = computed(() => {
-  return showAllProjects.value ? proyectosDestacados.value : proyectosDestacados.value.slice(0, 3)
+  if (showAllProjects.value) return proyectosDestacados.value
+  
+  if (windowWidth.value <= 768) { // Móvil
+    return proyectosDestacados.value.slice(0, 1)
+  } else if (windowWidth.value <= 1024) { // Tablet
+    return proyectosDestacados.value.slice(0, 2)
+  } else { // Desktop
+    return proyectosDestacados.value.slice(0, 3)
+  }
 })
 const showMoreProjectsBtn = computed(() => {
-  // Asegura reactividad y correcto refresco
-  return proyectosDestacados.value.length > 3 && !showAllProjects.value
+  if (showAllProjects.value) return false
+  if (windowWidth.value <= 768) {
+    return proyectosDestacados.value.length > 1
+  } else if (windowWidth.value <= 1024) {
+    return proyectosDestacados.value.length > 2
+  } else {
+    return proyectosDestacados.value.length > 3
+  }
 })
 
-// Experiencia profesional internacionalizada
-const experience = computed(() => t('experienceList'))
+// Experiencia profesional multilingüe
+const experience = computed(() => {
+  if (currentLang.value === 'en') {
+    return [
+      {
+        period: '2024 - Present',
+        position: 'Full Stack Developer',
+        company: 'IESA-CSIC',
+        description: 'Development of advanced social survey systems with Vue.js and Laravel. Creation of data analysis tools and research management for the Institute of Advanced Social Studies.'
+      },
+      {
+        period: '2024 (3 months)',
+        position: 'Professional Internship',
+        company: 'Medac',
+        description: 'Full stack web development focused on the metaverse. Design and programming of the entry website to the metaverse, a control panel for students in the virtual classroom, and a platform for a new internship project with virtual reality.'
+      },
+      {
+        period: '2022 - 2024',
+        position: 'Higher Degree in Web Application Development',
+        company: 'Vocational Training',
+        description: 'Senior Technician in Web Application Development specializing in PHP, JavaScript, and databases. Freelance projects with WordPress, PrestaShop, and custom applications.',
+        hidden: true
+      },
+      {
+        period: '2017 - 2024',
+        position: 'Other jobs',
+        company: '',
+        description: 'Various customer service positions: gas station attendant, online booking manager for rural homes, real estate advisor, etc.',
+        hidden: true
+      }
+    ]
+  } else {
+    return [
+      {
+        period: '2024 - Actualidad',
+        position: 'Desarrollador Full Stack',
+        company: 'IESA-CSIC',
+        description: 'Desarrollo de sistemas avanzados de encuestas sociales con Vue.js y Laravel. Creación de herramientas de análisis de datos y gestión de investigación para el Instituto de Estudios Sociales Avanzados.'
+      },
+      {
+        period: '2024 (3 meses)',
+        position: 'Prácticas profesionales',
+        company: 'Medac',
+        description: 'Desarrollo web full stack enfocado en el metaverso. Diseño y programación de la web de entrada al metaverso, panel de control para alumnos en aula virtual y plataforma para nuevo proyecto de prácticas con realidad virtual.'
+      },
+      {
+        period: '2022 - 2024',
+        position: 'Grado Superior en Desarrollo de Aplicaciones Web',
+        company: 'Formación Profesional',
+        description: 'Técnico Superior en Desarrollo de Aplicaciones Web especializado en PHP, JavaScript y bases de datos. Proyectos freelance con WordPress, PrestaShop y aplicaciones a medida.',
+        hidden: true
+      },
+      {
+        period: '2017 - 2024',
+        position: 'Otros puestos de trabajo',
+        company: '',
+        description: 'Diversos puestos de atención al cliente: expendedor de gasolinera, gestor de reservas online de casas rurales, asesor inmobiliario, etc.',
+        hidden: true
+      }
+    ]
+  }
+})
 const showAllExperience = ref(false)
-const windowWidth = ref(window.innerWidth)
+const timelineRefs = ref([])
+const timelineProgress = ref(0)
 
 function updateWindowWidth() {
   windowWidth.value = window.innerWidth
 }
 
+function updateTimelineProgress() {
+  const items = timelineRefs.value.filter(Boolean)
+  if (!items.length) return timelineProgress.value = 0
+  const windowHeight = window.innerHeight
+  let maxVisible = 0
+  items.forEach((el, idx) => {
+    const rect = el.getBoundingClientRect()
+    if (rect.top < windowHeight * 0.8) maxVisible = idx + 1
+  })
+  timelineProgress.value = (maxVisible / items.length) * 100
+}
+
 onMounted(() => {
-  window.addEventListener('resize', updateWindowWidth)
+  nextTick(() => {
+    window.addEventListener('scroll', updateTimelineProgress)
+    window.addEventListener('resize', updateTimelineProgress)
+    updateTimelineProgress()
+  })
 })
+
 onUnmounted(() => {
-  window.removeEventListener('resize', updateWindowWidth)
+  window.removeEventListener('scroll', updateTimelineProgress)
+  window.removeEventListener('resize', updateTimelineProgress)
 })
 
 const visibleExperience = computed(() => {
-  if (showAllExperience.value) return experience.value
-  // En móvil/tablet, solo mostrar la primera experiencia
-  if (windowWidth.value <= 1024) return [experience.value[0]]
-  return experience.value
+  let arr = experience.value
+  if (!showAllExperience.value) arr = arr.filter(e => !e.hidden)
+  if (showAllExperience.value) return arr
+  if (windowWidth.value <= 1024) return arr.slice(0, 1)
+  return arr.slice(0, 2)
 })
+
+const timelineAlign = computed(() => windowWidth.value > 1024 ? 'alternate' : 'left')
 
 function handleShowMore() {
   showAllExperience.value = true
 }
 </script>
 
-<style scoped>
+<style>
+/* Estilos generales */
 .experience-section {
   padding: 4rem 0;
   background: var(--background-primary);
-  transition: background-color var(--transition-normal);
 }
 
 .container {
@@ -218,24 +301,40 @@ function handleShowMore() {
   padding: 0 1rem;
 }
 
+.section-title,
+.timeline-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-/* Proyectos destacados con consonancia visual */
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .timeline-title {
+  filter: brightness(1.2) contrast(1.2);
+}
+
+.experience-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+/* Estilos para proyectos */
 .project-card-theme {
   background: var(--background-secondary);
   border-radius: var(--border-radius-xl);
   box-shadow: var(--shadow-md);
   border: 1.5px solid var(--border-color);
-  overflow: hidden; /* Volver a poner para que la línea y overlay respeten el border-radius */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   min-height: 370px;
-  max-width: 400px;
-  margin: 0 auto;
-  transition: box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), border-color 0.2s, transform 0.25s cubic-bezier(0.4,0,0.2,1);
-  position: relative;
-  backface-visibility: hidden;
-  perspective: 1px;
+  transition: all 0.3s ease;
 }
+
 .project-card-theme::before {
   content: '';
   position: absolute;
@@ -247,18 +346,20 @@ function handleShowMore() {
   border-top-left-radius: var(--border-radius-xl);
   border-top-right-radius: var(--border-radius-xl);
   transform: scaleX(0);
-  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition: transform 0.3s ease;
   z-index: 3;
 }
+
 .project-card-theme:hover::before {
   transform: scaleX(1);
 }
+
 .project-card-theme:hover {
-  box-shadow: 0 8px 32px 0 rgba(148,210,189,0.18), 0 1.5px 6px 0 rgba(69,123,157,0.08);
+  box-shadow: 0 8px 32px rgba(148,210,189,0.18);
   border-color: var(--persian-green);
-  transform: translateY(-8px) scale(1.025);
-  z-index: 2;
+  transform: translateY(-8px);
 }
+
 .project-img-container {
   position: relative;
   width: 100%;
@@ -267,24 +368,21 @@ function handleShowMore() {
   border-top-right-radius: var(--border-radius-xl);
   overflow: hidden;
 }
+
 .project-img-theme {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: var(--background-primary);
-  display: block;
-  transition: filter 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition: filter 0.3s ease;
 }
+
 .project-card-theme:hover .project-img-theme {
   filter: brightness(0.65) saturate(0.9);
 }
-/* Acciones sobre la imagen: centradas y con transición de opacidad */
+
 .project-img-actions {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -292,33 +390,30 @@ function handleShowMore() {
   gap: 0.5rem;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition: opacity 0.3s ease;
   z-index: 4;
 }
+
 .project-card-theme:hover .project-img-actions {
   opacity: 1;
   pointer-events: all;
 }
 
-/* Siempre mostrar los botones en móvil/tablet */
 .project-img-actions.show-always {
   opacity: 1 !important;
   pointer-events: all !important;
   position: static;
-  background: none;
-  padding: 0.5rem 0 0 0;
-  margin-top: 0.5rem;
+  padding-top: 0.5rem;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
 }
+
 .project-content-theme {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
+  flex: 1;
 }
+
 .project-title-theme {
   font-size: 1.25rem;
   font-weight: 700;
@@ -326,13 +421,14 @@ function handleShowMore() {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: var(--text-primary);
 }
+
 .project-description-theme {
   color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
+
 .badge-theme {
   background: var(--tiffany-blue);
   color: var(--charcoal);
@@ -342,6 +438,7 @@ function handleShowMore() {
   font-weight: 500;
   box-shadow: 0 1px 4px rgba(69,123,157,0.08);
 }
+
 .btn-theme {
   background: linear-gradient(135deg, var(--persian-green), var(--saffron));
   color: var(--charcoal) !important;
@@ -349,13 +446,15 @@ function handleShowMore() {
   font-weight: 600;
   border-radius: 30px;
   box-shadow: 0 2px 8px rgba(69,123,157,0.08);
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s ease;
   padding: 0.5em 1.2em;
 }
+
 .btn-theme:hover {
   background: linear-gradient(135deg, var(--saffron), var(--persian-green));
   color: var(--honeydew) !important;
 }
+
 .btn-theme-disabled {
   background: var(--background-secondary);
   color: var(--text-muted) !important;
@@ -365,368 +464,189 @@ function handleShowMore() {
   padding: 0.5em 1.2em;
   cursor: not-allowed;
 }
-@media (max-width: 850px) {
+
+.show-more-btn {
+  background: linear-gradient(135deg, var(--persian-green), var(--saffron));
+  color: var(--charcoal) !important;
+  border: none;
+  font-weight: 600;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(69,123,157,0.08);
+  padding: 0.5em 1.2em;
+  transition: all 0.2s ease;
+  min-width: 200px;
+  text-align: center;
+}
+
+.show-more-btn:hover {
+  background: linear-gradient(135deg, var(--saffron), var(--persian-green));
+  color: var(--honeydew) !important;
+}
+
+/* Responsive para proyectos */
+@media (max-width: 1024px) {
   .project-card-theme {
-    max-width: 95vw;
     min-height: 340px;
   }
   .project-img-container {
     height: 160px;
-    border-top-left-radius: var(--border-radius-lg);
-    border-top-right-radius: var(--border-radius-lg);
-  }
-  .project-img-theme {
-    height: 100%;
-    border-top-left-radius: var(--border-radius-lg);
-    border-top-right-radius: var(--border-radius-lg);
-  }
-  .timeline-section {
-    padding-left: 0 !important;
-  }
-  .timeline {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-  .timeline-item {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    padding-left: 0 !important;
-    position: relative;
-    gap: 0.5rem;
-  }
-  .timeline-dot {
-    left: 0.5rem !important;
-    top: 0.5rem;
-    transform: none !important;
-    position: absolute;
-    animation: dotFadeIn 0.6s cubic-bezier(0.4,0,0.2,1);
-  }
-  .timeline-content {
-    width: 100% !important;
-    margin-left: 2.5rem !important;
-    padding: 1rem !important;
   }
 }
-@keyframes dotFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.7);
+
+@media (max-width: 768px) {
+  .project-card-theme {
+    min-height: 320px;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+  .project-img-container {
+    height: 140px;
   }
 }
+
 @media (max-width: 480px) {
   .project-card-theme {
-    max-width: 99vw;
     min-height: 300px;
     border-radius: var(--border-radius-lg);
   }
   .project-img-container {
     height: 120px;
-    border-top-left-radius: var(--border-radius-lg);
-    border-top-right-radius: var(--border-radius-lg);
-  }
-  .project-img-theme {
-    height: 100%;
-    border-top-left-radius: var(--border-radius-lg);
-    border-top-right-radius: var(--border-radius-lg);
   }
   .project-content-theme {
     padding: 1rem;
   }
 }
-.section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 4rem;
-  color: var(--text-primary);
-  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-fill-color: transparent;
-}
 
-[data-theme="dark"] .section-title {
-  filter: brightness(1.2) contrast(1.2);
-}
-
-.experience-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-}
-
-/* Proyectos */
-
-/* Timeline */
-.timeline-section {
-  margin-top: 2rem;
-  padding-left: 0 !important;
-}
-
-.timeline-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 2rem;
-  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .timeline-title {
-  filter: brightness(1.2) contrast(1.2);
-}
-
-.timeline {
-  position: relative;
-  margin: 0 auto;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  width: 2px;
-  background: var(--border-color);
-  transform: translateX(-50%);
-  /* Ajusta la línea para que empiece y termine en el centro de los dots */
-  top: calc(16px / 2); /* 16px es el tamaño del dot, la línea empieza en el centro del primero */
-  bottom: calc(16px / 2); /* la línea termina en el centro del último dot */
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 2rem;
+.timeline-marker-custom {
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.timeline-item:nth-child(odd) {
-  flex-direction: row-reverse;
-}
-
-.timeline-item:nth-child(odd) .timeline-content {
-  margin-right: 2rem;
-  margin-left: 0;
-  text-align: right;
-}
-
-.timeline-item:nth-child(even) .timeline-content {
-  margin-left: 2rem;
-  margin-right: 0;
-}
-
-.timeline-dot {
-  width: 16px;
-  height: 16px;
-  background: var(--persian-green);
-  border: 3px solid var(--background-secondary);
+  justify-content: center;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  box-shadow: 0 0 0 4px var(--tiffany-blue);
-}
-
-.timeline-content {
-  background: var(--background-secondary);
-  padding: 1.5rem;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-color);
-  width: calc(50% - 4rem);
-  margin-left: 2rem;
-}
-
-.timeline-date {
-  color: var(--persian-green);
-  font-weight: 600;
-  font-size: 0.9rem;
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
+  border: 4px solid var(--persian-green);
+  box-shadow: 0 0 0 4px var(--background-primary);
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  animation: dotPulse 1.2s cubic-bezier(.4,0,.2,1) infinite alternate;
+}
+@keyframes dotPulse {
+  0% { box-shadow: 0 0 0 4px var(--background-primary), 0 0 0 0 var(--persian-green, #2a9d8f); }
+  100% { box-shadow: 0 0 0 4px var(--background-primary), 0 0 12px 4px var(--persian-green, #2a9d8f); }
 }
 
-.timeline-job {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
+/* Timeline alineado a la izquierda en móvil/tablet */
+@media (max-width: 1024px) {
+  .p-timeline.p-timeline-vertical {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+  .p-timeline-event-opposite {
+    display: none !important;
+  }
+  .p-timeline-event-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100%;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    box-sizing: border-box;
+  }
+  .timeline-card-theme {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .p-timeline-event {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+  }
+  .p-timeline-event-marker {
+    left: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 1rem !important;
+  }
 }
 
-.timeline-company {
-  color: var(--secondary-color);
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-}
-
-.timeline-description {
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* Botón "Ver más experiencia" */
-.show-more-btn {
-  display: block;
-  margin: 0.5rem auto 0 auto;
-  padding: 0.45rem 1.2rem;
+/* Modo oscuro para tarjetas del timeline */
+.timeline-card-theme {
   background: var(--background-secondary);
   color: var(--text-primary);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-md);
   border: 1.5px solid var(--border-color);
-  border-radius: 24px;
-  font-weight: 500;
-  font-size: 0.98rem;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(69,123,157,0.06);
-  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  /* Unifica borde y fondo con HeroSection y ContactSection */
 }
-
-.show-more-btn:hover {
+[data-theme="dark"] .timeline-card-theme {
   background: var(--background-primary);
-  color: var(--persian-green);
+  color: var(--honeydew);
   border-color: var(--persian-green);
 }
+.timeline-card-theme .card-body {
+  background: transparent;
+  color: inherit;
+}
 
-
-
-/* Responsive Design */
-@media (max-width: 850px) {
-  .experience-section {
-    padding: 4rem 0;
-  }
-  
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .project-card {
-    margin: 0 auto;
-    max-width: 400px;
-  }
-  
-  .timeline::before {
-    left: 1rem;
-  }
-  
-  .timeline-item {
-    flex-direction: column !important;
-    align-items: flex-start;
-    padding-left: 3rem;
-  }
-  
-  .timeline-item:nth-child(odd) .timeline-content,
-  .timeline-item:nth-child(even) .timeline-content {
-    margin: 0;
-    text-align: left;
-    width: 100%;
-  }
-  
-  .timeline-dot {
-    left: 1rem;
+/* Animación de entrada más suave */
+.timeline-fade-in {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  animation: fadeInUpTimeline 0.7s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes fadeInUpTimeline {
+  to {
+    opacity: 1;
     transform: none;
   }
-  
-  .timeline-content {
-    width: calc(100% - 2rem);
+}
+
+/* Animación de la línea del timeline mejorada */
+.p-timeline-vertical::before {
+  animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards;
+  transform-origin: top;
+  height: 0 !important;
+  background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
+  opacity: 0.7;
+}
+.p-timeline-vertical.p-timeline-animated::before {
+  animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes timelineLineGrow {
+  0% {
+    height: 0;
+    opacity: 0.5;
+    filter: blur(2px);
+  }
+  80% {
+    filter: blur(0.5px);
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+    filter: blur(0);
   }
 }
 
-@media (max-width: 480px) {
-  .experience-section {
-    padding: 4rem 0;
-  }
-  
-
-  
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .project-content {
-    padding: 1rem;
-  }
-  
-  .timeline-content {
-    padding: 1rem;
-  }
-  
-  .project-links {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .project-link {
-    justify-content: center;
-  }
+.timeline-badge-period {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  z-index: 2;
+  font-size: 0.95em;
+  padding: 0.45em 1.1em;
+  border-radius: 1.5em;
+  background: linear-gradient(135deg, var(--persian-green), var(--saffron));
+  color: var(--charcoal);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(69,123,157,0.08);
+  border: none;
+  animation: pillPop 0.7s cubic-bezier(.4,0,.2,1);
 }
-
-/* Transiciones del timeline */
-.timeline-fade-enter-active, .timeline-fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes pillPop {
+  0% { transform: scale(0.7); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
-.timeline-fade-enter-from {
-  opacity: 0;
-  transform: translateY(30px);
-}
-.timeline-fade-enter-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-.timeline-fade-leave-from {
-  opacity: 1;
-  transform: translateY(0);
-}
-.timeline-fade-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-/* Animación de entrada para proyectos */
-.project-fade-enter-active, .project-fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.project-fade-enter-from {
-  opacity: 0;
-  transform: translateY(40px) scale(0.97);
-}
-.project-fade-enter-to {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-.project-fade-leave-from {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-.project-fade-leave-to {
-  opacity: 0;
-  transform: translateY(40px) scale(0.97);
-}
-
-.timeline-dot-boot {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--persian-green);
-  border: 3px solid var(--background-secondary);
-  box-shadow: 0 0 0 4px var(--tiffany-blue);
-  animation: dotFadeIn 0.7s cubic-bezier(0.4,0,0.2,1);
-}
-.text-theme {
-  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: var(--persian-green);
-}
-
 </style>
+
