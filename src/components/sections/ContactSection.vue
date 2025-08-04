@@ -1,15 +1,37 @@
 <template>
-  <section id="contacto" class="contact-section">
+  <section 
+    id="contacto" 
+    class="contact-section"
+    role="region"
+    aria-labelledby="contact-title"
+  >
     <div class="container">
-      <h2 class="section-title">{{ t('sections.contactTitle') }}</h2>
+      <h2 id="contact-title" class="section-title">{{ t('sections.contactTitle') }}</h2>
       <p class="contact-description">{{ t('contact.contactDescription') }}</p>
       <div class="row contact-content justify-content-between d-flex g-4">
         <div class="col-12 col-lg-6 d-flex order-2 order-lg-1">
-          <div class="contact-info col-12 p-3 p-md-5">
-            <div class="contact-methods">
-              <div v-for="(method, idx) in contactMethods" :key="method.type" class="contact-method p-3" :class="{'location-method d-block': method.type === 'location'}">
+          <div 
+            class="contact-info col-12 p-3 p-md-5"
+            role="complementary"
+            aria-labelledby="contact-info-heading"
+          >
+            <h3 id="contact-info-heading" class="visually-hidden">{{ currentLang === 'en' ? 'Contact Information' : 'Información de Contacto' }}</h3>
+            <div class="contact-methods" role="list">
+              <div 
+                v-for="(method, idx) in contactMethods" 
+                :key="method.type" 
+                class="contact-method p-3" 
+                :class="{'location-method d-block': method.type === 'location'}"
+                role="listitem"
+              >
                 <template v-if="method.type !== 'location'">
-                  <a :href="method.url" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center gap-3 w-100 text-decoration-none">
+                  <a 
+                    :href="method.url" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="d-flex align-items-center gap-3 w-100 text-decoration-none"
+                    :aria-label="`${method.label}: ${method.value} ${currentLang === 'en' ? '(opens in new window)' : '(se abre en nueva ventana)'}`"
+                  >
                     <div class="contact-icon flex-shrink-0">
                       <i :class="`bi bi-${method.icon}`" aria-hidden="true"></i>
                     </div>
@@ -38,7 +60,8 @@
                       allowfullscreen=""
                       loading="lazy"
                       referrerpolicy="no-referrer-when-downgrade"
-                      title="Provincia de Córdoba, España"
+                      title="{{ currentLang === 'en' ? 'Interactive map showing Córdoba Province, Spain' : 'Mapa interactivo mostrando la Provincia de Córdoba, España' }}"
+                      :aria-label="currentLang === 'en' ? 'Interactive map of Córdoba Province location' : 'Mapa interactivo de la ubicación en Provincia de Córdoba'"
                     ></iframe>
                   </div>
                 </template>
@@ -47,29 +70,99 @@
           </div>
         </div>
         <div class="col-12 col-lg-6 d-flex order-1 order-lg-2">
-          <div class="contact-form-container col-12  p-4 p-md-5">
-            <form @submit.prevent="handleSubmit" class="contact-form">
+          <div 
+            class="contact-form-container col-12 p-4 p-md-5"
+            role="form"
+            aria-labelledby="contact-form-heading"
+          >
+            <h3 id="contact-form-heading" class="visually-hidden">{{ currentLang === 'en' ? 'Contact Form' : 'Formulario de Contacto' }}</h3>
+            <form 
+              @submit.prevent="handleSubmit" 
+              class="contact-form"
+              novalidate
+              :aria-describedby="submitMessage ? 'form-status' : null"
+            >
               <div class="form-group">
-                <label for="name" class="form-label">{{ t('contact.name') }}</label>
-                <input type="text" id="name" v-model="form.name" class="form-input" required>
+                <label for="name" class="form-label">{{ t('contact.name') }} <span class="required-asterisk" aria-label="obligatorio">*</span></label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  v-model="form.name" 
+                  class="form-input" 
+                  required
+                  :aria-describedby="!form.name && submitAttempted ? 'name-error' : null"
+                  :aria-invalid="!form.name && submitAttempted ? 'true' : 'false'"
+                  autocomplete="name"
+                >
+                <div id="name-error" class="error-message" v-if="!form.name && submitAttempted">
+                  {{ currentLang === 'en' ? 'Name is required' : 'El nombre es obligatorio' }}
+                </div>
               </div>
               <div class="form-group">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" v-model="form.email" class="form-input" required>
+                <label for="email" class="form-label">Email <span class="required-asterisk" aria-label="obligatorio">*</span></label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  v-model="form.email" 
+                  class="form-input" 
+                  required
+                  :aria-describedby="!form.email && submitAttempted ? 'email-error' : null"
+                  :aria-invalid="!form.email && submitAttempted ? 'true' : 'false'"
+                  autocomplete="email"
+                >
+                <div id="email-error" class="error-message" v-if="!form.email && submitAttempted">
+                  {{ currentLang === 'en' ? 'Email is required' : 'El email es obligatorio' }}
+                </div>
               </div>
               <div class="form-group">
                 <label for="subject" class="form-label">{{ t('contact.subject') }}</label>
-                <input type="text" id="subject" v-model="form.subject" class="form-input" required>
+                <input 
+                  type="text" 
+                  id="subject" 
+                  v-model="form.subject" 
+                  class="form-input" 
+                  autocomplete="off"
+                >
               </div>
               <div class="form-group">
-                <label for="message" class="form-label">{{ t('contact.message') }}</label>
-                <textarea id="message" v-model="form.message" class="form-textarea" rows="5" required></textarea>
+                <label for="message" class="form-label">{{ t('contact.message') }} <span class="required-asterisk" aria-label="obligatorio">*</span></label>
+                <textarea 
+                  id="message" 
+                  v-model="form.message" 
+                  class="form-textarea" 
+                  rows="5" 
+                  required
+                  :aria-describedby="!form.message && submitAttempted ? 'message-error' : null"
+                  :aria-invalid="!form.message && submitAttempted ? 'true' : 'false'"
+                  maxlength="1000"
+                  :placeholder="currentLang === 'en' ? 'Tell me about your project or question...' : 'Cuéntame sobre tu proyecto o pregunta...'"
+                ></textarea>
+                <div class="character-count">{{ form.message.length }}/1000</div>
+                <div id="message-error" class="error-message" v-if="!form.message && submitAttempted">
+                  {{ currentLang === 'en' ? 'Message is required' : 'El mensaje es obligatorio' }}
+                </div>
               </div>
-              <button type="submit" class="btn btn-primary-custom" :disabled="isSubmitting">
+              <button 
+                type="submit" 
+                class="btn btn-primary-custom" 
+                :disabled="isSubmitting"
+                :aria-describedby="isSubmitting ? 'sending-status' : null"
+              >
                 <i class="bi bi-send" aria-hidden="true"></i>
                 {{ isSubmitting ? t('contact.sending') : t('contact.send') }}
               </button>
-              <div v-if="submitMessage" class="submit-message" :class="submitStatus">
+              <div id="sending-status" class="visually-hidden" v-if="isSubmitting">
+                {{ currentLang === 'en' ? 'Sending message, please wait...' : 'Enviando mensaje, por favor espera...' }}
+              </div>
+              <div 
+                v-if="submitMessage" 
+                class="submit-message" 
+                :class="submitStatus"
+                id="form-status"
+                role="status"
+                :aria-live="submitStatus === 'error' ? 'assertive' : 'polite'"
+                aria-atomic="true"
+              >
                 <i :class="submitStatus === 'success' ? 'bi bi-check-circle' : 'bi bi-exclamation-triangle'" aria-hidden="true"></i>
                 {{ submitMessage }}
               </div>
@@ -82,12 +175,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from '../../composables/useI18n.js'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_CONFIG } from '../../config/emailjs.js'
 
-const { t } = useI18n()
+const { t, currentLang } = useI18n()
 
 const form = ref({
   name: '',
@@ -99,8 +192,7 @@ const form = ref({
 const isSubmitting = ref(false)
 const submitMessage = ref('')
 const submitStatus = ref('') // 'success' | 'error' | ''
-
-import { computed } from 'vue'
+const submitAttempted = ref(false)
 
 const contactMethods = computed(() => [
   {
@@ -127,6 +219,7 @@ const contactMethods = computed(() => [
 ])
 
 const handleSubmit = async () => {
+  submitAttempted.value = true
   isSubmitting.value = true
   submitMessage.value = ''
   submitStatus.value = ''
@@ -157,7 +250,9 @@ const handleSubmit = async () => {
 
     if (response.status === 200) {
       submitStatus.value = 'success'
-      submitMessage.value = '¡Mensaje enviado correctamente! Te responderé pronto.'
+      submitMessage.value = currentLang.value === 'en' 
+        ? 'Message sent successfully! I will reply soon.'
+        : '¡Mensaje enviado correctamente! Te responderé pronto.'
       
       // Resetear formulario
       form.value = {
@@ -166,6 +261,7 @@ const handleSubmit = async () => {
         subject: '',
         message: ''
       }
+      submitAttempted.value = false
     }
   } catch (error) {
     console.error('Error al enviar:', error)
@@ -176,7 +272,9 @@ const handleSubmit = async () => {
     } else if (error.text) {
       submitMessage.value = `Error al enviar: ${error.text}`
     } else {
-      submitMessage.value = 'Error al enviar el mensaje. Por favor, inténtalo de nuevo o contacta directamente por email.'
+      submitMessage.value = currentLang.value === 'en'
+        ? 'Error sending message. Please try again or contact directly by email.'
+        : 'Error al enviar el mensaje. Por favor, inténtalo de nuevo o contacta directamente por email.'
     }
   } finally {
     isSubmitting.value = false
@@ -453,6 +551,62 @@ const handleSubmit = async () => {
   background: rgba(239, 68, 68, 0.1);
   color: #ef4444;
   border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Accesibilidad */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.required-asterisk {
+  color: #ef4444;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.error-message::before {
+  content: "⚠";
+  font-size: 1rem;
+}
+
+.character-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+/* Focus visible mejorado */
+.form-input:focus-visible,
+.form-textarea:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--persian-green);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.2);
+}
+
+/* Estados de error */
+.form-input[aria-invalid="true"],
+.form-textarea[aria-invalid="true"] {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 @keyframes fadeIn {

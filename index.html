@@ -1,13 +1,112 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="public/favicon.ico" />
+    
+    <!-- SEO Meta Tags -->
+    <title>Antonio Pulido - Desarrollador Full Stack | Vue.js & Laravel Specialist</title>
+    <meta name="description" content="Portfolio profesional de Antonio Pulido, Desarrollador Full Stack especializado en Vue.js, Laravel y desarrollo web moderno. Experiencia en IESA-CSIC y proyectos de investigación social." />
+    <meta name="keywords" content="Antonio Pulido, Full Stack Developer, Vue.js, Laravel, JavaScript, PHP, Desarrollador Web, IESA-CSIC, Portfolio, Córdoba, España" />
+    <meta name="author" content="Antonio Pulido" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="ES" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Viewport and Mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Antonio Pulido</title>
+    <meta name="theme-color" content="#2a9d8f" />
+    <meta name="msapplication-TileColor" content="#2a9d8f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Antonio Pulido Portfolio" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://antonioupulido.dev/" />
+    <meta property="og:title" content="Antonio Pulido - Desarrollador Full Stack Portfolio" />
+    <meta property="og:description" content="Explora el portfolio de Antonio Pulido, desarrollador Full Stack con experiencia en Vue.js, Laravel y sistemas de investigación social." />
+    <meta property="og:image" content="/assets/profile-photo.jpg" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale:alternate" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://antonioupulido.dev/" />
+    <meta property="twitter:title" content="Antonio Pulido - Full Stack Developer" />
+    <meta property="twitter:description" content="Portfolio profesional de Antonio Pulido, especialista en Vue.js y Laravel" />
+    <meta property="twitter:image" content="/assets/profile-photo.jpg" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Preconnect to improve performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Antonio Pulido",
+      "jobTitle": "Full Stack Developer",
+      "description": "Desarrollador Full Stack especializado en Vue.js, Laravel y desarrollo web moderno",
+      "url": "https://antonioupulido.dev",
+      "image": "/assets/profile-photo.jpg",
+      "sameAs": [
+        "https://github.com/antonioupulido",
+        "https://linkedin.com/in/antonioupulido"
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "IESA-CSIC",
+        "description": "Instituto de Estudios Sociales Avanzados - Consejo Superior de Investigaciones Científicas"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Córdoba",
+        "addressCountry": "ES"
+      },
+      "knowsAbout": [
+        "Vue.js",
+        "Laravel",
+        "JavaScript",
+        "PHP",
+        "Full Stack Development",
+        "Web Development",
+        "Social Research Systems"
+      ]
+    }
+    </script>
   </head>
   <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    
+    <!-- Additional accessibility styles -->
+    <style>
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: #2a9d8f;
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 100;
+        font-weight: 600;
+      }
+      .skip-link:focus {
+        top: 6px;
+      }
+    </style>
   </body>
 </html>

@@ -1,105 +1,204 @@
 <template>
-  <section id="experiencia" class="experience-section py-5">
+  <section 
+    id="experiencia" 
+    class="experience-section py-5"
+    role="main"
+    aria-labelledby="experience-title"
+  >
     <div class="container">
-      <h2 class="section-title text-center mb-5">{{ t('experience.title') }}</h2>
+      <h2 id="experience-title" class="section-title text-center mb-5">{{ t('experience.title') }}</h2>
       
       <div class="experience-content">
-        <!-- Proyectos destacados -->
-        <transition-group name="project-fade" tag="div" class="row g-4 justify-content-center">
-          <div 
-            v-for="project in visibleProjects" 
-            :key="project.title" 
-            class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch"
-          >
-            <div class="project-card-theme w-100 h-100">
-              <div class="project-img-container">
-                <img v-if="project.image" :src="project.image" :alt="project.title" class="project-img-theme" />
-                <!-- Botones sobre la imagen -->
-                <div class="project-img-actions" :class="{ 'show-always': windowWidth <= 1024 }">
-                  <template v-for="type in ['Demo','GitHub']">
-                    <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
-                      <a
-                        :href="project.links.find(l => l.label === type).url"
-                        class="btn btn-theme d-flex align-items-center gap-2 px-3"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        :aria-label="type + ' ' + project.title"
-                      >
-                        <i :class="`bi bi-${project.links.find(l => l.label === type).icon}`" aria-hidden="true"></i>
-                        <span>{{ type }}</span>
-                      </a>
+        <!-- Sección de Proyectos -->
+        <div class="projects-section mb-5" role="region" aria-labelledby="projects-heading">
+          <h3 id="projects-heading" class="visually-hidden">{{ currentLang === 'en' ? 'Featured Projects' : 'Proyectos Destacados' }}</h3>
+
+          <transition-group name="project-fade" tag="div" class="row g-4 justify-content-center">
+            <div 
+              v-for="(project, index) in visibleProjects" 
+              :key="project.title" 
+              class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch"
+              :style="{ '--animation-delay': index * 0.1 + 's' }"
+            >
+              <article 
+                class="project-card-theme w-100 h-100" 
+                @mouseenter="handleProjectHover" 
+                @mouseleave="handleProjectLeave"
+                role="article"
+                :aria-labelledby="`project-title-${index}`"
+                :aria-describedby="`project-desc-${index}`"
+              >
+                <div class="project-img-container">
+                  <img 
+                    v-if="project.image" 
+                    :src="project.image" 
+                    :alt="`${currentLang === 'en' ? 'Screenshot of' : 'Captura de pantalla de'} ${project.title}`" 
+                    class="project-img-theme" 
+                    loading="lazy"
+                    decoding="async"
+                    :width="400"
+                    :height="200"
+                    fetchpriority="low"
+                  />
+                  <div v-else class="project-placeholder" role="img" :aria-label="`${currentLang === 'en' ? 'Project preview placeholder for' : 'Imagen de marcador de posición para'} ${project.title}`">
+                    <i class="bi bi-code-slash" aria-hidden="true"></i>
+                    <span>{{ currentLang === 'en' ? 'Project Preview' : 'Vista Previa' }}</span>
+                  </div>
+                  <!-- Botones sobre la imagen -->
+                  <div class="project-img-actions" :class="{ 'show-always': windowWidth <= 1024 }">
+                    <template v-for="type in ['Demo','GitHub']" :key="type">
+                      <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
+                        <a
+                          :href="project.links.find(l => l.label === type).url"
+                          class="btn btn-primary-custom d-flex align-items-center gap-2 px-3"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          :aria-label="`${currentLang === 'en' ? (type === 'Demo' ? 'View live demo of' : 'View source code of') : (type === 'Demo' ? 'Ver demo en vivo de' : 'Ver código fuente de')} ${project.title} ${currentLang === 'en' ? '(opens in new window)' : '(se abre en nueva ventana)'}`"
+                          @focus="handleButtonFocus"
+                        >
+                          <i :class="`bi bi-${project.links.find(l => l.label === type).icon}`" aria-hidden="true"></i>
+                          <span>{{ type }}</span>
+                        </a>
+                      </template>
                     </template>
-                    <template v-else>
-                      <span class="btn btn-theme-disabled d-flex align-items-center gap-2 px-3 opacity-75" :aria-label="type + ' no disponible'">
-                        <i :class="`bi bi-x-circle`" aria-hidden="true"></i>
-                        <span>No disponible</span>
-                      </span>
+                  </div>
+                </div>
+                <div class="project-content-theme d-flex flex-column">
+                  <h4 :id="`project-title-${index}`" class="project-title-theme mb-2">{{ project.title }}</h4>
+                  <p :id="`project-desc-${index}`" class="project-description-theme flex-grow-1">{{ project.description }}</p>
+                  <div v-if="project.tech && project.tech.length" class="tech-stack mb-3" role="group" :aria-label="currentLang === 'en' ? 'Technologies used' : 'Tecnologías utilizadas'">
+                    <div class="tech-label mb-2">
+                      <i class="bi bi-gear-fill me-2" aria-hidden="true"></i>
+                      {{ currentLang === 'en' ? 'Technologies:' : 'Tecnologías:' }}
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                      <span 
+                        v-for="tech in project.tech" 
+                        :key="tech" 
+                        class="badge badge-theme"
+                        role="text"
+                        :aria-label="`${currentLang === 'en' ? 'Technology' : 'Tecnología'}: ${tech}`"
+                      >{{ tech }}</span>
+                    </div>
+                  </div>
+                  <!-- Botones en móvil -->
+                  <div v-if="windowWidth <= 1024" class="d-flex flex-wrap gap-2 mt-auto justify-content-center">
+                    <template v-for="type in ['Demo','GitHub']" :key="type">
+                      <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
+                        <a
+                          :href="project.links.find(l => l.label === type).url"
+                          class="btn btn-primary-custom d-flex align-items-center gap-2 px-3 flex-fill"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          :aria-label="`${currentLang === 'en' ? (type === 'Demo' ? 'View live demo of' : 'View source code of') : (type === 'Demo' ? 'Ver demo en vivo de' : 'Ver código fuente de')} ${project.title} ${currentLang === 'en' ? '(opens in new window)' : '(se abre en nueva ventana)'}`"
+                        >
+                          <i :class="`bi bi-${project.links.find(l => l.label === type).icon}`"></i>
+                          <span>{{ currentLang === 'en' ? (type === 'Demo' ? 'Live demo' : 'GitHub') : (type === 'Demo' ? 'Demo' : 'GitHub') }}</span>
+                        </a>
+                      </template>
                     </template>
-                  </template>
+                  </div>
                 </div>
-              </div>
-              <div class="project-content-theme d-flex flex-column">
-                <h4 class="project-title-theme mb-2">{{ project.title }}</h4>
-                <p class="project-description-theme flex-grow-1">{{ project.description }}</p>
-                <div v-if="project.tech && project.tech.length" class="mb-2 d-flex flex-wrap gap-2">
-                  <span v-for="tech in project.tech" :key="tech" class="badge badge-theme">{{ tech }}</span>
-                </div>
-                <!-- Botones en móvil -->
-                <div v-if="windowWidth <= 1024" class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
-                  <template v-for="type in ['Demo','GitHub']">
-                    <template v-if="project.links && project.links.find(l => l.label === type && l.url)">
-                      <a
-                        :href="project.links.find(l => l.label === type).url"
-                        class="btn btn-theme d-flex align-items-center gap-2 px-3"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i :class="`bi bi-${project.links.find(l => l.label === type).icon}`"></i>
-                        <span>{{ currentLang === 'en' ? (type === 'Demo' ? 'Live demo' : 'GitHub') : (type === 'Demo' ? 'Demo' : 'GitHub') }}</span>
-                      </a>
-                    </template>
-                  </template>
-                </div>
-              </div>
+              </article>
             </div>
-          </div>
-        </transition-group>
-        <div class="d-flex justify-content-center mt-3" v-if="showMoreProjectsBtn">
-          <button class="show-more-btn" @click="showAllProjects = true" tabindex="0">
-            {{ currentLang === 'en' ? 'See more projects' : 'Ver más proyectos' }}
-          </button>
-        </div>
-        <!-- Timeline simplificado -->
-        <section class="timeline-section py-5">
-          <h3 class="timeline-title text-center mb-5">
-            {{ t('experience.timelineTitle') }}
-          </h3>
-          <Timeline :value="visibleExperience" :align="timelineAlign" layout="vertical" :animate="true">
-            <template #marker>
-              <span class="timeline-marker-custom"></span>
-            </template>
-            <template #content="slotProps">
-              <div class="card timeline-card-theme mb-4 timeline-fade-in position-relative">
-                <div class="card-body p-4">
-                  <span class="timeline-badge-period animated-pill">{{ slotProps.item.period }}</span>
-                  <h5 class="timeline-job-theme mb-1">{{ slotProps.item.position }}</h5>
-                  <h6 class="timeline-company-theme mb-2">{{ slotProps.item.company }}</h6>
-                  <p class="timeline-description-theme mb-0">{{ slotProps.item.description }}</p>
-                </div>
-              </div>
-            </template>
-          </Timeline>
-          <div class="d-flex justify-content-center mt-4">
-            <button
-              v-if="!showAllExperience && experience.length > visibleExperience.length"
-              class="show-more-btn"
-              @click="handleShowMore"
+          </transition-group>
+          <div class="text-center mt-4" v-if="showMoreProjectsBtn">
+            <button 
+              class="btn btn-primary-custom show-more-btn" 
+              @click="toggleProjects" 
+              :aria-expanded="showAllProjects"
+              :aria-describedby="showAllProjects ? 'projects-expanded' : 'projects-collapsed'"
+              role="button"
               tabindex="0"
             >
+              <i class="bi bi-arrow-down-circle me-2" aria-hidden="true"></i>
+              {{ currentLang === 'en' ? 'See more projects' : 'Ver más proyectos' }}
+            </button>
+            <div id="projects-expanded" class="visually-hidden">{{ currentLang === 'en' ? 'All projects are now visible' : 'Todos los proyectos ahora son visibles' }}</div>
+            <div id="projects-collapsed" class="visually-hidden">{{ currentLang === 'en' ? 'Some projects are hidden' : 'Algunos proyectos están ocultos' }}</div>
+          </div>
+        </div>
+
+        <!-- Sección de Trayectoria Profesional -->
+        <div class="timeline-section" role="region" aria-labelledby="timeline-heading">
+          <h3 id="timeline-heading" class="section-title text-center mb-5">
+            {{ t('experience.timelineTitle') }}
+          </h3>
+          <div class="timeline-container" role="list" aria-label="{{ currentLang === 'en' ? 'Professional timeline' : 'Cronología profesional' }}">
+            <Timeline :value="visibleExperience" :align="timelineAlign" layout="vertical" :animate="true" class="custom-timeline">
+              <template #marker="{ item, index }">
+                <div class="timeline-marker-wrapper" :style="{ '--marker-delay': index * 0.2 + 's' }">
+                  <span class="timeline-marker-custom" :class="{ 'active': index < visibleExperience.length }">
+                    <i class="bi bi-mortarboard-fill" v-if="item.position?.includes('Grado') || item.position?.includes('Higher Degree')"></i>
+                    <i class="bi bi-briefcase-fill" v-else-if="item.company && item.company !== 'Formación Profesional' && item.company !== 'Vocational Training'"></i>
+                    <i class="bi bi-three-dots" v-else></i>
+                  </span>
+                </div>
+              </template>
+              <template #content="{ item, index }">
+                <div 
+                  class="timeline-card-theme mb-4 timeline-fade-in position-relative" 
+                  :style="{ '--card-delay': index * 0.15 + 's' }"
+                  role="listitem"
+                  :aria-labelledby="`timeline-position-${index}`"
+                  :aria-describedby="`timeline-desc-${index}`"
+                >
+                  <div class="card-body p-4">
+                    <div class="timeline-content">
+                      <!-- Layout para escritorio con tarjetas alternadas -->
+                      <div class="timeline-header mb-3" v-if="windowWidth > 1024 && timelineAlign === 'alternate'">
+                        <div class="timeline-info" :class="{ 'alternate-left': index % 2 === 0, 'alternate-right': index % 2 === 1 }">
+                          <!-- Título y tiempo en la misma línea -->
+                          <!-- Tarjetas de la izquierda: título a la izquierda, tiempo a la derecha -->
+                          <div v-if="index % 2 === 0" class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                            <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
+                            <span class="timeline-badge-period-inline" role="text" :aria-label="`${currentLang === 'en' ? 'Period' : 'Período'}: ${item.period}`">{{ item.period }}</span>
+                          </div>
+                          <!-- Tarjetas de la derecha: tiempo a la izquierda, título a la derecha -->
+                          <div v-else class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                            <span class="timeline-badge-period-inline" role="text" :aria-label="`${currentLang === 'en' ? 'Period' : 'Período'}: ${item.period}`">{{ item.period }}</span>
+                            <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
+                          </div>
+                          <!-- Empresa debajo, sin icono -->
+                          <h6 class="timeline-company-theme mb-0" v-if="item.company">
+                            {{ item.company }}
+                          </h6>
+                        </div>
+                      </div>
+                      <!-- Layout para móvil/tablet -->
+                      <div class="timeline-header mb-3" v-else>
+                        <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-2">
+                          <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
+                          <span class="timeline-badge-period animated-pill" role="text" :aria-label="`${currentLang === 'en' ? 'Period' : 'Período'}: ${item.period}`">{{ item.period }}</span>
+                        </div>
+                        <h6 class="timeline-company-theme mb-0" v-if="item.company">
+                          {{ item.company }}
+                        </h6>
+                      </div>
+                      <p :id="`timeline-desc-${index}`" class="timeline-description-theme mb-0">{{ item.description }}</p>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </Timeline>
+          </div>
+          <div class="text-center mt-4">
+            <button
+              v-if="!showAllExperience && hasHiddenExperience"
+              class="btn btn-primary-custom show-more-btn"
+              @click="handleShowMore"
+              :aria-expanded="showAllExperience"
+              :aria-describedby="showAllExperience ? 'timeline-expanded' : 'timeline-collapsed'"
+              role="button"
+              tabindex="0"
+            >
+              <i class="bi bi-clock-history me-2" aria-hidden="true"></i>
               {{ t('experience.showMore') }}
             </button>
+            <div id="timeline-expanded" class="visually-hidden">{{ currentLang === 'en' ? 'Full professional timeline is now visible' : 'La cronología profesional completa ahora es visible' }}</div>
+            <div id="timeline-collapsed" class="visually-hidden">{{ currentLang === 'en' ? 'Some timeline entries are hidden' : 'Algunas entradas de la cronología están ocultas' }}</div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   </section>
@@ -112,6 +211,64 @@ import imgProyecto1 from '../../assets/proyectos/proyecto1.jpg'
 import Timeline from 'primevue/timeline'
 
 const { t, currentLang } = useI18n()
+
+// SEO: JSON-LD Structured Data
+const generateStructuredData = () => {
+  const projects = proyectosDestacados.value.filter(p => p.links?.find(l => l.url))
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Antonio Pulido",
+    "jobTitle": "Full Stack Developer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "IESA-CSIC"
+    },
+    "hasCredential": experience.value.map(exp => ({
+      "@type": "EducationalOccupationalCredential",
+      "name": exp.position,
+      "recognizedBy": {
+        "@type": "Organization", 
+        "name": exp.company || "Professional Experience"
+      },
+      "dateCreated": exp.period
+    })),
+    "hasCreatedWork": projects.map(project => ({
+      "@type": "SoftwareApplication",
+      "name": project.title,
+      "description": project.description,
+      "programmingLanguage": project.tech,
+      "url": project.links?.find(l => l.label === 'Demo')?.url || project.links?.find(l => l.url)?.url
+    }))
+  }
+}
+
+// Insertar structured data en el head
+onMounted(() => {
+  const script = document.createElement('script')
+  script.type = 'application/ld+json'
+  script.textContent = JSON.stringify(generateStructuredData())
+  script.id = 'experience-structured-data'
+  document.head.appendChild(script)
+  
+  nextTick(() => {
+    window.addEventListener('scroll', updateTimelineProgress)
+    window.addEventListener('resize', updateTimelineProgress)
+    updateTimelineProgress()
+  })
+})
+
+onUnmounted(() => {
+  // Limpiar structured data
+  const existingScript = document.getElementById('experience-structured-data')
+  if (existingScript) {
+    document.head.removeChild(existingScript)
+  }
+  
+  window.removeEventListener('scroll', updateTimelineProgress)
+  window.removeEventListener('resize', updateTimelineProgress)
+})
 
 // Proyectos destacados
 const showAllProjects = ref(false)
@@ -260,19 +417,6 @@ function updateTimelineProgress() {
   timelineProgress.value = (maxVisible / items.length) * 100
 }
 
-onMounted(() => {
-  nextTick(() => {
-    window.addEventListener('scroll', updateTimelineProgress)
-    window.addEventListener('resize', updateTimelineProgress)
-    updateTimelineProgress()
-  })
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', updateTimelineProgress)
-  window.removeEventListener('resize', updateTimelineProgress)
-})
-
 const visibleExperience = computed(() => {
   let arr = experience.value
   if (!showAllExperience.value) arr = arr.filter(e => !e.hidden)
@@ -283,8 +427,76 @@ const visibleExperience = computed(() => {
 
 const timelineAlign = computed(() => windowWidth.value > 1024 ? 'alternate' : 'left')
 
+// Función para manejar hover en proyectos con mejor accesibilidad
+function handleProjectHover(event) {
+  const card = event.currentTarget
+  card.style.setProperty('--hover-scale', '1.02')
+  // Anunciar cambio a lectores de pantalla
+  card.setAttribute('aria-live', 'polite')
+}
+
+function handleProjectLeave(event) {
+  const card = event.currentTarget
+  card.style.setProperty('--hover-scale', '1')
+  card.removeAttribute('aria-live')
+}
+
+// Mejor manejo de focus para accesibilidad
+function handleButtonFocus(event) {
+  event.target.style.transform = 'scale(1.05)'
+  // Anunciar focus
+  const button = event.target
+  button.setAttribute('aria-live', 'polite')
+  setTimeout(() => {
+    event.target.style.transform = ''
+    button.removeAttribute('aria-live')
+  }, 200)
+}
+
+// Función para toggle de proyectos con anuncio para lectores de pantalla
+function toggleProjects() {
+  showAllProjects.value = !showAllProjects.value
+  
+  // Anunciar cambio de estado
+  const message = showAllProjects.value 
+    ? (currentLang.value === 'en' ? 'All projects are now visible' : 'Todos los proyectos ahora son visibles')
+    : (currentLang.value === 'en' ? 'Showing featured projects only' : 'Mostrando solo proyectos destacados')
+  
+  // Crear anuncio temporal para lectores de pantalla
+  const announcement = document.createElement('div')
+  announcement.setAttribute('aria-live', 'assertive')
+  announcement.setAttribute('aria-atomic', 'true')
+  announcement.className = 'visually-hidden'
+  announcement.textContent = message
+  document.body.appendChild(announcement)
+  
+  setTimeout(() => {
+    document.body.removeChild(announcement)
+  }, 1000)
+}
+
+const hasHiddenExperience = computed(() => {
+  return experience.value.some(item => item.hidden)
+})
+
 function handleShowMore() {
   showAllExperience.value = true
+  
+  // Anunciar cambio para lectores de pantalla
+  const message = currentLang.value === 'en' 
+    ? 'Full professional timeline is now visible'
+    : 'La cronología profesional completa ahora es visible'
+  
+  const announcement = document.createElement('div')
+  announcement.setAttribute('aria-live', 'assertive')
+  announcement.setAttribute('aria-atomic', 'true')
+  announcement.className = 'visually-hidden'
+  announcement.textContent = message
+  document.body.appendChild(announcement)
+  
+  setTimeout(() => {
+    document.body.removeChild(announcement)
+  }, 1000)
 }
 </script>
 
@@ -301,7 +513,46 @@ function handleShowMore() {
   padding: 0 1rem;
 }
 
+/* Accesibilidad - Screen readers */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Focus visible para mejor accesibilidad */
+.btn-primary-custom:focus-visible,
+.show-more-btn:focus-visible {
+  outline: 3px solid var(--persian-green);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.2);
+}
+
+/* Skip links para lectores de pantalla */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--persian-green);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
 .section-title,
+.subsection-title,
 .timeline-title {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
@@ -311,7 +562,12 @@ function handleShowMore() {
   -webkit-text-fill-color: transparent;
 }
 
+.subsection-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
 [data-theme="dark"] .section-title,
+[data-theme="dark"] .subsection-title,
 [data-theme="dark"] .timeline-title {
   filter: brightness(1.2) contrast(1.2);
 }
@@ -380,6 +636,14 @@ function handleShowMore() {
   filter: brightness(0.65) saturate(0.9);
 }
 
+/* Solo aplicar hover effects en desktop */
+@media (min-width: 1025px) {
+  .project-card-theme:hover .project-img-actions {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
 .project-img-actions {
   position: absolute;
   inset: 0;
@@ -392,11 +656,6 @@ function handleShowMore() {
   pointer-events: none;
   transition: opacity 0.3s ease;
   z-index: 4;
-}
-
-.project-card-theme:hover .project-img-actions {
-  opacity: 1;
-  pointer-events: all;
 }
 
 .project-img-actions.show-always {
@@ -429,11 +688,20 @@ function handleShowMore() {
   margin-bottom: 1rem;
 }
 
+.tech-label {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .tech-label {
+  color: var(--honeydew);
+}
+
 .badge-theme {
   background: var(--tiffany-blue);
   color: var(--charcoal);
   padding: 0.18em 0.7em;
-  border-radius: var(--border-radius-sm);
+  border-radius: 50px !important;
   font-size: 0.78em;
   font-weight: 500;
   box-shadow: 0 1px 4px rgba(69,123,157,0.08);
@@ -444,14 +712,39 @@ function handleShowMore() {
   color: var(--charcoal) !important;
   border: none;
   font-weight: 600;
-  border-radius: 30px;
+  border-radius: 50px !important;
   box-shadow: 0 2px 8px rgba(69,123,157,0.08);
   transition: all 0.2s ease;
-  padding: 0.5em 1.2em;
+  padding: 0.75em 1.5em;
 }
 
 .btn-theme:hover {
   background: linear-gradient(135deg, var(--saffron), var(--persian-green));
+  color: var(--honeydew) !important;
+  transform: scale(1.05);
+}
+
+.btn-primary-custom {
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
+  color: var(--honeydew) !important;
+  border: none;
+  font-weight: 600;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 12px rgba(69, 123, 157, 0.3);
+  transition: var(--transition-normal);
+  padding: 0.75em 1.5em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  min-height: 44px;
+}
+
+.btn-primary-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(42, 157, 143, 0.4);
+  background: linear-gradient(135deg, var(--persian-green), var(--saffron));
   color: var(--honeydew) !important;
 }
 
@@ -459,9 +752,9 @@ function handleShowMore() {
   background: var(--background-secondary);
   color: var(--text-muted) !important;
   border: 1.5px dashed var(--border-color);
-  border-radius: 30px;
+  border-radius: 50px !important;
   font-weight: 600;
-  padding: 0.5em 1.2em;
+  padding: 0.75em 1.5em;
   cursor: not-allowed;
 }
 
@@ -470,9 +763,9 @@ function handleShowMore() {
   color: var(--charcoal) !important;
   border: none;
   font-weight: 600;
-  border-radius: 30px;
+  border-radius: 50px !important;
   box-shadow: 0 2px 8px rgba(69,123,157,0.08);
-  padding: 0.5em 1.2em;
+  padding: 0.75em 1.5em;
   transition: all 0.2s ease;
   min-width: 200px;
   text-align: center;
@@ -481,6 +774,7 @@ function handleShowMore() {
 .show-more-btn:hover {
   background: linear-gradient(135deg, var(--saffron), var(--persian-green));
   color: var(--honeydew) !important;
+  transform: scale(1.05);
 }
 
 /* Responsive para proyectos */
@@ -491,6 +785,25 @@ function handleShowMore() {
   .project-img-container {
     height: 160px;
   }
+  
+  /* Botones en tablet se comportan como en móvil */
+  .project-img-actions {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .project-img-actions.show-always {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Asegurar que los botones del contenido sean visibles y más redondos */
+  .project-content-theme .btn-primary-custom {
+    min-height: 44px;
+    font-size: 0.9rem;
+    padding: 0.75em 1.5em;
+    border-radius: 50px !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -499,6 +812,13 @@ function handleShowMore() {
   }
   .project-img-container {
     height: 140px;
+  }
+  
+  .project-content-theme .btn-primary-custom {
+    min-height: 42px;
+    font-size: 0.85rem;
+    padding: 0.7em 1.4em;
+    border-radius: 50px !important;
   }
 }
 
@@ -513,21 +833,30 @@ function handleShowMore() {
   .project-content-theme {
     padding: 1rem;
   }
+  
+  .project-content-theme .btn-primary-custom {
+    min-height: 40px;
+    font-size: 0.8rem;
+    padding: 0.6em 1.2em;
+    border-radius: 50px !important;
+  }
 }
 
 .timeline-marker-custom {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  border: 4px solid var(--persian-green);
+  border: 3px solid var(--persian-green);
   box-shadow: 0 0 0 4px var(--background-primary);
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   animation: dotPulse 1.2s cubic-bezier(.4,0,.2,1) infinite alternate;
+  color: white;
+  font-size: 0.75rem;
 }
 @keyframes dotPulse {
   0% { box-shadow: 0 0 0 4px var(--background-primary), 0 0 0 0 var(--persian-green, #2a9d8f); }
@@ -565,6 +894,12 @@ function handleShowMore() {
     left: 0 !important;
     margin-left: 0 !important;
     margin-right: 1rem !important;
+  }
+  .p-timeline-vertical::before {
+    left: 12px !important;
+    width: 2px !important;
+    background: linear-gradient(180deg, var(--persian-green), var(--saffron)) !important;
+    opacity: 0.8 !important;
   }
 }
 
@@ -629,24 +964,106 @@ function handleShowMore() {
 }
 
 .timeline-badge-period {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.5rem;
-  z-index: 2;
-  font-size: 0.95em;
-  padding: 0.45em 1.1em;
-  border-radius: 1.5em;
+  font-size: 0.85em;
+  padding: 0.4em 0.9em;
+  border-radius: 50px !important;
   background: linear-gradient(135deg, var(--persian-green), var(--saffron));
   color: var(--charcoal);
   font-weight: 600;
   box-shadow: 0 2px 8px rgba(69,123,157,0.08);
   border: none;
   animation: pillPop 0.7s cubic-bezier(.4,0,.2,1);
+  white-space: nowrap;
+  min-width: max-content;
 }
+
+.timeline-badge-period-inline {
+  font-size: 0.8em;
+  padding: 0.3em 0.8em;
+  border-radius: 50px !important;
+  background: linear-gradient(135deg, var(--persian-green), var(--saffron));
+  color: var(--charcoal);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(69,123,157,0.08);
+  border: none;
+  white-space: nowrap;
+  animation: pillPop 0.7s cubic-bezier(.4,0,.2,1);
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.timeline-info {
+  flex: 1;
+  min-width: 0; /* Permite que el texto se ajuste */
+}
+
+.alternate-left {
+  text-align: left;
+}
+
+.alternate-right {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .timeline-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .timeline-badge-period {
+    align-self: flex-start;
+    font-size: 0.8em;
+    padding: 0.3em 0.8em;
+  }
+}
+
 @keyframes pillPop {
   0% { transform: scale(0.7); opacity: 0; }
   60% { transform: scale(1.15); opacity: 1; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+/* Reducir movimiento para usuarios con preferencias de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .project-card-theme,
+  .timeline-card-theme,
+  .btn-primary-custom,
+  .show-more-btn {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .timeline-fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  
+  .timeline-marker-custom {
+    animation: none !important;
+  }
+}
+
+/* Mejorar contraste para modo alto contraste */
+@media (prefers-contrast: high) {
+  .project-card-theme {
+    border: 2px solid var(--text-primary);
+  }
+  
+  .btn-primary-custom {
+    border: 2px solid var(--persian-green);
+  }
+  
+  .timeline-marker-custom {
+    border-width: 4px;
+  }
 }
 </style>
 

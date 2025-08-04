@@ -1,9 +1,14 @@
 <template>
-  <section id="inicio" class="hero-section">
+  <section 
+    id="inicio" 
+    class="hero-section"
+    role="banner"
+    aria-labelledby="hero-title"
+  >
     <div class="container">
       <div class="row hero-grid align-items-center justify-content-between flex-lg-row flex-column-reverse">
         <div class="col-auto hero-content order-lg-1 order-2 mb-5 mb-lg-0">
-          <h1 class="hero-title">
+          <h1 id="hero-title" class="hero-title">
             <span class="greeting-line text-start">{{ t('hero.greeting') }}</span>
             <span class="name-line text-gradient my-2 my-lg-0">{{ t('hero.name') }}</span>
           </h1>
@@ -11,7 +16,7 @@
           <p class="hero-subtitle text-start mx-1 mx-lg-0">
             {{ t('hero.description') }}
           </p>
-          <div class="gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start">
+          <div class="gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start" role="group" aria-label="{{ currentLang === 'en' ? 'Main actions' : 'Acciones principales' }}">
             <a
               class="btn btn-primary-custom"
               href="/cv-antonio-pulido.pdf"
@@ -26,7 +31,11 @@
               <i class="bi bi-download" aria-hidden="true"></i>
               {{ t('hero.downloadCV') }}
             </a>
-            <button class="btn btn-outline-custom" @click="$emit('scrollToSection', 'experiencia')">
+            <button 
+              class="btn btn-outline-custom" 
+              @click="$emit('scrollToSection', 'experiencia')"
+              :aria-label="`${t('hero.viewWork')} - ${currentLang === 'en' ? 'Navigate to experience section' : 'Navegar a la sección de experiencia'}`"
+            >
               <i class="bi bi-eye" aria-hidden="true"></i>
               {{ t('hero.viewWork') }}
             </button>
@@ -35,17 +44,29 @@
         <div class="col-auto order-lg-2 order-1">
           <div class="d-flex flex-lg-row flex-column align-items-center justify-content-center gap-4">
             <!-- Foto de perfil -->
-            <div class="profile-card mx-2 mx-md-0">
+            <div 
+              class="profile-card mx-2 mx-md-0"
+              role="img"
+              :aria-label="`${currentLang === 'en' ? 'Profile card for' : 'Tarjeta de perfil para'} ${t('hero.name')}`"
+            >
               <div class="profile-image-wrapper">
                 <div class="profile-image">
-                  <img :src="profilePhoto" :alt="t('accessibility.profileImage')" class="profile-photo">
+                  <img 
+                    :src="profilePhoto" 
+                    :alt="`${t('accessibility.profileImage')} - ${t('hero.name')}, ${t('hero.title')}`" 
+                    class="profile-photo"
+                    width="320"
+                    height="320"
+                    loading="eager"
+                    fetchpriority="high"
+                  >
                   <div class="profile-overlay">
                     <div class="profile-decoration"></div>
                   </div>
                 </div>
-                <div class="status-indicator">
+                <div class="status-indicator" role="status" :aria-label="currentLang === 'en' ? 'Available for work' : 'Disponible para trabajar'">
                   <span class="status-dot" aria-hidden="true"></span>
-                  <span class="status-text">{{ t('hero.availableForWork') }}</span>
+                  <span class="status-text">{{ currentLang === 'en' ? 'Available' : 'Disponible' }}</span>
                 </div>
               </div>
               <div class="profile-info">
@@ -55,14 +76,19 @@
               </div>
             </div>
             <!-- Redes sociales -->
-            <div class="social-links d-flex flex-lg-column flex-row align-items-center justify-content-center gap-3 mt-lg-0 mt-2">
+            <nav 
+              class="social-links d-flex flex-lg-column flex-row align-items-center justify-content-center gap-3 mt-lg-0 mt-2"
+              role="navigation"
+              :aria-label="currentLang === 'en' ? 'Social media links' : 'Enlaces de redes sociales'"
+            >
               <a v-for="social in socialLinks" :key="social.platform" :href="social.url"
-                :class="['social-link', social.class]" :title="social.platform"
-                :aria-label="t('accessibility.socialLink').replace('{platform}', social.platform)" target="_blank"
+                :class="['social-link', social.class]" :title="`${social.platform} - ${currentLang === 'en' ? 'Opens in new window' : 'Se abre en nueva ventana'}`"
+                :aria-label="`${currentLang === 'en' ? 'Visit my' : 'Visita mi'} ${social.platform} ${currentLang === 'en' ? 'profile (opens in new window)' : 'perfil (se abre en nueva ventana)'}`" 
+                target="_blank"
                 rel="noopener noreferrer">
                 <i :class="`bi bi-${social.icon}`" aria-hidden="true"></i>
               </a>
-            </div>
+            </nav>
           </div>
         </div>
       </div>
@@ -77,7 +103,7 @@ import profilePhoto from '../../assets/profile-photo.webp'
 import { socialLinksData } from '../../data/socialLinks.js'
 
 const emit = defineEmits(['scrollToSection'])
-const { t } = useI18n()
+const { t, currentLang } = useI18n()
 
 const socialLinks = socialLinksData
 </script>

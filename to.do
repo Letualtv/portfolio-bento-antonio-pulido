@@ -1,2 +1,0 @@
-- Arreglar problema en footer
-- Arreglar mx de contacto

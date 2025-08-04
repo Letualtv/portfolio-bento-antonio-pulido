@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+
+# Crawl delay (opcional)
+Crawl-delay: 1
+
+# Bloquear archivos innecesarios para SEO
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /*.map$
+
+# Permitir archivos importantes
+Allow: /assets/
+Allow: /icons/
+Allow: /cv-antonio-pulido.pdf
