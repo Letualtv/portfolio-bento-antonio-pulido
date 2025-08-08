@@ -11,7 +11,7 @@
       <div class="experience-content">
         <!-- Sección de Proyectos -->
         <div class="projects-section mb-5" role="region" aria-labelledby="projects-heading">
-          <h3 id="projects-heading" class="visually-hidden">{{ currentLang === 'en' ? 'Featured Projects' : 'Proyectos Destacados' }}</h3>
+          <h3 id="projects-heading" class="visually-hidden">{{ t('accessibility.featuredProjects') }}</h3>
 
           <transition-group name="project-fade" tag="div" class="row g-4 justify-content-center">
             <div 
@@ -66,7 +66,7 @@
                 <div class="project-content-theme d-flex flex-column">
                   <h4 :id="`project-title-${index}`" class="project-title-theme mb-2">{{ project.title }}</h4>
                   <p :id="`project-desc-${index}`" class="project-description-theme flex-grow-1">{{ project.description }}</p>
-                  <div v-if="project.tech && project.tech.length" class="tech-stack mb-3" role="group" :aria-label="currentLang === 'en' ? 'Technologies used' : 'Tecnologías utilizadas'">
+                  <div v-if="project.tech && project.tech.length" class="tech-stack mb-3" role="group" :aria-label="t('accessibility.technologiesUsed')">
                     <div class="tech-label mb-2">
                       <i class="bi bi-gear-fill me-2" aria-hidden="true"></i>
                       {{ currentLang === 'en' ? 'Technologies:' : 'Tecnologías:' }}
@@ -114,8 +114,8 @@
               <i class="bi bi-arrow-down-circle me-2" aria-hidden="true"></i>
               {{ currentLang === 'en' ? 'See more projects' : 'Ver más proyectos' }}
             </button>
-            <div id="projects-expanded" class="visually-hidden">{{ currentLang === 'en' ? 'All projects are now visible' : 'Todos los proyectos ahora son visibles' }}</div>
-            <div id="projects-collapsed" class="visually-hidden">{{ currentLang === 'en' ? 'Some projects are hidden' : 'Algunos proyectos están ocultos' }}</div>
+            <div id="projects-expanded" class="visually-hidden">{{ t('accessibility.allProjectsVisible') }}</div>
+            <div id="projects-collapsed" class="visually-hidden">{{ t('accessibility.someProjectsHidden') }}</div>
           </div>
         </div>
 
@@ -152,11 +152,11 @@
                           <!-- Tarjetas de la izquierda: título a la izquierda, tiempo a la derecha -->
                           <div v-if="index % 2 === 0" class="d-flex align-items-center justify-content-between gap-3 mb-2">
                             <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
-                            <span class="timeline-badge-period-inline" role="text" :aria-label="`${currentLang === 'en' ? 'Period' : 'Período'}: ${item.period}`">{{ item.period }}</span>
+                            <span class="timeline-badge-period-inline" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
                           </div>
                           <!-- Tarjetas de la derecha: tiempo a la izquierda, título a la derecha -->
                           <div v-else class="d-flex align-items-center justify-content-between gap-3 mb-2">
-                            <span class="timeline-badge-period-inline" role="text" :aria-label="`${currentLang === 'en' ? 'Period' : 'Período'}: ${item.period}`">{{ item.period }}</span>
+                            <span class="timeline-badge-period-inline" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
                             <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
                           </div>
                           <!-- Empresa debajo, sin icono -->
@@ -169,7 +169,7 @@
                       <div class="timeline-header mb-3" v-else>
                         <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-2">
                           <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
-                          <span class="timeline-badge-period animated-pill" role="text" :aria-label="`${currentLang === 'en' ? 'Period' : 'Período'}: ${item.period}`">{{ item.period }}</span>
+                          <span class="timeline-badge-period animated-pill" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
                         </div>
                         <h6 class="timeline-company-theme mb-0" v-if="item.company">
                           {{ item.company }}
@@ -195,8 +195,8 @@
               <i class="bi bi-clock-history me-2" aria-hidden="true"></i>
               {{ t('experience.showMore') }}
             </button>
-            <div id="timeline-expanded" class="visually-hidden">{{ currentLang === 'en' ? 'Full professional timeline is now visible' : 'La cronología profesional completa ahora es visible' }}</div>
-            <div id="timeline-collapsed" class="visually-hidden">{{ currentLang === 'en' ? 'Some timeline entries are hidden' : 'Algunas entradas de la cronología están ocultas' }}</div>
+            <div id="timeline-expanded" class="visually-hidden">{{ t('accessibility.timelineVisible') }}</div>
+            <div id="timeline-collapsed" class="visually-hidden">{{ t('accessibility.timelineCollapsed') }}</div>
           </div>
         </div>
       </div>

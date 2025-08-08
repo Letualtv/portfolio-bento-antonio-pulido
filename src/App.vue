@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useTheme } from './composables/useTheme.js'
 import { useI18n } from './composables/useI18n.js'
 
@@ -54,89 +54,45 @@ const setActiveSection = (section) => {
 const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId)
   if (element) {
-    // Offset adaptativo para móvil/tablet
-    const isMobile = window.innerWidth <= 1024
-    const offset = isMobile ? 40 : 30 // Ajusta según la altura de tu nav
+    const offset = window.innerWidth <= 768 ? 100 : 80
     const top = element.getBoundingClientRect().top + window.scrollY - offset
     window.scrollTo({ top, behavior: 'smooth' })
   }
+  // Actualizar inmediatamente la sección activa
   setActiveSection(sectionId)
 }
 
 onMounted(() => {
   initLanguage()
   
-  // Observer para detectar la sección activa al hacer scroll
-  const sectionIds = ['inicio', 'about', 'experiencia', 'contacto']
-  // Ajuste: threshold bajo y rootMargin dinámico para mejor detección
-  function getRootMargin() {
-    // En móvil, margen superior más grande para compensar la navegación fija
-    const isMobile = window.innerWidth <= 768
-    return isMobile ? '-120px 0px -40% 0px' : '-80px 0px -30% 0px'
-  }
-  let observer = null
-  function createObserver() {
-    if (observer) {
-      document.querySelectorAll('section[id]').forEach(section => {
-        observer.unobserve(section)
-      })
-    }
-    observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter(entry => entry.isIntersecting)
-      if (visible.length > 0) {
-        visible.sort((a, b) => {
-          const aRect = a.target.getBoundingClientRect()
-          const bRect = b.target.getBoundingClientRect()
-          const aCenter = aRect.top + aRect.height / 2
-          const bCenter = bRect.top + bRect.height / 2
-          const winCenter = window.innerHeight / 2
-          return Math.abs(aCenter - winCenter) - Math.abs(bCenter - winCenter)
-        })
-        const newSection = visible[0].target.id
-        if (activeSection.value !== newSection) {
-          setActiveSection(newSection)
-        }
-      } else {
-        // Fallback: la más cercana al centro
-        let found = sectionIds[0]
-        let minDist = Infinity
-        for (let id of sectionIds) {
-          const el = document.getElementById(id)
-          if (el) {
-            const rect = el.getBoundingClientRect()
-            const center = rect.top + rect.height / 2
-            const dist = Math.abs(center - window.innerHeight / 2)
-            if (dist < minDist && dist < window.innerHeight * 0.5) {
-              minDist = dist
-              found = id
-            }
-          }
-        }
-        if (activeSection.value !== found) {
-          setActiveSection(found)
-        }
+  // Sistema simple de detección de sección activa
+  const sections = ['inicio', 'about', 'experiencia', 'contacto']
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setActiveSection(entry.target.id)
       }
-    }, {
-      threshold: [0.15, 0.3, 0.5], // Detecta antes y con secciones cortas
-      rootMargin: getRootMargin()
     })
-    setTimeout(() => {
-      document.querySelectorAll('section[id]').forEach(section => {
-        observer.observe(section)
-      })
-    }, 100)
-  }
-  createObserver()
-  window.addEventListener('resize', createObserver)
+  }, {
+    threshold: 0.3,
+    rootMargin: '-100px 0px -100px 0px'
+  })
+  
+  // Observar todas las secciones
+  setTimeout(() => {
+    sections.forEach(sectionId => {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        observer.observe(element)
+      }
+    })
+  }, 100)
+  
   // Cleanup
-  return () => {
-    window.removeEventListener('resize', createObserver)
-    if (observer) {
-      document.querySelectorAll('section[id]').forEach(section => {
-        observer.unobserve(section)
-      })
-    }
-  }
+  onUnmounted(() => {
+    observer.disconnect()
+  })
 })
 
 function dismissGithubStar() {

@@ -84,7 +84,7 @@ const translations = {
       title: 'Full Stack Developer',
       currentPosition: 'Full Stack Developer en IESA - CSIC',
       institution: 'Técnico Superior en Desarrollo de Aplicaciones Web',
-      description: 'Desarrollador Full Stack con manejo avanzado de PHP (Laravel) y JavaScript (Vue.js), enfocado en crear soluciones eficientes, escalables y de alto rendimiento. Graduado en Desarrollo de Aplicaciones Web, con certificaciones en eCommerce, Full Stack y SEO.',
+      description: 'Desarrollador de PHP (Laravel) y JavaScript (Vue.js), enfocado en crear soluciones eficientes, escalables y de alto rendimiento. Graduado en Desarrollo de Aplicaciones Web, con certificaciones en eCommerce, Full Stack y SEO.',
       downloadCV: 'Descargar CV',
       viewWork: 'Ver trabajos',
       availableForWork: 'Disponible para proyectos'
@@ -186,7 +186,15 @@ name: 'Nombre',
       toggleTheme: 'Cambiar tema',
       toggleLanguage: 'Cambiar idioma',
       profileImage: 'Foto de perfil de Antonio Pulido',
-      socialLink: 'Enlace a {platform}'
+      socialLink: 'Enlace a {platform}',
+      featuredProjects: 'Proyectos Destacados',
+      technologiesUsed: 'Tecnologías utilizadas',
+      allProjectsVisible: 'Todos los proyectos ahora son visibles',
+      someProjectsHidden: 'Algunos proyectos están ocultos',
+      period: 'Período',
+      timelineVisible: 'La cronología profesional completa ahora es visible',
+      timelineCollapsed: 'La cronología profesional está resumida',
+      mainNavigation: 'Navegación principal'
     },
     
     // Footer
@@ -282,7 +290,7 @@ name: 'Nombre',
       title: 'Full Stack Developer',
       currentPosition: 'Full Stack Developer at IESA - CSIC',
       institution: 'Web Application Development Graduate',
-      description: 'Full Stack Developer with advanced skills in PHP (Laravel) and JavaScript (Vue.js), focused on creating efficient, scalable and high-performance solutions. Graduate in Web Application Development, with certifications in eCommerce, Full Stack and SEO.',
+      description: 'Full Stack Developer with skills in PHP (Laravel) and JavaScript (Vue.js), focused on creating efficient, scalable and high-performance solutions. Graduate in Web Application Development, with certifications in eCommerce, Full Stack and SEO.',
       downloadCV: 'Download CV',
       viewWork: 'View Work',
       availableForWork: 'Available for projects'
@@ -370,7 +378,15 @@ name: 'Nombre',
       toggleTheme: 'Toggle theme',
       toggleLanguage: 'Toggle language',
       profileImage: 'Antonio Pulido\'s profile picture',
-      socialLink: 'Link to {platform}'
+      socialLink: 'Link to {platform}',
+      featuredProjects: 'Featured Projects',
+      technologiesUsed: 'Technologies used',
+      allProjectsVisible: 'All projects are now visible',
+      someProjectsHidden: 'Some projects are hidden',
+      period: 'Period',
+      timelineVisible: 'Full professional timeline is now visible',
+      timelineCollapsed: 'Professional timeline is summarized',
+      mainNavigation: 'Main navigation'
     },
     
 // Contact Section
