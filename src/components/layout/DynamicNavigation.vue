@@ -148,8 +148,11 @@ const scrollToSection = (sectionId) => {
 }
 
 @media (max-width: 480px) {
+
   .dynamic-island {
-    border-radius: 18px !important;
+      top: 0rem;
+
+    border-radius: 25px !important;
     margin-left: 4px !important;
     margin-right: 4px !important;
   }

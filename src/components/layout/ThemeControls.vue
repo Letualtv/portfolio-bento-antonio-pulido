@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-controls">
+  <div class="fixed-controls" :class="{ 'scrolled': isScrolled }">
     <button 
       @click="toggleTheme" 
       class="control-btn theme-toggle"
@@ -20,11 +20,26 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useTheme } from '../../composables/useTheme.js'
 import { useI18n } from '../../composables/useI18n.js'
 
 const { isDark, toggleTheme } = useTheme()
 const { currentLang, toggleLanguage, t } = useI18n()
+
+const isScrolled = ref(false)
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>
@@ -35,6 +50,15 @@ const { currentLang, toggleLanguage, t } = useI18n()
   z-index: 1001;
   display: flex;
   gap: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.fixed-controls.scrolled {
+  opacity: 0.7;
+}
+
+.fixed-controls:hover {
+  opacity: 1 !important;
 }
 
 .control-btn {
@@ -75,7 +99,6 @@ const { currentLang, toggleLanguage, t } = useI18n()
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .fixed-controls {
-    top: 10px;
     right: 10px;
     gap: 6px;
   }
@@ -93,7 +116,7 @@ const { currentLang, toggleLanguage, t } = useI18n()
 
 @media (max-width: 480px) {
   .fixed-controls {
-    top: 90px;
+    top: 5rem;
     right: 8px;
     gap: 4px;
   }

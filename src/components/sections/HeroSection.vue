@@ -487,7 +487,7 @@ const socialLinks = socialLinksData
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-section {
-    padding: 5rem 0 2rem;
+    padding: 7rem 0 2rem !important;
     min-height: auto;
   }
   
