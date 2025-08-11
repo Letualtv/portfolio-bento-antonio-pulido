@@ -1,0 +1,23 @@
+{
+  "name": "Antonio Pulido Portfolio",
+  "short_name": "AP Portfolio",
+  "description": "Full Stack Developer Portfolio - Antonio Pulido",
+  "theme_color": "#2a9d8f",
+  "background_color": "#f1faee",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-144x144.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

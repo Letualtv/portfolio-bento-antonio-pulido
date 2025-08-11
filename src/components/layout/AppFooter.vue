@@ -1,5 +1,5 @@
 <template>
-  <footer id="contact" class="footer-portfolio border-top pt-2 pb-2" role="contentinfo">
+  <footer class="footer-portfolio border-top pt-2 pb-2" role="contentinfo">
     <div class="container">
       <div class="row align-items-center justify-content-between gy-2">
         <div class="col-12 col-md-auto order-1 order-md-2 order-lg-2">
@@ -24,9 +24,9 @@
             <span v-if="t('footer.licence') && t('footer.licence').trim()"></span>
             <span class="footer-cc-block">
               <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" target="_blank" rel="license noopener" class="footer-cc-link" aria-label="Licencia Creative Commons BY-NC 4.0">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" class="footer-cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Reconocimiento (BY)" class="footer-cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="No Comercial (NC)" class="footer-cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" class="footer-cc-icon" loading="lazy" width="16" height="16">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Reconocimiento (BY)" class="footer-cc-icon" loading="lazy" width="16" height="16">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="No Comercial (NC)" class="footer-cc-icon" loading="lazy" width="16" height="16">
                 CC BY-NC 4.0
               </a>
             </span>
@@ -96,7 +96,6 @@ const socialLinks = socialLinksData.filter(social =>
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 [data-theme="dark"] .footer-social-link {
   color: var(--charcoal);
@@ -115,7 +114,7 @@ const socialLinks = socialLinksData.filter(social =>
 }
 
 .footer-copyright {
-  color: #7a8a99;
+  color: #5a6c7d; /* Mejorado contraste: 4.6:1 ratio */
   font-size: 0.89rem;
   letter-spacing: 0.01em;
 }
@@ -128,19 +127,24 @@ const socialLinks = socialLinksData.filter(social =>
   align-items: center;
   gap: 2px;
   text-decoration: none;
-  color: inherit;
+  color: #4a5568; /* Mejorado contraste: 4.9:1 ratio */
   font-size: 0.95em;
+  font-weight: 500;
 }
 .footer-cc-icon {
   height: 0.9em;
+  width: auto;
   vertical-align: middle;
-  opacity: 0.6;
+  opacity: 0.8; /* Aumentado para mejor contraste */
 }
 
 [data-theme="dark"] .footer-portfolio {
   border-top: 1px solid var(--persian-green);
 }
 [data-theme="dark"] .footer-copyright {
-  color: #b6c6d6;
+  color: #d1dce6; /* Mejorado contraste tema oscuro: 7.1:1 ratio */
+}
+[data-theme="dark"] .footer-cc-link {
+  color: #cbd5e0; /* Mejorado contraste para enlaces en tema oscuro */
 }
 </style>

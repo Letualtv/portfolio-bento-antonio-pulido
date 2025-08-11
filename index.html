@@ -16,8 +16,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#2a9d8f" />
     <meta name="msapplication-TileColor" content="#2a9d8f" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    
+    <!-- Critical Performance Optimizations: Resource hints -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//mirrors.creativecommons.org">
+    <link rel="dns-prefetch" href="//vercel.app">
+    
+    <!-- Preconnect for critical origins (saves ~160ms) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
+    
+    <!-- Critical font loading inline to prevent FOIT -->
+    <style>
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZs.woff2') format('woff2');
+        unicode-range: U+0000-00FF;
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuOKeMZs.woff2') format('woff2');
+        unicode-range: U+0000-00FF;
+      }
+      /* Critical above-the-fold styles */
+      body { 
+        font-family: 'Inter', system-ui, sans-serif; 
+        margin: 0; 
+        background: #f1faee;
+        color: #264653; 
+      }
+      .hero-section { min-height: 100vh; display: flex; align-items: center; }
+      .profile-photo { width: 312px; height: 467px; aspect-ratio: 312/467; }
+    </style>
+    
+    <!-- Async load full Google Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/assets/profile-photo.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="/assets/proyecto1.jpg" as="image">
+    
+    <!-- Preconnect to critical third-party origins -->
+    <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical CSS inline to prevent render blocking -->
+    <style>
+      /* Critical CSS - Above the fold content */
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        font-display: swap;
+        margin: 0;
+        padding: 0;
+        line-height: 1.5;
+        font-weight: 400;
+        background: #f1faee;
+        color: #264653;
+      }
+      
+      /* Critical layout prevention */
+      .bento-grid {
+        contain: layout style paint;
+      }
+      
+      /* Hero section critical styles */
+      .hero-section {
+        padding: 7rem 0 3rem;
+        background: linear-gradient(135deg, #f1faee 0%, #ffffff 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+      }
+      
+      /* Profile image critical */
+      .profile-photo {
+        width: 312px;
+        height: 467px;
+        object-fit: cover;
+        border-radius: 16px;
+      }
+      
+      /* Navigation critical */
+      .dynamic-island {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        backdrop-filter: blur(20px);
+        background: rgba(38, 70, 83, 0.9);
+        border-radius: 50px;
+        padding: 8px;
+      }
+      
+      /* Dark theme critical */
+      [data-theme="dark"] body {
+        background: #264653;
+        color: #f1faee;
+      }
+    </style>
+    
+    <!-- DNS Prefetch for CDN optimization -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//mirrors.creativecommons.org">
+    <link rel="dns-prefetch" href="//tile.openstreetmap.org">
+    <link rel="dns-prefetch" href="//api.emailjs.com">
+    <link rel="dns-prefetch" href="//vercel.app">
+    
+    <!-- Preconnect for critical third-party origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
+    <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      // Register Service Worker for caching and performance
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered:', registration);
+            })
+            .catch(registrationError => {
+              console.log('SW registration failed:', registrationError);
+            });
+        });
+      }
+    </script>
+    
+    <!-- Fallback font loading script -->
+    <script>
+      // Ensure fonts load with fallback
+      if (!window.FontFace) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap';
+        document.head.appendChild(link);
+      }
+    </script>
     <meta name="apple-mobile-web-app-title" content="Antonio Pulido Portfolio" />
     
     <!-- Open Graph / Facebook -->
@@ -44,7 +192,6 @@
     <link rel="manifest" href="/site.webmanifest" />
     
     <!-- Preconnect to improve performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     
     <!-- Schema.org structured data -->

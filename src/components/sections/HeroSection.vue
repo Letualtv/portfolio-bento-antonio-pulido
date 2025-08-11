@@ -55,10 +55,12 @@
                     :src="profilePhoto" 
                     :alt="`${t('accessibility.profileImage')} - ${t('hero.name')}, ${t('hero.title')}`" 
                     class="profile-photo"
-                    width="320"
-                    height="320"
+                    width="312"
+                    height="467"
                     loading="eager"
                     fetchpriority="high"
+                    decoding="async"
+                    sizes="(max-width: 768px) 280px, (max-width: 1024px) 312px, 320px"
                   >
                   <div class="profile-overlay">
                     <div class="profile-decoration"></div>
@@ -480,6 +482,88 @@ const socialLinks = socialLinksData
   border-color: var(--persian-green);
   box-shadow: 0 15px 30px rgba(148, 210, 189, 0.4);
   transition: box-shadow 0.3s cubic-bezier(.4,0,.2,1), border-color 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 5rem 0 2rem;
+    min-height: auto;
+  }
+  
+  .profile-card {
+    margin: 0 1rem; /* Añadir margen horizontal en móvil */
+    padding: 20px;
+    border-radius: 25px;
+  }
+  
+  .profile-photo {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .profile-decoration {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .social-links {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+  
+  .social-link {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 4rem 0 1.5rem;
+  }
+  
+  .profile-card {
+    margin: 0 0.75rem; /* Margen más pequeño en pantallas muy pequeñas */
+    padding: 15px;
+    border-radius: 20px;
+  }
+  
+  .profile-photo {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .profile-decoration {
+    width: 260px;
+    height: 260px;
+  }
+  
+  .profile-name {
+    font-size: 1.3rem;
+  }
+  
+  .profile-position {
+    font-size: 1rem;
+  }
+  
+  .profile-institution {
+    font-size: 0.9rem;
+  }
+  
+  .social-link {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
 }
 
 </style>

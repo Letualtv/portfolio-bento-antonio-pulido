@@ -1,6 +1,6 @@
 <template>
  <nav class="dynamic-island mt-3" role="navigation" :aria-label="t('accessibility.mainNavigation')">
-    <div class="nav-items">
+    <div class="nav-items" style="justify-content: center;">
       <button 
         v-for="item in navigationItems"
         :key="item.id"
@@ -8,6 +8,7 @@
         @click="scrollToSection(item.id)"
         :aria-label="`${t('nav.goTo')} ${item.label}`"
         :aria-current="activeSection === item.id ? 'page' : false"
+        tabindex="0"
       >
         <i :class="`bi bi-${item.icon}`" aria-hidden="true"></i>
         <span class="nav-label">{{ item.label }}</span>
@@ -39,11 +40,24 @@ const navigationItems = computed(() => [
 ])
 
 const scrollToSection = (sectionId) => {
-  emit('scrollToSection', sectionId)
+  const el = document.getElementById(sectionId)
+  if (el) {
+    // Usar requestAnimationFrame para evitar forced reflow
+    requestAnimationFrame(() => {
+      const isMobile = window.innerWidth <= 768
+      const offset = isMobile ? 80 : 40
+      const top = el.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top, behavior: 'smooth' })
+    })
+    emit('scrollToSection', sectionId)
+  } else {
+    emit('scrollToSection', sectionId)
+  }
 }
 </script>
 
 <style scoped>
+/* Dynamic Island Navigation */
 .dynamic-island {
   position: fixed;
   left: 50%;
@@ -56,6 +70,8 @@ const scrollToSection = (sectionId) => {
   padding: 8px;
   box-shadow: var(--shadow-xl);
   transition: var(--transition-normal);
+  contain: layout style paint;
+  will-change: transform, opacity;
 }
 
 [data-theme="dark"] .dynamic-island {
@@ -66,7 +82,6 @@ const scrollToSection = (sectionId) => {
 .nav-items {
   display: flex;
   gap: 4px;
-  justify-content: center;
 }
 
 .nav-item {
@@ -78,7 +93,7 @@ const scrollToSection = (sectionId) => {
   background: transparent;
   color: var(--honeydew);
   border-radius: 50px;
-  transition: all 0.3s ease;
+  transition: var(--transition-normal);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -87,6 +102,7 @@ const scrollToSection = (sectionId) => {
 
 .nav-item:hover {
   background: rgba(148, 210, 189, 0.3);
+  color: var(--honeydew);
   transform: translateY(-1px);
 }
 
@@ -102,13 +118,16 @@ const scrollToSection = (sectionId) => {
   flex-shrink: 0;
 }
 
-/* Responsive */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .dynamic-island {
-    left: 8px;
-    right: 8px;
-    transform: none;
-    border-radius: 25px;
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+    transform: none !important;
+    border-radius: 25px !important;
   }
   
   .nav-items {
@@ -129,13 +148,15 @@ const scrollToSection = (sectionId) => {
 
 @media (max-width: 480px) {
   .dynamic-island {
-    left: 4px;
-    right: 4px;
-    border-radius: 18px;
+    border-radius: 18px !important;
+    margin-left: 4px !important;
+    margin-right: 4px !important;
   }
   
   .nav-item {
     padding: 10px 8px;
+
   }
+
 }
 </style>

@@ -19,44 +19,20 @@ const { currentLang, toggleLanguage, t, initLanguage } = useI18n()
 const showGithubStar = ref(false)
 const STAR_DISMISSED_KEY = 'githubStarDismissed'
 
-onMounted(() => {
-  // Si el usuario lo descartó en esta sesión, no mostrar
-  if (sessionStorage.getItem(STAR_DISMISSED_KEY) === '1') {
-    showGithubStar.value = false
-    return
-  }
-  let hasShown = false
-  const handleScroll = () => {
-    if (sessionStorage.getItem(STAR_DISMISSED_KEY) === '1') {
-      showGithubStar.value = false
-      return
-    }
-    const scrollY = window.scrollY || window.pageYOffset
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight
-    if (!hasShown && docHeight > 0 && scrollY > docHeight * 0.45) {
-      showGithubStar.value = true
-      hasShown = true
-    }
-    // Si ya se mostró, no lo ocultes aunque suba
-  }
-  window.addEventListener('scroll', handleScroll)
-  // Por si el usuario ya está abajo al cargar
-  handleScroll()
-  return () => {
-    window.removeEventListener('scroll', handleScroll)
-  }
-})
-
 const setActiveSection = (section) => {
+  // console.log('🎯 Cambiando activeSection de', activeSection.value, 'a', section)
   activeSection.value = section
 }
 
 const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId)
   if (element) {
-    const offset = window.innerWidth <= 768 ? 100 : 80
-    const top = element.getBoundingClientRect().top + window.scrollY - offset
-    window.scrollTo({ top, behavior: 'smooth' })
+    // Usar requestAnimationFrame para evitar forced reflow
+    requestAnimationFrame(() => {
+      const offset = window.innerWidth <= 768 ? 100 : 80
+      const top = element.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top, behavior: 'smooth' })
+    })
   }
   // Actualizar inmediatamente la sección activa
   setActiveSection(sectionId)
@@ -65,21 +41,79 @@ const scrollToSection = (sectionId) => {
 onMounted(() => {
   initLanguage()
   
-  // Sistema simple de detección de sección activa
+  // Configuración del GitHub Star Toast
+  if (sessionStorage.getItem(STAR_DISMISSED_KEY) === '1') {
+    showGithubStar.value = false
+  } else {
+    let hasShown = false
+    const handleGithubStarScroll = () => {
+      if (sessionStorage.getItem(STAR_DISMISSED_KEY) === '1') {
+        showGithubStar.value = false
+        return
+      }
+      const scrollY = window.scrollY || window.pageYOffset
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      if (!hasShown && docHeight > 0 && scrollY > docHeight * 0.45) {
+        showGithubStar.value = true
+        hasShown = true
+      }
+    }
+    window.addEventListener('scroll', handleGithubStarScroll)
+    handleGithubStarScroll()
+  }
+  
+  // Sistema de detección de sección activa
   const sections = ['inicio', 'about', 'experiencia', 'contacto']
   
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        setActiveSection(entry.target.id)
+  // Función para detectar la sección activa manualmente
+  const detectActiveSection = () => {
+    const scrollY = window.scrollY + 100
+    let newActiveSection = 'inicio'
+    
+    for (const sectionId of sections) {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        const rect = element.getBoundingClientRect()
+        const elementTop = scrollY - 100 + rect.top
+        const elementBottom = elementTop + element.offsetHeight
+        
+        if (scrollY >= elementTop && scrollY < elementBottom) {
+          newActiveSection = sectionId
+          break
+        }
       }
-    })
+    }
+    
+    if (newActiveSection !== activeSection.value) {
+      setActiveSection(newActiveSection)
+    }
+  }
+  
+  // Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    const visibleSections = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+    
+    if (visibleSections.length > 0) {
+      const topSection = visibleSections[0]
+      if (topSection.intersectionRatio > 0.2) {
+        setActiveSection(topSection.target.id)
+      }
+    }
   }, {
-    threshold: 0.3,
+    threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
     rootMargin: '-100px 0px -100px 0px'
   })
   
-  // Observar todas las secciones
+  // Sistema de respaldo por scroll
+  let scrollTimeout
+  const handleScroll = () => {
+    clearTimeout(scrollTimeout)
+    scrollTimeout = setTimeout(detectActiveSection, 100)
+  }
+  
+  // Inicializar observación
   setTimeout(() => {
     sections.forEach(sectionId => {
       const element = document.getElementById(sectionId)
@@ -87,11 +121,16 @@ onMounted(() => {
         observer.observe(element)
       }
     })
-  }, 100)
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    detectActiveSection()
+  }, 300)
   
   // Cleanup
   onUnmounted(() => {
     observer.disconnect()
+    window.removeEventListener('scroll', handleScroll)
+    clearTimeout(scrollTimeout)
   })
 })
 

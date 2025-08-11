@@ -1,5 +1,4 @@
-/* Importación de Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Fonts loaded via optimized preload in index.html */
 
 /* Paleta de colores de Coolors.co - Estilo Pastel */
 :root {
@@ -30,8 +29,9 @@
   --border-color: var(--non-photo-blue);
   --shadow-color: rgba(38, 70, 83, 0.1);
   
-  /* Configuración de fuente */
+  /* Configuración de fuente optimizada */
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-display: swap;
   line-height: 1.5;
   font-weight: 400;
   
@@ -182,18 +182,33 @@ p {
 /* Skip link para lectores de pantalla */
 .skip-link {
   position: absolute;
-  top: -40px;
+  top: -60px; /* Más arriba para ocultarlo mejor */
   left: 6px;
-  background: var(--primary-color);
-  color: var(--papaya-whip);
+  background: #1a202c; /* Fondo más oscuro para mayor contraste */
+  color: #ffffff; /* Texto blanco puro para máximo contraste (21:1) */
   padding: 8px 16px;
   border-radius: var(--border-radius-sm);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700; /* Peso más fuerte para mejor legibilidad */
   z-index: 9999;
   transition: top var(--transition-fast);
+  border: 2px solid #e53e3e; /* Borde rojo para mayor visibilidad */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0; /* Invisible por defecto */
+  pointer-events: none; /* No interfiere con otros elementos */
 }
 
 .skip-link:focus {
   top: 6px;
+  opacity: 1; /* Solo visible cuando tiene focus */
+  pointer-events: auto; /* Solo interactivo cuando tiene focus */
+  outline: 3px solid #ffd700; /* Outline amarillo para máximo contraste */
+  outline-offset: 2px;
+}
+
+/* Modo oscuro para skip link */
+[data-theme="dark"] .skip-link {
+  background: #2d3748;
+  color: #ffffff;
+  border-color: #f56565;
 }

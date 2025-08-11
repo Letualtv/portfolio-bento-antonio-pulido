@@ -36,9 +36,10 @@
                     class="project-img-theme" 
                     loading="lazy"
                     decoding="async"
-                    :width="400"
-                    :height="200"
+                    width="403"
+                    height="200"
                     fetchpriority="low"
+                    sizes="(max-width: 480px) 350px, (max-width: 768px) 400px, (max-width: 1024px) 300px, 403px"
                   />
                   <div v-else class="project-placeholder" role="img" :aria-label="`${currentLang === 'en' ? 'Project preview placeholder for' : 'Imagen de marcador de posición para'} ${project.title}`">
                     <i class="bi bi-code-slash" aria-hidden="true"></i>
@@ -151,29 +152,29 @@
                           <!-- Título y tiempo en la misma línea -->
                           <!-- Tarjetas de la izquierda: título a la izquierda, tiempo a la derecha -->
                           <div v-if="index % 2 === 0" class="d-flex align-items-center justify-content-between gap-3 mb-2">
-                            <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
+                            <h4 :id="`timeline-position-left-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h4>
                             <span class="timeline-badge-period-inline" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
                           </div>
                           <!-- Tarjetas de la derecha: tiempo a la izquierda, título a la derecha -->
                           <div v-else class="d-flex align-items-center justify-content-between gap-3 mb-2">
                             <span class="timeline-badge-period-inline" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
-                            <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
+                            <h4 :id="`timeline-position-right-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h4>
                           </div>
                           <!-- Empresa debajo, sin icono -->
-                          <h6 class="timeline-company-theme mb-0" v-if="item.company">
+                          <h5 class="timeline-company-theme mb-0" v-if="item.company">
                             {{ item.company }}
-                          </h6>
+                          </h5>
                         </div>
                       </div>
                       <!-- Layout para móvil/tablet -->
                       <div class="timeline-header mb-3" v-else>
                         <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-2">
-                          <h5 :id="`timeline-position-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h5>
+                          <h4 :id="`timeline-position-mobile-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h4>
                           <span class="timeline-badge-period animated-pill" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
                         </div>
-                        <h6 class="timeline-company-theme mb-0" v-if="item.company">
+                        <h5 class="timeline-company-theme mb-0" v-if="item.company">
                           {{ item.company }}
-                        </h6>
+        </h5>
                       </div>
                       <p :id="`timeline-desc-${index}`" class="timeline-description-theme mb-0">{{ item.description }}</p>
                     </div>
@@ -416,6 +417,7 @@ function updateTimelineProgress() {
   })
   timelineProgress.value = (maxVisible / items.length) * 100
 }
+// Tengo sueño, ayuda :)
 
 const visibleExperience = computed(() => {
   let arr = experience.value
@@ -589,6 +591,8 @@ function handleShowMore() {
   flex-direction: column;
   min-height: 370px;
   transition: all 0.3s ease;
+  will-change: transform, box-shadow;
+  contain: layout style paint;
 }
 
 .project-card-theme::before {
