@@ -29,7 +29,7 @@ const scrollToSection = (sectionId) => {
   if (element) {
     // Usar requestAnimationFrame para evitar forced reflow
     requestAnimationFrame(() => {
-      const offset = window.innerWidth <= 768 ? 100 : 80
+      const offset = window.innerWidth <= 768 ? 120 : 100
       const top = element.getBoundingClientRect().top + window.scrollY - offset
       window.scrollTo({ top, behavior: 'smooth' })
     })
@@ -62,75 +62,63 @@ onMounted(() => {
     handleGithubStarScroll()
   }
   
-  // Sistema de detección de sección activa
+  // Sistema de detección de sección activa simplificado
   const sections = ['inicio', 'about', 'experiencia', 'contacto']
+  let scrollTimeout = null
   
-  // Función para detectar la sección activa manualmente
+  // Función principal para detectar la sección activa
   const detectActiveSection = () => {
-    const scrollY = window.scrollY + 100
+    const scrollPosition = window.scrollY
+    const windowHeight = window.innerHeight
+    const offset = 200 // Offset más alto para detección temprana
+    
     let newActiveSection = 'inicio'
     
-    for (const sectionId of sections) {
+    // Revisar cada sección para encontrar la que está más visible
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const sectionId = sections[i]
       const element = document.getElementById(sectionId)
+      
       if (element) {
         const rect = element.getBoundingClientRect()
-        const elementTop = scrollY - 100 + rect.top
-        const elementBottom = elementTop + element.offsetHeight
+        const elementTop = rect.top
         
-        if (scrollY >= elementTop && scrollY < elementBottom) {
+        // Si la parte superior de la sección está en el viewport o por encima
+        if (elementTop <= offset) {
           newActiveSection = sectionId
           break
         }
       }
     }
     
+    // Solo actualizar si hay un cambio
     if (newActiveSection !== activeSection.value) {
       setActiveSection(newActiveSection)
     }
   }
   
-  // Intersection Observer
-  const observer = new IntersectionObserver((entries) => {
-    const visibleSections = entries
-      .filter(entry => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
-    
-    if (visibleSections.length > 0) {
-      const topSection = visibleSections[0]
-      if (topSection.intersectionRatio > 0.2) {
-        setActiveSection(topSection.target.id)
-      }
-    }
-  }, {
-    threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
-    rootMargin: '-100px 0px -100px 0px'
-  })
-  
-  // Sistema de respaldo por scroll
-  let scrollTimeout
+  // Manejador de scroll con debounce
   const handleScroll = () => {
     clearTimeout(scrollTimeout)
-    scrollTimeout = setTimeout(detectActiveSection, 100)
+    scrollTimeout = setTimeout(detectActiveSection, 50)
   }
   
-  // Inicializar observación
+  // Inicializar sistema de navegación
   setTimeout(() => {
-    sections.forEach(sectionId => {
-      const element = document.getElementById(sectionId)
-      if (element) {
-        observer.observe(element)
-      }
-    })
-    
+    // Configurar listener de scroll
     window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // Detección inicial
     detectActiveSection()
-  }, 300)
+  }, 100)
   
   // Cleanup
   onUnmounted(() => {
-    observer.disconnect()
     window.removeEventListener('scroll', handleScroll)
-    clearTimeout(scrollTimeout)
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout)
+      scrollTimeout = null
+    }
   })
 })
 

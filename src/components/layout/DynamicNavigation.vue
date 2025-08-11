@@ -45,7 +45,7 @@ const scrollToSection = (sectionId) => {
     // Usar requestAnimationFrame para evitar forced reflow
     requestAnimationFrame(() => {
       const isMobile = window.innerWidth <= 768
-      const offset = isMobile ? 80 : 40
+      const offset = isMobile ? 100 : 80
       const top = el.getBoundingClientRect().top + window.scrollY - offset
       window.scrollTo({ top, behavior: 'smooth' })
     })
