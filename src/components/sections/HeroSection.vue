@@ -60,7 +60,7 @@
                     loading="eager"
                     fetchpriority="high"
                     decoding="async"
-                    sizes="(max-width: 768px) 280px, (max-width: 1024px) 312px, 320px"
+                    sizes="(max-width: 480px) 240px, (max-width: 768px) 280px, (max-width: 1024px) 312px, 320px"
                   >
                   <div class="profile-overlay">
                     <div class="profile-decoration"></div>

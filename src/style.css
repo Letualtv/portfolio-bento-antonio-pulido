@@ -1,3 +1,11 @@
+/* Font optimization - Bootstrap Icons with font-display swap */
+@font-face {
+  font-family: "bootstrap-icons";
+  src: url("./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2?2820a38892bea67890e72e78c2107f50") format("woff2"),
+       url("./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff?2820a38892bea67890e72e78c2107f50") format("woff");
+  font-display: swap; /* Prevent font blocking */
+}
+
 /* Fonts loaded via optimized preload in index.html */
 
 /* Paleta de colores de Coolors.co - Estilo Pastel */

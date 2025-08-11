@@ -20,11 +20,21 @@ export default defineConfig({
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        passes: 2
+      },
+      mangle: {
+        safari10: true
       }
-    }
+    },
+    target: 'es2015',
+    sourcemap: false,
+    chunkSizeWarningLimit: 1000
   },
   css: {
     devSourcemap: false
-  }
+  },
+  // Optimización adicional para imágenes y assets
+  assetsInclude: ['**/*.webp', '**/*.avif']
 })

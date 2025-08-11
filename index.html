@@ -30,6 +30,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
     
+    <!-- Preload critical CSS files to prevent render blocking -->
+    <link rel="preload" href="/assets/index-CXHXTH1L.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/assets/icons-Cy9Qj_bd.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Preload critical images -->
+    <link rel="preload" href="/assets/profile-photo-6n8Pk6Zc.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="/assets/proyecto1-BEFZi4B9.jpg" as="image" media="(min-width: 768px)">
+    <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
+    
     <!-- Critical font loading inline to prevent FOIT -->
     <style>
       @font-face {
@@ -48,6 +57,12 @@
         src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuOKeMZs.woff2') format('woff2');
         unicode-range: U+0000-00FF;
       }
+      /* Bootstrap Icons font with optimized display */
+      @font-face {
+        font-family: "bootstrap-icons";
+        font-display: swap;
+        src: url("./assets/bootstrap-icons.woff2") format("woff2");
+      }
       /* Critical above-the-fold styles */
       body { 
         font-family: 'Inter', system-ui, sans-serif; 
@@ -56,7 +71,22 @@
         color: #264653; 
       }
       .hero-section { min-height: 100vh; display: flex; align-items: center; }
-      .profile-photo { width: 312px; height: 467px; aspect-ratio: 312/467; }
+      .profile-photo { 
+        width: 312px; 
+        height: 467px; 
+        aspect-ratio: 312/467;
+        object-fit: cover;
+        border-radius: 20px;
+      }
+      /* Prevent CLS for navigation */
+      .dynamic-island {
+        position: fixed;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 60px;
+        min-width: 300px;
+      }
     </style>
     
     <!-- Async load full Google Fonts -->
