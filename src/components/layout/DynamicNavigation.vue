@@ -60,6 +60,7 @@ const scrollToSection = (sectionId) => {
 /* Dynamic Island Navigation */
 .dynamic-island {
   position: fixed;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
