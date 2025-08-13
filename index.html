@@ -23,24 +23,34 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="dns-prefetch" href="//mirrors.creativecommons.org">
-    <link rel="dns-prefetch" href="//vercel.app">
+    <!-- Eliminado vercel.app del dns-prefetch para evitar bloqueo -->
     
     <!-- Preconnect for critical origins (saves ~160ms) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
     
-    <!-- Preload critical CSS files to prevent render blocking -->
-    <link rel="preload" href="/assets/index-CXHXTH1L.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="/assets/icons-Cy9Qj_bd.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- Async load non-critical CSS to prevent render blocking -->
+    <link rel="preload" href="/assets/index-CdJ4d9XY.css" as="style" onload="this.onload=null;this.rel='stylesheet'" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/assets/index-CdJ4d9XY.css"></noscript>
     
-    <!-- Preload critical images -->
-    <link rel="preload" href="/assets/profile-photo-6n8Pk6Zc.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="/assets/proyecto1-BEFZi4B9.jpg" as="image" media="(min-width: 768px)">
-    <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
+    <!-- Load icons CSS asynchronously - not critical for initial render -->
+    <link rel="preload" href="/assets/icons-Cy9Qj_bd.css" as="style" onload="this.onload=null;this.rel='stylesheet'" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/assets/icons-Cy9Qj_bd.css"></noscript>
+    
+    <!-- Preload critical images with responsive sizes -->
+    <link rel="preload" href="/assets/profile-photo-small.webp" as="image" fetchpriority="high" media="(max-width: 480px)">
+    <link rel="preload" href="/assets/profile-photo-medium.webp" as="image" fetchpriority="high" media="(max-width: 768px)">
+    <link rel="preload" href="/assets/profile-photo-6n8Pk6Zc.webp" as="image" fetchpriority="high" media="(min-width: 769px)">
+    
+    <!-- Preload project images only for larger screens -->
+    <link rel="preload" href="/assets/proyecto1-small.jpg" as="image" media="(max-width: 480px)">
+    <link rel="preload" href="/assets/proyecto1-medium.jpg" as="image" media="(min-width: 481px) and (max-width: 768px)">
+    <link rel="preload" href="/assets/proyecto1-BEFZi4B9.jpg" as="image" media="(min-width: 769px)">
     
     <!-- Critical font loading inline to prevent FOIT -->
     <style>
+      /* Solo fuentes críticas - Inter para texto principal */
       @font-face {
         font-family: 'Inter';
         font-style: normal;
@@ -57,12 +67,7 @@
         src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuOKeMZs.woff2') format('woff2');
         unicode-range: U+0000-00FF;
       }
-      /* Bootstrap Icons font with optimized display */
-      @font-face {
-        font-family: "bootstrap-icons";
-        font-display: swap;
-        src: url("./assets/bootstrap-icons.woff2") format("woff2");
-      }
+      
       /* Critical above-the-fold styles */
       body { 
         font-family: 'Inter', system-ui, sans-serif; 
@@ -70,13 +75,10 @@
         background: #f1faee;
         color: #264653; 
       }
-      .hero-section { min-height: 100vh; display: flex; align-items: center; }
-      .profile-photo { 
-        width: 312px; 
-        height: 467px; 
-        aspect-ratio: 312/467;
-        object-fit: cover;
-        border-radius: 20px;
+      .hero-section { 
+        min-height: 100vh; 
+        display: flex; 
+        align-items: center; 
       }
     </style>
     
@@ -84,76 +86,30 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/assets/profile-photo.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="/assets/proyecto1.jpg" as="image">
+    <!-- Preload critical resources with responsive optimization -->
+    <link rel="preload" href="/assets/profile-photo-small.webp" as="image" fetchpriority="high" media="(max-width: 480px)">
+    <link rel="preload" href="/assets/profile-photo.webp" as="image" fetchpriority="high" media="(min-width: 481px)">
+    <link rel="preload" href="/assets/proyecto1-small.jpg" as="image" media="(max-width: 480px)">
+    <link rel="preload" href="/assets/proyecto1.jpg" as="image" media="(min-width: 481px)">
     
     <!-- Preconnect to critical third-party origins -->
     <link rel="preconnect" href="https://mirrors.creativecommons.org" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Critical CSS inline to prevent render blocking -->
+    <!-- Minimal critical CSS to prevent layout shift -->
     <style>
-      /* Critical CSS - Above the fold content */
-      body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        font-display: swap;
-        margin: 0;
-        padding: 0;
-        line-height: 1.5;
-        font-weight: 400;
-        background: #f1faee;
-        color: #264653;
-      }
-      
-      /* Critical layout prevention */
-      .bento-grid {
-        contain: layout style paint;
-      }
-      
-      /* Hero section critical styles */
-      .hero-section {
-        padding: 7rem 0 3rem;
-        background: linear-gradient(135deg, #f1faee 0%, #ffffff 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-      }
-      
-      /* Profile image critical */
-      .profile-photo {
-        width: 312px;
-        height: 467px;
-        object-fit: cover;
-        border-radius: 16px;
-      }
-      
-      /* Navigation critical */
-      .dynamic-island {
-        position: fixed;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1000;
-        backdrop-filter: blur(20px);
-        background: rgba(38, 70, 83, 0.9);
-        border-radius: 50px;
-        padding: 8px;
-      }
-      
-      /* Dark theme critical */
-      [data-theme="dark"] body {
-        background: #264653;
-        color: #f1faee;
-      }
+      /* Prevent FOUC with essential layout only */
+      body { margin: 0; font-family: 'Inter', sans-serif; }
+      .dynamic-island { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; }
     </style>
     
-    <!-- DNS Prefetch for CDN optimization -->
+    <!-- DNS Prefetch for CDN optimization - removed blocking resources -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="dns-prefetch" href="//mirrors.creativecommons.org">
     <link rel="dns-prefetch" href="//tile.openstreetmap.org">
     <link rel="dns-prefetch" href="//api.emailjs.com">
-    <link rel="dns-prefetch" href="//vercel.app">
+    <!-- Vercel.app removido para evitar bloqueo del renderizado inicial -->
     
     <!-- Preconnect for critical third-party origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -276,5 +232,51 @@
         top: 6px;
       }
     </style>
+    
+    <!-- Optimización de carga de CSS crítico -->
+    <script>
+      // Detectar soporte para WebP y cargar imágenes optimizadas
+      function supportsWebP() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1;
+        canvas.height = 1;
+        return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+      }
+      
+      // Cargar imagen responsiva basada en viewport
+      function getResponsiveImageSrc(baseName, type = 'webp') {
+        const width = window.innerWidth;
+        let size = 'large';
+        
+        if (width <= 480) size = 'small';
+        else if (width <= 768) size = 'medium';
+        
+        const format = supportsWebP() ? 'webp' : 'jpg';
+        return `/assets/${baseName}-${size}.${format}`;
+      }
+      
+      // Cargar CSS de forma asíncrona después del renderizado inicial
+      function loadCSS(href) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        link.media = "print";
+        link.onload = function() { this.media = "all"; };
+        document.head.appendChild(link);
+      }
+      
+      // Cargar CSS no crítico después del evento load
+      window.addEventListener('load', function() {
+        loadCSS('/assets/index-CdJ4d9XY.css');
+        loadCSS('/assets/icons-Cy9Qj_bd.css');
+        
+        // Aplicar lazy loading inteligente
+        const images = document.querySelectorAll('img[data-responsive]');
+        images.forEach(img => {
+          const baseName = img.dataset.responsive;
+          img.src = getResponsiveImageSrc(baseName);
+        });
+      });
+    </script>
   </body>
 </html>

@@ -6,7 +6,7 @@
   font-display: swap; /* Prevent font blocking */
 }
 
-/* Fonts loaded via optimized preload in index.html */
+/* Inter fonts ya están cargados en index.html para optimización crítica */
 
 /* Paleta de colores de Coolors.co - Estilo Pastel */
 :root {
@@ -88,6 +88,7 @@
   color: var(--text-primary);
   overflow-x: hidden;
   transition: background-color var(--transition-normal), color var(--transition-normal);
+  /* font-display ya está optimizado en @font-face */
 }
  #app {
   width: 100%;
@@ -159,6 +160,74 @@ h1, h2, h3, h4, h5, h6 {
 p {
   margin: 0 0 1rem 0;
   color: var(--text-primary);
+}
+
+/* Layout prevention - movido de index.html */
+.bento-grid {
+  contain: layout style paint;
+}
+
+/* Timeline básico para evitar shifts - movido de index.html */
+.p-timeline-vertical .p-timeline-event-marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #457b9d, #2a9d8f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botones críticos - movido de index.html */
+.btn-primary-custom {
+  background: linear-gradient(135deg, #457b9d, #2a9d8f);
+  color: #f1faee;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75em 1.5em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+/* Optimización de imágenes de proyectos - movido de index.html */
+.project-img-theme {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Responsive project images - movido de index.html */
+@media (max-width: 480px) {
+  .project-img-theme {
+    height: 160px;
+  }
+  .project-img-container {
+    height: 160px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .project-img-theme {
+    height: 180px;
+  }
+  .project-img-container {
+    height: 180px;
+  }
+}
+
+/* Lazy loading placeholder - movido de index.html */
+.img-placeholder {
+  background: linear-gradient(135deg, #f1faee, #e9c46a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #264653;
+  font-weight: 500;
 }
 
 /* Utilidades adicionales */

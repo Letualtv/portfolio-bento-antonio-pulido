@@ -96,6 +96,25 @@ onUnmounted(() => {
   font-size: 18px;
 }
 
+/* Tablet Responsive - Ajustar posición para el Dynamic Island mejorado */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .fixed-controls {
+    top: 5rem;
+    right: 12px;
+    gap: 8px;
+  }
+  
+  .control-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 13px;
+  }
+  
+  .theme-toggle i {
+    font-size: 17px;
+  }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .fixed-controls {

@@ -119,6 +119,31 @@ const scrollToSection = (sectionId) => {
   flex-shrink: 0;
 }
 
+/* Tablet Responsive - Breakpoint específico para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .dynamic-island {
+    padding: 10px 18px;
+    border-radius: 35px;
+    top: 15px;
+    max-width: 85%;
+    backdrop-filter: blur(25px);
+  }
+  
+  .nav-item {
+    padding: 14px 18px;
+    font-size: 15px;
+    gap: 10px;
+  }
+  
+  .nav-item i {
+    font-size: 18px;
+  }
+  
+  .nav-label {
+    font-size: 14px;
+  }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .dynamic-island {
