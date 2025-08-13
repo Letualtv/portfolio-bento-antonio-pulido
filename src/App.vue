@@ -138,10 +138,10 @@ function dismissGithubStar() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub Star"
-          class="star-btn-link"
+          class="star-btn-link d-inline-flex align-items-center"
         >
           <span class="star-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="var(--primary-color)" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="var(--primary-color)" viewBox="0 0 24 24">
               <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.782 1.4 8.168L12 18.896l-7.334 3.864 1.4-8.168L.132 9.21l8.2-1.192z" />
             </svg>
           </span>
@@ -183,130 +183,153 @@ function dismissGithubStar() {
   transition: background-color var(--transition-normal);
 }
 
-/* Botón flotante GitHub Star abajo derecha y cerrable */
+/* Botón GitHub Star - Más pequeño y encima de la navegación */
 .github-star-toast {
   position: fixed;
-  right: 24px;
-  bottom: 32px;
-  z-index: 1200;
-  background: var(--background-primary, #fff);
-  color: var(--primary-color, #222);
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(69,123,157,0.18);
-  padding: 14px 20px;
-  max-width: 340px;
-  backdrop-filter: blur(10px);
+  right: 1.5rem;
+  bottom: 8rem; /* Encima de la navegación */
+  z-index: 1100; /* Menor que la navegación */
+  background: var(--background-primary);
+  color: var(--primary-color);
+  border-radius: 1rem;
+  box-shadow: 0 0.25rem 1rem rgba(69,123,157,0.15);
+  padding: 0.5rem 0.875rem;
+  max-width: 16rem;
+  backdrop-filter: blur(0.5rem);
   display: flex;
   align-items: center;
   animation: fadeInUp 0.6s ease-out;
 }
+
 .toast-content {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 0.5rem;
 }
-/* Botón flotante GitHub Star - base */
+
 .star-btn-link {
-  color: var(--honeydew, #f1faeeff) !important;
-  border: 2px solid var(--persian-green, #2a9d8fff) !important;
-  background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%) !important;
+  color: var(--honeydew) !important;
+  border: 0.0625rem solid var(--persian-green) !important;
+  background: linear-gradient(135deg, var(--cerulean) 60%, var(--persian-green) 100%) !important;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  border-radius: 30px;
-  padding: 6px 16px;
-  font-size: 1em;
+  gap: 0.375rem;
+  border-radius: 1.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(69,123,157,0.08);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  box-shadow: 0 0.0625rem 0.25rem rgba(69,123,157,0.08);
+  transition: all 0.2s ease;
 }
-[data-theme="dark"] .star-btn-link {
-  background: linear-gradient(135deg, var(--cerulean, #457b9dff) 60%, var(--persian-green, #2a9d8fff) 100%) !important;
-  color: var(--honeydew, #f1faeeff) !important;
-  border: 2px solid var(--persian-green, #2a9d8fff) !important;
-}
+
 .star-btn-link:hover {
-  background: linear-gradient(135deg, var(--saffron, #e9c46aff) 0%, var(--persian-green, #2a9d8fff) 100%) !important;
-  color: var(--charcoal, #222) !important;
-  border-color: var(--persian-green, #2a9d8fff) !important;
-  box-shadow: 0 4px 18px 0 rgba(42,157,143,0.18), 0 1.5px 6px 0 rgba(233,196,106,0.12);
+  background: linear-gradient(135deg, var(--saffron), var(--persian-green)) !important;
+  color: var(--charcoal) !important;
+  box-shadow: 0 0.1875rem 0.75rem rgba(42,157,143,0.18), 0 0.0625rem 0.25rem rgba(233,196,106,0.12);
 }
+
 .star-btn-link:hover .star-icon svg {
-  fill: var(--charcoal, #222) !important;
+  fill: var(--charcoal) !important;
 }
+
 .star-icon svg {
   transition: fill 0.2s;
-  vertical-align: middle;
-  filter: drop-shadow(0 1px 2px rgba(69,123,157,0.12));
-  fill: var(--honeydew, #f1faeeff);
+  filter: drop-shadow(0 0.0625rem 0.125rem rgba(69,123,157,0.12));
+  fill: var(--honeydew);
+  width: 1rem;
+  height: 1rem;
 }
-[data-theme="dark"] .star-icon svg {
-  fill: var(--honeydew, #f1faeeff);
-}
+
 .star-btn-text {
   color: inherit;
   transition: color 0.2s;
-  display: inline-block;
-  vertical-align: middle;
+  font-size: 0.75rem;
 }
+
 .close-star-btn {
   background: transparent;
   border: none;
-  color: var(--primary-color, #222);
-  font-size: 1.7rem;
-  margin-left: 6px;
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  margin-left: 0.25rem;
   cursor: pointer;
-  padding: 0 4px;
+  padding: 0 0.125rem;
   border-radius: 50%;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s ease;
 }
+
 .close-star-btn:hover {
   background: rgba(255, 215, 0, 0.13);
+}
+
+/* Responsive para GitHub Star Toast */
+@media (max-width: 768px) {
+  .github-star-toast {
+    right: 1rem;
+    bottom: 6.5rem; /* Encima de la navegación móvil */
+    padding: 0.5rem 0.625rem;
+    font-size: 0.875rem;
+    max-width: calc(100vw - 2rem);
+    border-radius: 0.875rem;
+  }
+  
+  .toast-content {
+    gap: 0.375rem;
+  }
+  
+  .star-btn-link {
+    padding: 0.1875rem 0.5rem;
+    font-size: 0.75rem;
+    gap: 0.25rem;
+  }
+  
+  .star-btn-text {
+    font-size: 0.6875rem;
+  }
+  
+  .star-icon svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  
+  .close-star-btn {
+    font-size: 1.125rem;
+    margin-left: 0.1875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .github-star-toast {
+    right: 0.75rem;
+    bottom: 6rem;
+    max-width: calc(100vw - 1.5rem);
+  }
 }
 
 @keyframes fadeInUp {
   0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(1.875rem);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
-@media (max-width: 768px) {
-  .github-star-toast {
-    right: 10px;
-    bottom: 16px;
-    padding: 10px 12px;
-    font-size: 0.95rem;
-    max-width: 95vw;
-  }
-  .toast-content {
-    gap: 8px;
-  }
-  .star-btn-link {
-    padding: 6px 10px;
-    font-size: 0.95em;
-  }
-  .star-btn-link i {
-    font-size: 1.1em;
-  }
-}
 
 /* Skip link para accesibilidad */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 6px;
+  top: -2.5rem;
+  left: 0.375rem;
   background: var(--primary-color);
   color: var(--honeydew);
-  padding: 8px;
-  border-radius: 4px;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
   text-decoration: none;
   z-index: 10000;
   font-weight: 600;
@@ -314,39 +337,47 @@ function dismissGithubStar() {
 }
 
 .skip-link:focus {
-  top: 6px;
+  top: 0.375rem;
   color: var(--honeydew);
 }
 
+/* Variables del tema para el toast */
 :root {
-  --toast-bg: #f8f9fa;
+  --toast-bg: rgba(248, 249, 250, 0.95);
   --toast-text: #222;
+  --toast-accent: #FFD700;
 }
+
 [data-theme="dark"] {
-  --toast-bg: #23272f;
+  --toast-bg: rgba(35, 39, 47, 0.95);
   --toast-text: #fff;
-  --accent-color: #FFD700;
+  --toast-accent: #FFD700;
 }
+
 .github-star-toast {
   background: var(--toast-bg);
   color: var(--toast-text);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
+  box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.2);
 }
+
 .star-btn-link {
-  color: var(--toast-text);
-  border: 2px solid var(--accent-color, #FFD700);
-  background: rgba(40,40,48,0.85);
+  color: var(--toast-text) !important;
+  border: 0.125rem solid var(--toast-accent) !important;
+  background: rgba(40,40,48,0.85) !important;
 }
+
 .star-btn-link:hover {
-  background: var(--accent-color, #FFD700);
-  color: #23272f;
-  border-color: var(--accent-color, #FFD700);
+  background: var(--toast-accent) !important;
+  color: #23272f !important;
+  border-color: var(--toast-accent) !important;
 }
+
 .close-star-btn {
   color: var(--toast-text);
 }
+
 .close-star-btn:hover {
   background: rgba(255, 215, 0, 0.13);
-  color: var(--accent-color, #FFD700);
+  color: var(--toast-accent);
 }
 </style>

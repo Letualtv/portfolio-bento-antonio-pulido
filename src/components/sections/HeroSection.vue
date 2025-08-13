@@ -173,10 +173,6 @@ const socialLinks = socialLinksData
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--cerulean), var(--persian-green), var(--saffron));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-size: 200% 200%;
   animation: gradientShift 3s ease-in-out infinite;
 }
@@ -563,6 +559,27 @@ const socialLinks = socialLinksData
   .btn {
     padding: 12px 20px;
     font-size: 0.9rem;
+  }
+}
+
+/* Ajustes específicos para navegación inferior (móviles y tablets) */
+@media (max-width: 1024px) {
+  .hero-section {
+    padding-top: 3rem !important; /* Menos espacio arriba */
+    padding-bottom: 1.5rem !important; /* Menos espacio abajo */
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding-top: 2rem !important; /* Aún menos espacio en móviles */
+    padding-bottom: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding-top: 1.5rem !important; /* Mínimo espacio en móviles pequeños */
   }
 }
 

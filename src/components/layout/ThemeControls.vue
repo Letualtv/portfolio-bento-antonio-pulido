@@ -45,11 +45,11 @@ onUnmounted(() => {
 <style scoped>
 .fixed-controls {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 1.25rem;
+  right: 1.25rem;
   z-index: 1001;
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   transition: opacity 0.3s ease;
 }
 
@@ -62,8 +62,8 @@ onUnmounted(() => {
 }
 
 .control-btn {
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   border: none;
   background: var(--background-secondary);
@@ -74,80 +74,82 @@ onUnmounted(() => {
   cursor: pointer;
   transition: var(--transition-normal);
   box-shadow: var(--shadow-md);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(0.625rem);
   font-weight: 600;
-  font-size: 14px;
-  border: 1px solid var(--border-color);
+  font-size: 0.875rem;
+  border: 0.0625rem solid var(--border-color);
 }
 
 .control-btn:hover {
   background: linear-gradient(135deg, var(--persian-green), var(--saffron));
   color: var(--honeydew);
-  transform: translateY(-2px);
+  transform: translateY(-0.125rem);
   box-shadow: var(--shadow-lg);
 }
 
 .control-btn:focus {
-  outline: 2px solid var(--secondary-color);
-  outline-offset: 2px;
+  outline: 0.125rem solid var(--secondary-color);
+  outline-offset: 0.125rem;
 }
 
 .theme-toggle i {
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
-/* Tablet Responsive - Ajustar posición para el Dynamic Island mejorado */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .fixed-controls {
-    top: 5rem;
-    right: 12px;
-    gap: 8px;
-  }
-  
-  .control-btn {
-    width: 48px;
-    height: 48px;
-    font-size: 13px;
-  }
-  
-  .theme-toggle i {
-    font-size: 17px;
-  }
-}
-
-/* Mobile Responsive */
+/* Mantener siempre arriba a la derecha - botones más pequeños en móvil */
 @media (max-width: 768px) {
   .fixed-controls {
-    right: 10px;
-    gap: 6px;
+    /* Mantener misma posición que desktop */
+    top: 1.25rem;
+    right: 1.25rem;
+    gap: 0.375rem;
   }
   
   .control-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 12px;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.75rem;
   }
   
   .theme-toggle i {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .fixed-controls {
-    top: 5rem;
-    right: 8px;
-    gap: 4px;
+    /* Mantener misma posición, más pequeño en pantallas muy pequeñas */
+    top: 1rem;
+    right: 1rem;
+    gap: 0.25rem;
   }
   
   .control-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 11px;
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.6875rem;
   }
   
   .theme-toggle i {
-    font-size: 14px;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .fixed-controls {
+    top: 0.75rem;
+    right: 0.75rem;
+    gap: 0.1875rem;
+  }
+  
+  .control-btn {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.625rem;
+  }
+  
+  .theme-toggle i {
+    font-size: 0.75rem;
   }
 }
 </style>

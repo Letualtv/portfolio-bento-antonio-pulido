@@ -59,6 +59,13 @@ const socialLinks = socialLinksData.filter(social =>
   transition: background-color var(--transition-normal);
 }
 
+/* Más espacio en footer para móviles y tablets (navegación inferior) */
+@media (max-width: 1024px) {
+  .footer-portfolio {
+    padding-bottom: 6rem !important; /* Espacio para navegación inferior */
+  }
+}
+
 .footer-social-link {
   aspect-ratio: 1/1;
   min-width: 2.5em;

@@ -728,20 +728,9 @@ function handleShowMore() {
   transform: scale(1.05);
 }
 
+/* Botones ya están centralizados en style.css */
 .btn-primary-custom {
-  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  color: var(--honeydew) !important;
-  border: none;
-  font-weight: 600;
-  border-radius: 50px !important;
-  box-shadow: 0 4px 12px rgba(69, 123, 157, 0.3);
-  transition: var(--transition-normal);
-  padding: 0.75em 1.5em;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
+  font-size: 0.9rem !important;
   min-height: 44px;
 }
 
@@ -850,16 +839,16 @@ function handleShowMore() {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  border: 3px solid var(--persian-green);
-  box-shadow: 0 0 0 4px var(--background-primary);
+  border: 0.1875rem solid var(--persian-green);
+  box-shadow: 0 0 0 0.25rem var(--background-primary);
   margin: 0.5rem auto;
   animation: dotPulse 1.2s cubic-bezier(.4,0,.2,1) infinite alternate;
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 1;
   position: relative;
 }
@@ -870,33 +859,56 @@ function handleShowMore() {
   left: 50%;
   transform: translate(-50%, -50%);
   line-height: 1;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 @keyframes dotPulse {
-  0% { box-shadow: 0 0 0 4px var(--background-primary), 0 0 0 0 var(--persian-green, #2a9d8f); }
-  100% { box-shadow: 0 0 0 4px var(--background-primary), 0 0 12px 4px var(--persian-green, #2a9d8f); }
+  0% { box-shadow: 0 0 0 0.25rem var(--background-primary), 0 0 0 0 var(--persian-green, #2a9d8f); }
+  100% { box-shadow: 0 0 0 0.25rem var(--background-primary), 0 0 0.75rem 0.25rem var(--persian-green, #2a9d8f); }
 }
 
-/* Timeline alineado a la izquierda en móvil/tablet */
+/* Timeline alineado a la izquierda en móvil/tablet - markers encima */
 @media (max-width: 1024px) {
   .p-timeline.p-timeline-vertical {
     justify-content: flex-start !important;
     align-items: flex-start !important;
   }
+  
   .p-timeline-event-opposite {
     display: none !important;
   }
+  
+  .p-timeline-event {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .p-timeline-event-marker {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-bottom: 1rem !important;
+    z-index: 10 !important;
+  }
+  
   .p-timeline-event-content {
     margin-left: 0 !important;
     margin-right: 0 !important;
-    width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
-    box-sizing: border-box;
+    box-sizing: border-box !important;
+    position: relative !important;
+  }
+  
+  .p-timeline-event-connector {
+    display: none !important;
   }
   .timeline-card-theme {
     width: 100%;
@@ -1055,6 +1067,86 @@ function handleShowMore() {
   0% { transform: scale(0.7); opacity: 0; }
   60% { transform: scale(1.15); opacity: 1; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive específico para móvil - markers más pequeños y mejor posicionamiento */
+@media (max-width: 768px) {
+  .timeline-marker-custom {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-width: 0.125rem;
+    box-shadow: 0 0 0 0.1875rem var(--background-primary);
+    font-size: 0.7rem;
+  }
+  
+  .timeline-marker-custom i {
+    font-size: 0.625rem;
+  }
+  
+  .p-timeline-event-marker {
+    margin-bottom: 0.75rem !important;
+  }
+}
+
+/* Ajustes específicos para móviles y tablets - iconos arriba de las tarjetas */
+@media (max-width: 1024px) {
+  /* Posicionar los markers encima de las tarjetas para más espacio */
+  .p-timeline-event-marker {
+    transform: translateY(-1rem) !important;
+    z-index: 10 !important;
+  }
+  
+  .timeline-card-theme {
+    margin-top: 1rem !important;
+    padding-top: 0.5rem !important;
+  }
+  
+  /* Ajustar spacing del timeline para iconos superiores */
+  .custom-timeline .p-timeline-event {
+    margin-bottom: 2rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* En móviles, aún más espacio vertical */
+  .p-timeline-event-marker {
+    transform: translateY(-1.5rem) !important;
+  }
+  
+  .timeline-card-theme {
+    margin-top: 1.5rem !important;
+  }
+  
+  /* Reducir ancho de las tarjetas para más espacio lateral */
+  .timeline-card-theme {
+    max-width: 95% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-marker-custom {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: 0.0625rem;
+    box-shadow: 0 0 0 0.125rem var(--background-primary);
+    font-size: 0.6rem;
+  }
+  
+  .timeline-marker-custom i {
+    font-size: 0.5rem;
+  }
+  
+  .p-timeline-event-marker {
+    margin-bottom: 0.5rem !important;
+    transform: translateY(-2rem) !important;
+  }
+  
+  .timeline-card-theme {
+    margin-top: 2rem !important;
+    max-width: 98% !important;
+  }
 }
 
 /* Reducir movimiento para usuarios con preferencias de accesibilidad */
