@@ -870,7 +870,7 @@ function handleShowMore() {
   100% { box-shadow: 0 0 0 0.25rem var(--background-primary), 0 0 0.75rem 0.25rem var(--persian-green, #2a9d8f); }
 }
 
-/* Timeline alineado a la izquierda en móvil/tablet - markers encima */
+/* Timeline alineado a la izquierda en móvil/tablet - SIN markers */
 @media (max-width: 1024px) {
   .p-timeline.p-timeline-vertical {
     justify-content: flex-start !important;
@@ -881,19 +881,18 @@ function handleShowMore() {
     display: none !important;
   }
   
+  /* OCULTAR completamente los markers en móvil/tablet */
+  .p-timeline-event-marker {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
   .p-timeline-event {
     position: relative !important;
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
-  }
-  
-  .p-timeline-event-marker {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    margin-bottom: 1rem !important;
-    z-index: 10 !important;
+    align-items: flex-start !important;
+    margin-bottom: 2rem !important;
   }
   
   .p-timeline-event-content {
@@ -901,8 +900,8 @@ function handleShowMore() {
     margin-right: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
     box-sizing: border-box !important;
     position: relative !important;
   }
@@ -910,35 +909,28 @@ function handleShowMore() {
   .p-timeline-event-connector {
     display: none !important;
   }
+  
   .timeline-card-theme {
     width: 100%;
     box-sizing: border-box;
     margin-left: 0;
     margin-right: 0;
+    margin-top: 0 !important;
+    padding-top: 1.5rem !important;
   }
-  .p-timeline-event {
-    flex-direction: row !important;
-    align-items: flex-start !important;
-  }
-  .p-timeline-event-marker {
-    left: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 1rem !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
+  
+  /* Línea vertical continua del timeline - móvil */
   .p-timeline-vertical::before {
-    left: 16px !important;
-    width: 2px !important;
-    background: linear-gradient(180deg, var(--persian-green), var(--saffron)) !important;
-    opacity: 0.8 !important;
-    display: block !important;
-    visibility: visible !important;
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    height: 100% !important;
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
+    border-radius: 3px;
+    opacity: 0.9;
+    z-index: 1;
   }
 }
 
@@ -975,15 +967,23 @@ function handleShowMore() {
   }
 }
 
-/* Animación de la línea del timeline mejorada */
-.p-timeline-vertical::before {
+/* Línea vertical continua del timeline - escritorio */
+.custom-timeline :deep(.p-timeline-vertical::before) {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
+  border-radius: 3px;
+  opacity: 0.9;
+  z-index: 1;
   animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards;
   transform-origin: top;
-  height: 0 !important;
-  background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
-  opacity: 0.7;
 }
-.p-timeline-vertical.p-timeline-animated::before {
+
+.custom-timeline :deep(.p-timeline-vertical.p-timeline-animated::before) {
   animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards;
 }
 @keyframes timelineLineGrow {
@@ -997,7 +997,7 @@ function handleShowMore() {
   }
   100% {
     height: 100%;
-    opacity: 1;
+    opacity: 0.9;
     filter: blur(0);
   }
 }
@@ -1069,83 +1069,83 @@ function handleShowMore() {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive específico para móvil - markers más pequeños y mejor posicionamiento */
+/* Responsive específico para móvil - sin iconos */
 @media (max-width: 768px) {
-  .timeline-marker-custom {
-    width: 1.75rem;
-    height: 1.75rem;
-    border-width: 0.125rem;
-    box-shadow: 0 0 0 0.1875rem var(--background-primary);
-    font-size: 0.7rem;
+  .timeline-card-theme {
+    margin-top: 0 !important;
+    padding-top: 1rem !important;
   }
   
-  .timeline-marker-custom i {
-    font-size: 0.625rem;
+  /* Línea más fina y posicionada correctamente en móviles */
+  .custom-timeline :deep(.p-timeline-vertical::before) {
+    left: 0.25rem !important;
+    width: 2px !important;
   }
   
-  .p-timeline-event-marker {
-    margin-bottom: 0.75rem !important;
+  .custom-timeline :deep(.p-timeline-event-content) {
+    padding-left: 0.75rem !important;
+  }
+  
+  /* Ocultar iconos en móvil - específicos para timeline */
+  .custom-timeline :deep(.p-timeline-event-marker) {
+    display: none !important;
+  }
+  
+  .timeline-marker-wrapper {
+    display: none !important;
   }
 }
 
-/* Ajustes específicos para móviles y tablets - iconos arriba de las tarjetas */
-@media (max-width: 1024px) {
-  /* Posicionar los markers encima de las tarjetas para más espacio */
-  .p-timeline-event-marker {
-    transform: translateY(-1rem) !important;
-    z-index: 10 !important;
-  }
-  
+/* Ajustes específicos para móviles pequeños - solo línea */
+@media (max-width: 480px) {
   .timeline-card-theme {
-    margin-top: 1rem !important;
-    padding-top: 0.5rem !important;
+    margin-top: 0 !important;
+    max-width: 98% !important;
+    padding-top: 0.75rem !important;
   }
   
-  /* Ajustar spacing del timeline para iconos superiores */
-  .custom-timeline .p-timeline-event {
-    margin-bottom: 2rem !important;
+  .custom-timeline :deep(.p-timeline-vertical::before) {
+    left: 0.125rem;
+  }
+  
+  .custom-timeline :deep(.p-timeline-event-content) {
+    padding-left: 0.5rem !important;
   }
 }
 
+/* Estilos adicionales para asegurar línea timeline en móvil */
+.custom-timeline {
+  position: relative;
+}
+
+/* Asegurar que la línea del timeline sea visible */
+.custom-timeline :deep(.p-timeline) {
+  position: relative;
+}
+
+.custom-timeline :deep(.p-timeline-vertical) {
+  position: relative;
+}
+
+/* Forzar la línea en móvil si PrimeVue la oculta */
 @media (max-width: 768px) {
-  /* En móviles, aún más espacio vertical */
-  .p-timeline-event-marker {
-    transform: translateY(-1.5rem) !important;
-  }
-  
-  .timeline-card-theme {
-    margin-top: 1.5rem !important;
-  }
-  
-  /* Reducir ancho de las tarjetas para más espacio lateral */
-  .timeline-card-theme {
-    max-width: 95% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+  .custom-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
+    border-radius: 2px;
+    opacity: 0.9;
+    z-index: 1;
   }
 }
 
 @media (max-width: 480px) {
-  .timeline-marker-custom {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-width: 0.0625rem;
-    box-shadow: 0 0 0 0.125rem var(--background-primary);
-    font-size: 0.6rem;
-  }
-  
-  .timeline-marker-custom i {
-    font-size: 0.5rem;
-  }
-  
-  .p-timeline-event-marker {
-    margin-bottom: 0.5rem !important;
-    transform: translateY(-2rem) !important;
-  }
-  
-  .timeline-card-theme {
-    margin-top: 2rem !important;
-    max-width: 98% !important;
+  .custom-timeline::before {
+    left: 0.125rem;
   }
 }
 

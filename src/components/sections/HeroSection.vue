@@ -19,8 +19,8 @@
           <div class="gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start" role="group" aria-label="{{ currentLang === 'en' ? 'Main actions' : 'Acciones principales' }}">
             <a
               class="btn btn-primary-custom"
-              href="/cv-antonio-pulido.pdf"
-              download="CV-Antonio-Pulido-FullStack-Developer.pdf"
+              :href="currentLang === 'en' ? '/Antonio Pulido - CV English.pdf' : '/Antonio Pulido - CV.pdf'"
+              :download="currentLang === 'en' ? 'Antonio Pulido - CV English.pdf' : 'Antonio Pulido - CV.pdf'"
               target="_blank"
               rel="noopener noreferrer author"
               :title="t('hero.downloadCV')"

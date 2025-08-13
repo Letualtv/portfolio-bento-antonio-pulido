@@ -211,8 +211,6 @@ function dismissGithubStar() {
 
 .star-btn-link {
   color: var(--honeydew) !important;
-  border: 0.0625rem solid var(--persian-green) !important;
-  background: linear-gradient(135deg, var(--cerulean) 60%, var(--persian-green) 100%) !important;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -222,18 +220,31 @@ function dismissGithubStar() {
   padding: 0.25rem 0.75rem;
   font-size: 0.8125rem;
   font-weight: 600;
-  box-shadow: 0 0.0625rem 0.25rem rgba(69,123,157,0.08);
   transition: all 0.2s ease;
+  /* Gradiente de fondo similar al botón primario */
+  background: var(--gradient-primary) !important;
+  border: 0.0625rem solid var(--tiffany-blue) !important;
+  box-shadow: var(--shadow-btn-primary);
+  line-height: 1;
+  min-height: 2rem; /* Altura mínima para consistencia */
 }
 
 .star-btn-link:hover {
-  background: linear-gradient(135deg, var(--saffron), var(--persian-green)) !important;
-  color: var(--charcoal) !important;
-  box-shadow: 0 0.1875rem 0.75rem rgba(42,157,143,0.18), 0 0.0625rem 0.25rem rgba(233,196,106,0.12);
+  background: var(--gradient-primary-hover) !important;
+  color: var(--honeydew) !important;
+  box-shadow: var(--shadow-btn-primary-hover);
+  transform: var(--transform-hover-small);
 }
 
 .star-btn-link:hover .star-icon svg {
-  fill: var(--charcoal) !important;
+  fill: var(--honeydew) !important;
+}
+
+.star-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .star-icon svg {
@@ -242,18 +253,22 @@ function dismissGithubStar() {
   fill: var(--honeydew);
   width: 1rem;
   height: 1rem;
+  display: block;
 }
 
 .star-btn-text {
   color: inherit;
   transition: color 0.2s;
   font-size: 0.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .close-star-btn {
   background: transparent;
   border: none;
-  color: var(--primary-color);
+  color: var(--text-primary);
   font-size: 1.25rem;
   margin-left: 0.25rem;
   cursor: pointer;
@@ -263,7 +278,8 @@ function dismissGithubStar() {
 }
 
 .close-star-btn:hover {
-  background: rgba(255, 215, 0, 0.13);
+  background: rgba(148, 210, 189, 0.2) !important;
+  color: var(--persian-green) !important;
 }
 
 /* Responsive para GitHub Star Toast */
@@ -341,43 +357,27 @@ function dismissGithubStar() {
   color: var(--honeydew);
 }
 
-/* Variables del tema para el toast */
-:root {
-  --toast-bg: rgba(248, 249, 250, 0.95);
-  --toast-text: #222;
-  --toast-accent: #FFD700;
-}
-
-[data-theme="dark"] {
-  --toast-bg: rgba(35, 39, 47, 0.95);
-  --toast-text: #fff;
-  --toast-accent: #FFD700;
-}
-
+/* GitHub Star Toast - Con gradiente de fondo restaurado */
 .github-star-toast {
-  background: var(--toast-bg);
-  color: var(--toast-text);
-  box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.2);
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-xl);
+  backdrop-filter: blur(1rem);
+  border: 0.0625rem solid var(--tiffany-blue);
 }
 
-.star-btn-link {
-  color: var(--toast-text) !important;
-  border: 0.125rem solid var(--toast-accent) !important;
-  background: rgba(40,40,48,0.85) !important;
+/* Modo oscuro específico para el toast */
+[data-theme="dark"] .github-star-toast {
+  background: var(--background-secondary);
+  border-color: var(--persian-green);
 }
 
-.star-btn-link:hover {
-  background: var(--toast-accent) !important;
-  color: #23272f !important;
-  border-color: var(--toast-accent) !important;
+[data-theme="dark"] .close-star-btn {
+  color: var(--honeydew);
 }
 
-.close-star-btn {
-  color: var(--toast-text);
-}
-
-.close-star-btn:hover {
-  background: rgba(255, 215, 0, 0.13);
-  color: var(--toast-accent);
+[data-theme="dark"] .close-star-btn:hover {
+  background: rgba(148, 210, 189, 0.2);
+  color: var(--tiffany-blue);
 }
 </style>
