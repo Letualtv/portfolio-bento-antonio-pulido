@@ -2,7 +2,7 @@
 export const seoConfig = {
   title: 'Antonio Pulido - Full Stack Developer | Vue.js & Laravel Specialist',
   titleTemplate: '%s | Antonio Pulido Portfolio',
-  description: 'Portfolio profesional de Antonio Pulido, Desarrollador Full Stack especializado en Vue.js, Laravel y desarrollo web moderno. Experiencia en IESA-CSIC y proyectos de investigación social.',
+  description: 'Desarrollador Full Stack especializado en PHP (Laravel) y JavaScript (Vue.js), enfocado en crear soluciones eficientes, escalables y de alto rendimiento. Técnico Superior en Desarrollo de Aplicaciones Web con certificaciones en eCommerce, Full Stack y SEO.',
   keywords: [
     'Antonio Pulido',
     'Full Stack Developer',
@@ -26,7 +26,7 @@ export const seoConfig = {
   // Open Graph meta tags
   openGraph: {
     title: 'Antonio Pulido - Full Stack Developer Portfolio',
-    description: 'Explora el portfolio de Antonio Pulido, desarrollador Full Stack con experiencia en Vue.js, Laravel y sistemas de investigación social.',
+    description: 'Desarrollador Full Stack especializado en PHP (Laravel) y JavaScript (Vue.js), enfocado en crear soluciones eficientes, escalables y de alto rendimiento. Técnico Superior en Desarrollo de Aplicaciones Web con certificaciones en eCommerce, Full Stack y SEO.',
     image: '/assets/profile-photo.jpg',
     url: 'https://antonioupulido.dev',
     type: 'profile',
@@ -43,7 +43,7 @@ export const seoConfig = {
     site: '@antonioupulido', // Actualizar con el handle real
     creator: '@antonioupulido',
     title: 'Antonio Pulido - Full Stack Developer',
-    description: 'Portfolio profesional de Antonio Pulido, especialista en Vue.js y Laravel',
+    description: 'Desarrollador Full Stack especializado en PHP (Laravel) y JavaScript (Vue.js), enfocado en crear soluciones eficientes, escalables y de alto rendimiento. Técnico Superior en Desarrollo de Aplicaciones Web.',
     image: '/assets/profile-photo.jpg'
   },
   
@@ -53,7 +53,7 @@ export const seoConfig = {
     '@type': 'Person',
     name: 'Antonio Pulido',
     jobTitle: 'Full Stack Developer',
-    description: 'Desarrollador Full Stack especializado en Vue.js, Laravel y desarrollo web moderno',
+    description: 'Desarrollador Full Stack especializado en PHP (Laravel) y JavaScript (Vue.js), enfocado en crear soluciones eficientes, escalables y de alto rendimiento. Técnico Superior en Desarrollo de Aplicaciones Web con experiencia en IESA-CSIC.',
     url: 'https://antonioupulido.dev',
     image: '/assets/profile-photo.jpg',
     sameAs: [

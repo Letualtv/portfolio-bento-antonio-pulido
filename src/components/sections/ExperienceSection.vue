@@ -850,18 +850,32 @@ function handleShowMore() {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
   border: 3px solid var(--persian-green);
   box-shadow: 0 0 0 4px var(--background-primary);
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem auto;
   animation: dotPulse 1.2s cubic-bezier(.4,0,.2,1) infinite alternate;
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  position: relative;
 }
+
+.timeline-marker-custom i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @keyframes dotPulse {
   0% { box-shadow: 0 0 0 4px var(--background-primary), 0 0 0 0 var(--persian-green, #2a9d8f); }
   100% { box-shadow: 0 0 0 4px var(--background-primary), 0 0 12px 4px var(--persian-green, #2a9d8f); }
@@ -898,12 +912,21 @@ function handleShowMore() {
     left: 0 !important;
     margin-left: 0 !important;
     margin-right: 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .p-timeline-vertical::before {
-    left: 12px !important;
+    left: 16px !important;
     width: 2px !important;
     background: linear-gradient(180deg, var(--persian-green), var(--saffron)) !important;
     opacity: 0.8 !important;
+    display: block !important;
+    visibility: visible !important;
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    height: 100% !important;
   }
 }
 
