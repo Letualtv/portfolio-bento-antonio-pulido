@@ -109,7 +109,8 @@ name: 'Nombre',
       phone: 'Teléfono',
       email: 'Correo electrónico',
       location: 'Ubicación',
-      locationValue: 'Desde Córdoba con amor ❤️',
+      locationValue: 'Desde Córdoba',
+      locationIcon: '/icons/mezquita-catedral-de-cordoba.png',
     },
     // Sección About mejorada
     about: {
@@ -402,6 +403,7 @@ name: 'Nombre',
       email: 'Email',
       location: 'Location',
       locationValue: 'From Córdoba with love ❤️',
+      locationIcon: '/icons/mezquita-catedral-de-cordoba.png',
     },
 
 

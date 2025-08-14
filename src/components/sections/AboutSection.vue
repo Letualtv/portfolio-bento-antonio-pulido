@@ -1,6 +1,6 @@
 <template>
   <section id="about" class="about-section">
-    <div class="container">
+    <div class="container-fluid container-xl">
       <!-- Header con stats -->
       <div class="about-header">
         <h2 class="section-title">{{ t('about.title') }}</h2>
@@ -298,7 +298,12 @@ const toggleCard = (cardName) => {
   align-items: stretch;
 }
 
-.container {
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-xl {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;

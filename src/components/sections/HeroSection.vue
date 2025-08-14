@@ -5,18 +5,18 @@
     role="banner"
     aria-labelledby="hero-title"
   >
-    <div class="container">
-      <div class="row hero-grid align-items-center justify-content-between flex-lg-row flex-column-reverse">
-        <div class="col-auto hero-content order-lg-1 order-2 mb-5 mb-lg-0">
+    <div class="container-fluid container-xl">
+      <div class="row hero-grid align-items-center justify-content-between flex-xl-row flex-column-reverse">
+        <div class="col-auto hero-content order-xl-1 order-2 mb-5 mb-xl-0">
           <h1 id="hero-title" class="hero-title">
             <span class="greeting-line text-start">{{ t('hero.greeting') }}</span>
-            <span class="name-line text-gradient my-2 my-lg-0">{{ t('hero.name') }}</span>
+            <span class="name-line text-gradient my-2 my-xl-0">{{ t('hero.name') }}</span>
           </h1>
           <h2 class="hero-subtitle-role">{{ t('hero.title') }}</h2>
-          <p class="hero-subtitle text-start mx-1 mx-lg-0">
+          <p class="hero-subtitle text-start mx-1 mx-xl-0">
             {{ t('hero.description') }}
           </p>
-          <div class="gap-3 d-flex flex-wrap justify-content-center justify-content-lg-start" role="group" aria-label="{{ currentLang === 'en' ? 'Main actions' : 'Acciones principales' }}">
+          <div class="gap-3 d-flex flex-wrap justify-content-center justify-content-xl-start" role="group" aria-label="{{ currentLang === 'en' ? 'Main actions' : 'Acciones principales' }}">
             <a
               class="btn btn-primary-custom"
               :href="currentLang === 'en' ? '/Antonio Pulido - CV English.pdf' : '/Antonio Pulido - CV.pdf'"
@@ -41,8 +41,8 @@
             </button>
           </div>
         </div>
-        <div class="col-auto order-lg-2 order-1">
-          <div class="d-flex flex-lg-row flex-column align-items-center justify-content-center gap-4">
+        <div class="col-auto order-xl-2 order-1">
+          <div class="d-flex flex-xl-row flex-column align-items-center justify-content-center gap-4">
             <!-- Foto de perfil -->
             <div 
               class="profile-card mx-2 mx-md-0"
@@ -79,7 +79,7 @@
             </div>
             <!-- Redes sociales -->
             <nav 
-              class="social-links d-flex flex-lg-column flex-row align-items-center justify-content-center gap-3 mt-lg-0 mt-2"
+              class="social-links d-flex flex-xl-column flex-row align-items-center justify-content-center gap-3 mt-xl-0 mt-2"
               role="navigation"
               :aria-label="currentLang === 'en' ? 'Social media links' : 'Enlaces de redes sociales'"
             >
@@ -122,8 +122,16 @@ const socialLinks = socialLinksData
   align-items: center;
 }
 
-.container {
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-xl {
   max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .hero-section::before {
@@ -481,6 +489,33 @@ const socialLinks = socialLinksData
 }
 
 /* Responsive Design */
+/* Optimización para el rango 991px-1167px (tablets grandes/escritorio pequeño) */
+@media (min-width: 991px) and (max-width: 1167px) {
+  .hero-section {
+    padding: 4rem 0 2rem;
+  }
+  
+  .hero-content {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-title .greeting-line,
+  .hero-title .name-line {
+    text-align: center;
+  }
+  
+  .hero-subtitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .profile-card {
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-section {
     padding: 7rem 0 2rem !important;

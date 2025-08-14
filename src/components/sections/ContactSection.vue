@@ -5,7 +5,7 @@
     role="region"
     aria-labelledby="contact-title"
   >
-    <div class="container">
+    <div class="container-fluid container-xl">
       <h2 id="contact-title" class="section-title">{{ t('sections.contactTitle') }}</h2>
       <p class="contact-description">{{ t('contact.contactDescription') }}</p>
       <div class="row contact-content justify-content-between d-flex g-4">
@@ -22,6 +22,7 @@
                 :key="method.type" 
                 class="contact-method p-3" 
                 :class="{'location-method d-block': method.type === 'location'}"
+                :data-type="method.type"
                 role="listitem"
               >
                 <template v-if="method.type !== 'location'">
@@ -48,7 +49,16 @@
                     </div>
                     <div class="contact-details d-flex flex-column text-start w-100">
                       <div class="contact-label mb-1">{{ method.label }}</div>
-                      <div class="contact-value mb-1">{{ method.value }}</div>
+                      <div class="contact-value mb-1 d-flex align-items-center gap-2">
+                        {{ method.value }}
+                        <img 
+                          :src="t('contact.locationIcon')" 
+                          alt="Mezquita-Catedral de Córdoba" 
+                          class="cordoba-icon"
+                          width="20"
+                          height="20"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div class="map-container mt-3">
@@ -296,7 +306,12 @@ const handleSubmit = async () => {
 
 }
 
-.container {
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-xl {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
@@ -390,6 +405,49 @@ const handleSubmit = async () => {
 .contact-value {
   color: var(--text-muted);
   font-size: 1rem;
+  /* Permitir salto de línea en emails largos */
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Específicamente para emails que son muy largos */
+.contact-method[data-type="email"] .contact-value {
+  word-break: break-all;
+  font-size: 0.95rem; /* Ligeramente más pequeño para emails */
+}
+
+/* Responsive para móviles - mejor manejo de emails largos */
+@media (max-width: 768px) {
+  .contact-method {
+    padding: 1rem !important;
+  }
+  
+  .contact-details {
+    min-width: 0; /* Permite que el contenido se contraiga */
+    flex: 1;
+  }
+  
+  .contact-value {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    /* Forzar salto de línea en móviles para emails largos */
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+  
+  /* Email específicamente en móviles */
+  .contact-method[data-type="email"] .contact-value {
+    font-size: 0.85rem;
+    letter-spacing: -0.01em; /* Espaciado más compacto */
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-method[data-type="email"] .contact-value {
+    font-size: 0.8rem;
+  }
 }
 
 /* Mapa moderno y elegante */
@@ -438,6 +496,17 @@ const handleSubmit = async () => {
 .location-method .location-header {
   display: flex;
   flex-direction: column;
+}
+
+.cordoba-icon {
+  transition: var(--transition-normal);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cordoba-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .location-method:hover {

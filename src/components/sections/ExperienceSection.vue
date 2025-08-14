@@ -5,7 +5,7 @@
     role="main"
     aria-labelledby="experience-title"
   >
-    <div class="container">
+    <div class="container-fluid container-xl">
       <h2 id="experience-title" class="section-title text-center mb-5">{{ t('experience.title') }}</h2>
       
       <div class="experience-content">
@@ -126,7 +126,46 @@
             {{ t('experience.timelineTitle') }}
           </h3>
           <div class="timeline-container" role="list" aria-label="{{ currentLang === 'en' ? 'Professional timeline' : 'Cronología profesional' }}">
-            <Timeline :value="visibleExperience" :align="timelineAlign" layout="vertical" :animate="true" class="custom-timeline">
+            <div class="row g-3 g-md-4" v-if="windowWidth <= 780">
+              <!-- Layout en columna para móvil/tablet -->
+              <div 
+                v-for="(item, index) in visibleExperience" 
+                :key="`mobile-${index}`"
+                class="col-12"
+              >
+                <div 
+                  class="timeline-card-theme timeline-fade-in position-relative" 
+                  :style="{ '--card-delay': index * 0.15 + 's' }"
+                  role="listitem"
+                  :aria-labelledby="`timeline-position-mobile-${index}`"
+                  :aria-describedby="`timeline-desc-mobile-${index}`"
+                >
+                  <div class="card-body p-3 p-md-4">
+                    <div class="timeline-content">
+                      <div class="timeline-header mb-3">
+                        <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-2">
+                          <h4 :id="`timeline-position-mobile-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h4>
+                          <span class="timeline-badge-period" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
+                        </div>
+                        <h5 class="timeline-company-theme mb-0" v-if="item.company">
+                          {{ item.company }}
+                        </h5>
+                      </div>
+                      <p :id="`timeline-desc-mobile-${index}`" class="timeline-description-theme mb-0">{{ item.description }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Layout original para desktop -->
+            <Timeline 
+              v-else
+              :value="visibleExperience" 
+              :align="timelineAlign" 
+              layout="vertical" 
+              :animate="true" 
+              class="custom-timeline"
+            >
               <template #marker="{ item, index }">
                 <div class="timeline-marker-wrapper" :style="{ '--marker-delay': index * 0.2 + 's' }">
                   <span class="timeline-marker-custom" :class="{ 'active': index < visibleExperience.length }">
@@ -147,7 +186,7 @@
                   <div class="card-body p-4">
                     <div class="timeline-content">
                       <!-- Layout para escritorio con tarjetas alternadas -->
-                      <div class="timeline-header mb-3" v-if="windowWidth > 1024 && timelineAlign === 'alternate'">
+                      <div class="timeline-header mb-3" v-if="windowWidth > 780 && timelineAlign === 'alternate'">
                         <div class="timeline-info" :class="{ 'alternate-left': index % 2 === 0, 'alternate-right': index % 2 === 1 }">
                           <!-- Título y tiempo en la misma línea -->
                           <!-- Tarjetas de la izquierda: título a la izquierda, tiempo a la derecha -->
@@ -169,12 +208,12 @@
                       <!-- Layout para móvil/tablet -->
                       <div class="timeline-header mb-3" v-else>
                         <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-2">
-                          <h4 :id="`timeline-position-mobile-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h4>
+                          <h4 :id="`timeline-position-tablet-${index}`" class="timeline-job-theme mb-0">{{ item.position }}</h4>
                           <span class="timeline-badge-period animated-pill" role="text" :aria-label="`${t('accessibility.period')}: ${item.period}`">{{ item.period }}</span>
                         </div>
                         <h5 class="timeline-company-theme mb-0" v-if="item.company">
                           {{ item.company }}
-        </h5>
+                        </h5>
                       </div>
                       <p :id="`timeline-desc-${index}`" class="timeline-description-theme mb-0">{{ item.description }}</p>
                     </div>
@@ -209,6 +248,8 @@
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useI18n } from '../../composables/useI18n.js'
 import imgProyecto1 from '../../assets/proyectos/proyecto1.jpg'
+import imgProyecto2 from '../../assets/proyectos/proyecto2.jpg'
+import imgProyecto3 from '../../assets/proyectos/proyecto3.jpg'
 import Timeline from 'primevue/timeline'
 
 const { t, currentLang } = useI18n()
@@ -256,7 +297,9 @@ onMounted(() => {
   nextTick(() => {
     window.addEventListener('scroll', updateTimelineProgress)
     window.addEventListener('resize', updateTimelineProgress)
+    window.addEventListener('resize', updateWindowWidth)
     updateTimelineProgress()
+    updateWindowWidth()
   })
 })
 
@@ -269,6 +312,7 @@ onUnmounted(() => {
   
   window.removeEventListener('scroll', updateTimelineProgress)
   window.removeEventListener('resize', updateTimelineProgress)
+  window.removeEventListener('resize', updateWindowWidth)
 })
 
 // Proyectos destacados
@@ -287,27 +331,26 @@ const proyectosDestacados = computed(() => ([
     ]
   },
   {
-    title: currentLang.value === 'en' ? 'Project Alpha' : 'Proyecto Alfa',
+    title: currentLang.value === 'en' ? 'Testimonials Platform' : 'Plataforma de Testimonios',
     description: currentLang.value === 'en'
-      ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.'
-      : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.',
-    image: '',
-    tech: ['Vue', 'Vite', 'CSS'],
+      ? 'Interactive web application for collecting and displaying user testimonials with modern design and responsive interface built with React.'
+      : 'Aplicación web interactiva para recopilar y mostrar testimonios de usuarios con diseño moderno e interfaz responsive construida con React.',
+    image: imgProyecto2,
+    tech: ['React', 'CSS', 'JavaScript', 'Bootstrap'],
     links: [
-      { label: 'Demo', url: '', icon: 'box-arrow-up-right' },
-      { label: 'GitHub', url: '', icon: 'github' }
+      { label: 'GitHub', url: 'https://github.com/Letualtv/Testimonios', icon: 'github' }
     ]
   },
   {
-    title: currentLang.value === 'en' ? 'Project Beta' : 'Proyecto Beta',
+    title: currentLang.value === 'en' ? 'Responsive Restaurant Website' : 'Web Restaurante Responsive',
     description: currentLang.value === 'en'
-      ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.'
-      : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.',
-    image: '',
-    tech: ['Vue', 'Vite', 'CSS'],
+      ? 'Modern and fully responsive restaurant website built with React. Features menu showcase, reservation system, and mobile-first design with elegant animations.'
+      : 'Web moderna y completamente responsive para restaurante construida con React. Incluye catálogo de menú, sistema de reservas y diseño mobile-first con animaciones elegantes.',
+    image: imgProyecto3,
+    tech: ['React', 'CSS3', 'JavaScript', 'Responsive Design'],
     links: [
-      { label: 'Demo', url: '', icon: 'box-arrow-up-right' },
-      { label: 'GitHub', url: '', icon: 'github' }
+      { label: 'Demo', url: 'https://letualtv.github.io/RestauranteReactResponsive/', icon: 'box-arrow-up-right' },
+      { label: 'GitHub', url: 'https://github.com/Letualtv/RestauranteReactResponsive', icon: 'github' }
     ]
   }
 ]))
@@ -317,7 +360,7 @@ const windowWidth = ref(window.innerWidth)
 const visibleProjects = computed(() => {
   if (showAllProjects.value) return proyectosDestacados.value
   
-  if (windowWidth.value <= 768) { // Móvil
+  if (windowWidth.value <= 780) { // Móvil
     return proyectosDestacados.value.slice(0, 1)
   } else if (windowWidth.value <= 1024) { // Tablet
     return proyectosDestacados.value.slice(0, 2)
@@ -327,7 +370,7 @@ const visibleProjects = computed(() => {
 })
 const showMoreProjectsBtn = computed(() => {
   if (showAllProjects.value) return false
-  if (windowWidth.value <= 768) {
+  if (windowWidth.value <= 780) {
     return proyectosDestacados.value.length > 1
   } else if (windowWidth.value <= 1024) {
     return proyectosDestacados.value.length > 2
@@ -427,7 +470,7 @@ const visibleExperience = computed(() => {
   return arr.slice(0, 2)
 })
 
-const timelineAlign = computed(() => windowWidth.value > 1024 ? 'alternate' : 'left')
+const timelineAlign = computed(() => windowWidth.value > 780 ? 'alternate' : 'left')
 
 // Función para manejar hover en proyectos con mejor accesibilidad
 function handleProjectHover(event) {
@@ -509,10 +552,34 @@ function handleShowMore() {
   background: var(--background-primary);
 }
 
-.container {
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.container-xl {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ajustes específicos para pantallas muy pequeñas */
+@media (max-width: 576px) {
+  .container-fluid,
+  .container-xl {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .container-fluid,
+  .container-xl {
+    padding: 0 0.25rem;
+  }
 }
 
 /* Accesibilidad - Screen readers */
@@ -761,13 +828,64 @@ function handleShowMore() {
   padding: 0.75em 1.5em;
   transition: all 0.2s ease;
   min-width: 200px;
+  max-width: 100%;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .show-more-btn:hover {
   background: linear-gradient(135deg, var(--saffron), var(--persian-green));
   color: var(--honeydew) !important;
   transform: scale(1.05);
+}
+
+/* Responsive para botones "Ver más" */
+@media (max-width: 480px) {
+  .show-more-btn {
+    min-width: 150px;
+    padding: 0.6em 1.2em;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .show-more-btn {
+    min-width: 120px;
+    padding: 0.5em 1em;
+    font-size: 0.85rem;
+    white-space: normal;
+    line-height: 1.2;
+  }
+}
+
+/* Para pantallas muy pequeñas como 266px */
+@media (max-width: 280px) {
+  .show-more-btn {
+    min-width: 100px;
+    max-width: calc(100vw - 2rem);
+    padding: 0.4em 0.8em;
+    font-size: 0.8rem;
+    white-space: normal;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+}
+
+/* Padding adicional para contenedores de botones "Ver más" en pantallas pequeñas */
+@media (max-width: 350px) {
+  .text-center.mt-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 280px) {
+  .text-center.mt-4 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 /* Responsive para proyectos */
@@ -799,7 +917,7 @@ function handleShowMore() {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
   .project-card-theme {
     min-height: 320px;
   }
@@ -836,21 +954,24 @@ function handleShowMore() {
 }
 
 .timeline-marker-custom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--cerulean), var(--persian-green));
-  border: 0.1875rem solid var(--persian-green);
-  box-shadow: 0 0 0 0.25rem var(--background-primary);
-  margin: 0.5rem auto;
-  animation: dotPulse 1.2s cubic-bezier(.4,0,.2,1) infinite alternate;
-  color: white;
-  font-size: 0.8rem;
-  line-height: 1;
-  position: relative;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, var(--cerulean), var(--persian-green)) !important;
+  border: 0.1875rem solid var(--persian-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--background-primary) !important;
+  margin: 0 auto !important;
+  animation: dotPulse 1.2s cubic-bezier(.4,0,.2,1) infinite alternate !important;
+  color: white !important;
+  font-size: 0.8rem !important;
+  line-height: 1 !important;
+  position: relative !important;
+  z-index: 3 !important;
+  left: 0 !important;
+  transform: none !important;
 }
 
 .timeline-marker-custom i {
@@ -870,67 +991,29 @@ function handleShowMore() {
   100% { box-shadow: 0 0 0 0.25rem var(--background-primary), 0 0 0.75rem 0.25rem var(--persian-green, #2a9d8f); }
 }
 
-/* Timeline alineado a la izquierda en móvil/tablet - SIN markers */
-@media (max-width: 1024px) {
-  .p-timeline.p-timeline-vertical {
-    justify-content: flex-start !important;
-    align-items: flex-start !important;
+/* Layout en columna para móvil - sin timeline complejo */
+@media (max-width: 780px) {
+  .timeline-container .row {
+    margin: 0;
   }
   
-  .p-timeline-event-opposite {
-    display: none !important;
+  .timeline-container .col-12 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
-  
-  /* OCULTAR completamente los markers en móvil/tablet */
-  .p-timeline-event-marker {
-    display: none !important;
-    visibility: hidden !important;
+}
+
+@media (max-width: 480px) {
+  .timeline-container .col-12 {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
   }
-  
-  .p-timeline-event {
-    position: relative !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    margin-bottom: 2rem !important;
-  }
-  
-  .p-timeline-event-content {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    box-sizing: border-box !important;
-    position: relative !important;
-  }
-  
-  .p-timeline-event-connector {
-    display: none !important;
-  }
-  
-  .timeline-card-theme {
-    width: 100%;
-    box-sizing: border-box;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 0 !important;
-    padding-top: 1.5rem !important;
-  }
-  
-  /* Línea vertical continua del timeline - móvil */
-  .p-timeline-vertical::before {
-    content: '';
-    position: absolute;
-    left: 0.5rem;
-    top: 0;
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
-    border-radius: 3px;
-    opacity: 0.9;
-    z-index: 1;
+}
+
+@media (max-width: 320px) {
+  .timeline-container .col-12 {
+    padding-left: 0.125rem;
+    padding-right: 0.125rem;
   }
 }
 
@@ -942,16 +1025,49 @@ function handleShowMore() {
   box-shadow: var(--shadow-md);
   border: 1.5px solid var(--border-color);
   transition: background 0.3s, color 0.3s, border-color 0.3s;
-  /* Unifica borde y fondo con HeroSection y ContactSection */
+  width: 100%;
+  box-sizing: border-box;
 }
+
 [data-theme="dark"] .timeline-card-theme {
   background: var(--background-primary);
   color: var(--honeydew);
   border-color: var(--persian-green);
 }
+
 .timeline-card-theme .card-body {
   background: transparent;
   color: inherit;
+}
+
+/* Estilos específicos para layout en columna (móvil) */
+@media (max-width: 780px) {
+  .timeline-card-theme {
+    margin-bottom: 1rem;
+    max-width: 100%;
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .timeline-card-theme .card-body {
+    padding: 1rem !important;
+  }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .timeline-card-theme {
+    border-radius: var(--border-radius-md);
+  }
+  
+  .timeline-card-theme .card-body {
+    padding: 0.75rem !important;
+  }
+}
+
+@media (max-width: 320px) {
+  .timeline-card-theme .card-body {
+    padding: 0.5rem !important;
+  }
 }
 
 /* Animación de entrada más suave */
@@ -967,24 +1083,57 @@ function handleShowMore() {
   }
 }
 
-/* Línea vertical continua del timeline - escritorio */
-.custom-timeline :deep(.p-timeline-vertical::before) {
-  content: '';
-  position: absolute;
-  left: 0.75rem;
-  top: 0;
-  width: 3px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
-  border-radius: 3px;
-  opacity: 0.9;
-  z-index: 1;
-  animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards;
-  transform-origin: top;
-}
+/* Timeline para tablet y escritorio (>780px) */
+@media (min-width: 781px) {
+  .custom-timeline :deep(.p-timeline-vertical::before) {
+    content: '';
+    position: absolute !important;
+    left: 50% !important;
+    top: 0 !important;
+    width: 3px !important;
+    height: 100% !important;
+    background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron)) !important;
+    border-radius: 3px !important;
+    opacity: 0.9 !important;
+    z-index: 1 !important;
+    animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards !important;
+    transform-origin: top !important;
+    transform: translateX(-50%) !important;
+    margin-left: 0 !important;
+  }
 
-.custom-timeline :deep(.p-timeline-vertical.p-timeline-animated::before) {
-  animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards;
+  .custom-timeline :deep(.p-timeline-vertical.p-timeline-animated::before) {
+    animation: timelineLineGrow 1.2s cubic-bezier(.4,0,.2,1) forwards !important;
+  }
+  
+  /* Forzar el centrado de los marcadores de PrimeVue */
+  .custom-timeline :deep(.p-timeline-vertical .p-timeline-event-marker) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    z-index: 2 !important;
+    width: auto !important;
+    left: 0 !important;
+    margin-left: 0 !important;
+  }
+  
+  /* Forzar el centrado del contenedor del marcador */
+  .timeline-marker-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    position: relative !important;
+    left: 0 !important;
+    margin-left: 0 !important;
+  }
+  
+  /* Sobrescribir cualquier posicionamiento de PrimeVue */
+  .custom-timeline :deep(.p-timeline-event-opposite),
+  .custom-timeline :deep(.p-timeline-event-content) {
+    position: relative !important;
+  }
 }
 @keyframes timelineLineGrow {
   0% {
@@ -1049,7 +1198,7 @@ function handleShowMore() {
   text-align: right;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
   .timeline-header {
     flex-direction: column;
     align-items: flex-start;
@@ -1069,83 +1218,25 @@ function handleShowMore() {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive específico para móvil - sin iconos */
-@media (max-width: 768px) {
-  .timeline-card-theme {
-    margin-top: 0 !important;
-    padding-top: 1rem !important;
+/* Estilos para tamaños de fuente responsive */
+@media (max-width: 320px) {
+  .timeline-badge-period {
+    font-size: 0.7em !important;
+    padding: 0.2em 0.6em !important;
   }
   
-  /* Línea más fina y posicionada correctamente en móviles */
-  .custom-timeline :deep(.p-timeline-vertical::before) {
-    left: 0.25rem !important;
-    width: 2px !important;
+  .timeline-job-theme {
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
   }
   
-  .custom-timeline :deep(.p-timeline-event-content) {
-    padding-left: 0.75rem !important;
+  .timeline-company-theme {
+    font-size: 0.85rem !important;
   }
   
-  /* Ocultar iconos en móvil - específicos para timeline */
-  .custom-timeline :deep(.p-timeline-event-marker) {
-    display: none !important;
-  }
-  
-  .timeline-marker-wrapper {
-    display: none !important;
-  }
-}
-
-/* Ajustes específicos para móviles pequeños - solo línea */
-@media (max-width: 480px) {
-  .timeline-card-theme {
-    margin-top: 0 !important;
-    max-width: 98% !important;
-    padding-top: 0.75rem !important;
-  }
-  
-  .custom-timeline :deep(.p-timeline-vertical::before) {
-    left: 0.125rem;
-  }
-  
-  .custom-timeline :deep(.p-timeline-event-content) {
-    padding-left: 0.5rem !important;
-  }
-}
-
-/* Estilos adicionales para asegurar línea timeline en móvil */
-.custom-timeline {
-  position: relative;
-}
-
-/* Asegurar que la línea del timeline sea visible */
-.custom-timeline :deep(.p-timeline) {
-  position: relative;
-}
-
-.custom-timeline :deep(.p-timeline-vertical) {
-  position: relative;
-}
-
-/* Forzar la línea en móvil si PrimeVue la oculta */
-@media (max-width: 768px) {
-  .custom-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0.25rem;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, var(--cerulean), var(--persian-green), var(--saffron));
-    border-radius: 2px;
-    opacity: 0.9;
-    z-index: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .custom-timeline::before {
-    left: 0.125rem;
+  .timeline-description-theme {
+    font-size: 0.8rem !important;
+    line-height: 1.3 !important;
   }
 }
 
